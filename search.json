@@ -1,0 +1,65 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "ParadigmDataGroup, LLC",
+    "section": "",
+    "text": "Welcome to Paradigm Data Group, LLC. We provide data science training and solutions from Posit (formerly RStudio) certified instructors."
+  },
+  {
+    "objectID": "index.html#trainings",
+    "href": "index.html#trainings",
+    "title": "ParadigmDataGroup, LLC",
+    "section": "Trainings",
+    "text": "Trainings\nExamples of our trainings\n\nODSC East ggplot2: R Markdown website & slides\nODSC West ggplot2: Quarto website & slides\nData Management, R Markdown, Shiny intro (R Markdown website & slides)"
+  },
+  {
+    "objectID": "index.html#dashboards",
+    "href": "index.html#dashboards",
+    "title": "ParadigmDataGroup, LLC",
+    "section": "Dashboards",
+    "text": "Dashboards\nExample dashboards\n\nCannabis Sales Dashboard\nCalFresh Outreach Program Dashboard"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "Who we are",
+    "section": "",
+    "text": "Peter Spangler\n\n\n\n\n\n\n\n\n\nPeter Spangler is a hands-on data science leader with a business-focused approach to building data science solutions and telling stories with data. Experienced in translating business problems into data products using advanced statistical techniques and ML to support decision-making in a variety of rapid growth environments. Scaled data science solutions for user acquisition, retention, channel optimization, revenue, and fraud at Lyft, Alibaba, Citrix and Nextdoor. He is currently the Head of Marketing Analytics Toast."
+  },
+  {
+    "objectID": "pages/posts/box.html",
+    "href": "pages/posts/box.html",
+    "title": "Writing modular code with box\n",
+    "section": "",
+    "text": "ALERT!\n\n\n\n\n\n\nThis post is currently under development. Thank you for your patience."
+  },
+  {
+    "objectID": "pages/posts/box.html#what-is-box",
+    "href": "pages/posts/box.html#what-is-box",
+    "title": "Writing modular code with box\n",
+    "section": "What is box?",
+    "text": "What is box?\nbox is a package…"
+  },
+  {
+    "objectID": "pages/posts/box.html#how-box-works",
+    "href": "pages/posts/box.html#how-box-works",
+    "title": "Writing modular code with box\n",
+    "section": "How box works",
+    "text": "How box works\nTo understand how box works, let’s refresh how we normally interact with packages and their functions when using R and developing packages:\n\nAssume I want to use the foo() function from the pkg package. The first step is to install it with install.packages(\"pkg\")\n\nTo use the functions in pkg:\n\nI need to run library(pkg) in my R session, which loads the pkg namespace ‘and attach[es] it on the search list.’\n\nIf I try to use a function (foo()) from a package (pkg) that hasn’t been loaded with library(pkg) or require(pkg), I see the following:\n\nfoo(x)\nError in foo(x) : could not find function 'foo'\n\n\nThis error can be confusing, because it’s not telling me if the package hasn’t been installed or if the package hasn’t been loaded.\n\nIf I try to use a function (foo()) from a package (pkg) that hasn’t been installed with install.packages(), I get the following error:\n\npkg::foo(x)\nError in loadNamespace(x) : there is no package called ‘pkg’\n\n\nAfter installing pkg, I can get around using library(pkg) by being explicit and using pkg::foo(), which tells R I want to use the foo() function from the pkg namespace\n\n\nRead more about namespaces in Advanced R and R packages.\n\n\n\nIf I am developing an R package, I can include pkg functions in my package by using roxygen2 tags (i.e., #' @importFrom pkg foo)\n\nWhen I use devtools::document(), the tags are converted into directives in the NAMESPACE (i.e., importFrom(pkg,foo))\nI also need to use usethis::use_package(\"pkg\") to include pkg in the DESCRIPTION under Imports:\n\n\n\nThe table below shows the connection between roxygen2 tags, the resulting NAMESPACE entry, and what should be listed in the DESCRIPTION (this is also covered in myPkgApp)\n\n\n\n\n\n\n\n\nRefresher on roxygen2, NAMESPACE & DESCRPTION\n\n\n\n\n\n\n\n\n\n\nroxygen2 tag\n\n\nNAMESPACE directive\n\n\nDESCRIPTION\n\n\n\n\n\n@importFrom\n\n\nimportFrom() : import selected object from another NAMESPACE\n\n\nImports:\n\n\n\n\n@import\n\n\nimport(): import all objects from another package’s NAMESPACE.\n\n\nImports:\n\n\n\n\n@export\n\n\nexport() : export the function, method, generic, or class so it’s available outside of the package (in the NAMESPACE)\n\n\nNothing"
+  },
+  {
+    "objectID": "pages/posts/box.html#using-box",
+    "href": "pages/posts/box.html#using-box",
+    "title": "Writing modular code with box\n",
+    "section": "Using box\n",
+    "text": "Using box"
+  },
+  {
+    "objectID": "listings.html",
+    "href": "listings.html",
+    "title": "Posts",
+    "section": "",
+    "text": "Mar 5, 2023\n\n\nMartin Frigaard\n\n\n\n\n\n\nNo matching items"
+  }
+]
