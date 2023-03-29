@@ -1,0 +1,7 @@
+---
+title: "Posts"
+listing:
+  contents:
+    - "posts/box.qmd"
+# contents: "posts/*.qmd" will search in /pages/posts/ not /posts/ for the targeted files
+---

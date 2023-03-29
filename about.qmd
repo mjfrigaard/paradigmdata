@@ -1,0 +1,33 @@
+---
+title: "Who we are"
+about:
+  template: jolla
+  image: pdg-card.png
+  image-shape: rectangle
+---
+
+::: {.callout-note icon=false}
+## Martin Frigaard
+
+![](img/Martin-Frigaard-Cropped.jpg){fig-align="center" width=30%}
+
+::: {style="font-size: 1.20em;"}
+
+Martin is a Data Visualization Engineer at [Atorus](https://www.atorusresearch.com/), where he builds dashboards and tools for making data-informed decisions. Previously, Martin built statistical tools and dashboards at [BioMarin](https://www.biomarin.com/), [Diabetes Technology Society](https://www.diabetestechnology.org/seg.shtml), as well as a contributing author for [Data Journalism in R](https://www.storybench.org/category/data-journalism-in-r/) on the Northeastern University School of Journalism blog/website, and other volunteer and non-profit organizations. He's a data journalism instructor for California State University, Chico. Martin holds a graduate degree in Clinical Research and is passionate about data literacy and open source technologies.
+
+:::
+
+:::
+
+<br><br>
+
+::: {.callout-note icon=false}
+## Peter Spangler
+
+![](img/Peter-Spangler-Cropped.jpg){fig-align="center" width=30%}
+
+::: {style="font-size: 1.20em;"}
+Peter Spangler is a hands-on data science leader with a business-focused approach to building data science solutions and telling stories with data. Experienced in translating business problems into data products using advanced statistical techniques and ML to support decision-making in a variety of rapid growth environments. Scaled data science solutions for user acquisition, retention, channel optimization, revenue, and fraud at [Lyft](https://www.lyft.com/), [Alibaba](https://www.alibaba.com/), [Citrix](citrix.com) and [Nextdoor](https://nextdoor.com/). He is currently the Head of Marketing Analytics [Toast](https://pos.toasttab.com/).
+:::
+
+:::

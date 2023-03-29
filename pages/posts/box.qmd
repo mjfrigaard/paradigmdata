@@ -1,0 +1,210 @@
+---
+title: "Writing modular code with `box`"
+author: "Martin Frigaard"
+date: "2023-03-05"
+image: "image.png"
+toc: true
+toc-depth: 5
+toc-title: 'Contents'
+toc-location: "left"
+
+fig-align: center
+code-link: true
+fontsize: '10'
+
+callout-icon: false
+
+freeze: true
+
+execute:
+  echo: true
+  warning: false
+  eval: false
+---
+
+```{r}
+#| label: utils
+#| eval: true
+#| echo: false
+#| include: false
+library(kableExtra)
+co_box <- function(color, header, contents = "Your text") {
+  class <- switch(color,
+    b = "note",
+    g = "tip",
+    r = "important",
+    o = "caution",
+    stop("Invalid `type`", call. = FALSE)
+  )
+  switch(color,
+    b = cat(paste0(
+      "\n",
+      ":::: {.callout-", class, " collapse='false'}", "\n\n",
+      "## ", header, "\n\n",
+      "::: {style='font-size: 0.90em; color: #696969;'}\n\n",
+      contents, "\n\n",
+      "::: \n\n",
+      "::::", "\n"
+    )),
+    g = cat(paste0(
+      "\n",
+      ":::: {.callout-", class, " collapse='true'}", "\n\n",
+      "## ", header, "\n\n",
+      "::: {style='font-size: 0.90em; color: #696969;'}\n\n",
+      contents, "\n\n",
+      "::: \n\n",
+      "::::", "\n"
+    )),
+    o = cat(paste0(
+      "\n",
+      ":::: {.callout-", class, " collapse='false'}", "\n\n",
+      "## ", header, "\n\n",
+      "::: {style='font-size: 0.90em; color: #696969;'}\n\n",
+      contents, "\n\n",
+      "::: \n\n",
+      "::::", "\n"
+    )),
+    r = cat(paste0(
+      "\n",
+      ":::: {.callout-", class, " collapse='false'}", "\n\n",
+      "## ", header, "\n\n",
+      "::: {style='font-size: 0.90em; color: #696969;'}\n\n",
+      contents, "\n\n",
+      "::: \n\n",
+      "::::", "\n"
+    )),
+    stop("Invalid `type`", call. = FALSE)
+  )
+}
+# roxy_ns_df -----
+roxy_ns_df <- data.frame(
+  check.names = FALSE,
+  `roxygen2 tag` = c("@importFrom", "@import", "@export"),
+  `NAMESPACE directive` = c(
+    "importFrom() : import selected object from another NAMESPACE",
+    "import(): import all objects from another package’s NAMESPACE.",
+    "export() : export the function, method, generic, or class so it’s available outside of the package (in the NAMESPACE)"
+  ),
+  DESCRIPTION = c("Imports:", "Imports:", "Nothing")
+)
+# box_use_df -----
+box_use_df <- data.frame(
+  check.names = FALSE,
+  `Inside box::use()` = c(
+    "box::use(
+      pkg
+    )",
+    "box::use(
+      p = pkg
+      )",
+    "box::use(
+      pkg = pkg[foo, bar]
+      )",
+    "box::use(
+      pkg[my_foo = foo, ...]
+      )"
+  ),
+  Action = c(
+    "imports 'pkg', does not attach any function names",
+    "imports 'pkg' with alias ('p'), does not attach any function names",
+    "imports 'pkg' and attaches the function names 'pkg::foo()' and 'pkg::bar()'",
+    "imports 'pkg' with alias for 'foo' ('my_foo') and attaches all exported function names"
+  )
+)
+```
+
+<!--
+https://mjfrigaard.github.io/posts/vanilla-shiny/
+
+https://mjfrigaard.github.io/posts/my-pkg-app/
+
+https://mjfrigaard.github.io/posts/my-golem-app/
+
+https://mjfrigaard.github.io/posts/my-leprechaun-app/
+
+https://mjfrigaard.github.io/posts/my-rhino-app/
+-->
+
+```{r}
+#| label: co_box_dev
+#| echo: false
+#| results: asis
+#| eval: true
+co_box(color = "r", header = "ALERT!", "**This post is currently under development. Thank you for your patience.**")
+```
+
+## What is `box`?
+
+`box` is a package...
+
+
+## How `box` works
+
+To understand how `box` works, let's refresh how we normally interact with packages and their functions when using R and developing packages:
+
+1. Assume I want to use the `foo()` function from the `pkg` package. The first step is to install it with `install.packages("pkg")`
+
+2. To use the functions in `pkg`: 
+
+    -   I need to run `library(pkg)` in my R session, which loads the `pkg` namespace '*and attach[es] it on the search list.*'
+        
+    -   If I try to use a function (`foo()`) from a package (`pkg`) that hasn't been loaded with `library(pkg)` or `require(pkg)`, I see the following:
+        
+        ::: {style="font-size: 0.80em;"}
+        ``` r
+        foo(x)
+        Error in foo(x) : could not find function 'foo'
+        ```
+        :::
+    
+    -   This error can be confusing, because it's not telling me if the package hasn't been *installed* or if the package hasn't been *loaded*.
+  
+    -   If I try to use a function (`foo()`) from a package (`pkg`) that hasn't been installed with `install.packages()`, I get the following error:
+    
+        ::: {style="font-size: 0.80em;"}
+        ``` r
+        pkg::foo(x)
+        Error in loadNamespace(x) : there is no package called ‘pkg’
+        ```
+        :::
+        
+        -   After installing `pkg`, I can get around using `library(pkg)` by being explicit and using `pkg::foo()`, which tells R I want to use the `foo()` function from the `pkg` namespace
+    
+    -   Read more about namespaces in [Advanced R](https://adv-r.hadley.nz/environments.html?q=namespace#namespaces) and [R packages](https://r-pkgs.org/dependencies-mindset-background.html#sec-dependencies-namespace-motivation).
+        
+    
+3. If I am developing an R package, I can include `pkg` functions in my package by using `roxygen2` tags (i.e., `#' @importFrom pkg foo`)
+
+    -   When I use `devtools::document()`, the tags are converted into [**directives**](https://r-pkgs.org/dependencies-mindset-background.html#sec-dependencies-NAMESPACE-file) in the `NAMESPACE` (i.e., `importFrom(pkg,foo)`) 
+
+    -   I also need to use `usethis::use_package("pkg")` to include `pkg` in the `DESCRIPTION` under `Imports:`
+
+The table below shows the connection between `roxygen2` tags, the resulting `NAMESPACE` entry, and what should be listed in the `DESCRIPTION` (this is also covered in [`myPkgApp`](https://mjfrigaard.github.io/posts/my-pkg-app/#document))
+
+
+<br>
+
+::: {style="font-size: 0.60em;"}
+
+```{r}
+#| label: co_box_namespace
+#| echo: false
+#| eval: true
+#| results: asis
+co_box(
+  color = "b",
+  header = "Refresher on `roxygen2`, `NAMESPACE` & `DESCRPTION`",
+  contents = kable_styling(
+    kable_input = knitr::kable(roxy_ns_df,
+      align = c("l", "l", "r"),
+      bootstrap_options = c("striped", "hover", "condensed", "responsive")
+    )
+  )
+)
+```
+
+:::
+
+<br>
+
+## Using `box`
