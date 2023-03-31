@@ -6,12 +6,18 @@ website:
 
 ![](img/pdg-hex.png){width=20%}
 
-Welcome to Paradigm Data Group, LLC. We provide data science training and solutions from [Posit (formerly RStudio) certified instructors](https://education.rstudio.com/trainers/people/frigaard+martin/). 
+::: {style="font-size: 1.40em;"}
+
+Welcome to Paradigm Data Group, LLC.
+
+:::
 
 
-## Trainings
+ We provide data science training and solutions from [Posit (formerly RStudio) certified instructors](https://education.rstudio.com/trainers/people/frigaard+martin/). 
 
-Examples of our trainings
+# Trainings
+
+Examples of our workshops:
 
 + [ODSC East ggplot2: R Markdown website & slides](https://mjfrigaard.github.io/odsc-east-ggplot2-2022/)
 
@@ -20,10 +26,14 @@ Examples of our trainings
 + [Data Management, R Markdown, Shiny intro (R Markdown website & slides)](https://mjfrigaard.github.io/ph-lacounty-r/)
 
 
-## Dashboards
+# Dashboards
 
-Example dashboards
+Example dashboards:
 
 - [Cannabis Sales Dashboard](https://paradigmdata.shinyapps.io/candash-wow-sales/)
 
 - [CalFresh Outreach Program Dashboard](https://mjfrigaard.shinyapps.io/beta-cfo-chc-031/)
+
+# Contact 
+
+Please reach out to Martin (mfrigaard(at)paradigmdata.io) or Peter (pspangler(at)paradigmdata.io) for questions or information on training, dashboards, or anything #rstats!

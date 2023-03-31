@@ -13,7 +13,8 @@ about:
 
 ::: {style="font-size: 1.20em;"}
 
-Martin is a Data Visualization Engineer at [Atorus](https://www.atorusresearch.com/), where he builds dashboards and tools for making data-informed decisions. Previously, Martin built statistical tools and dashboards at [BioMarin](https://www.biomarin.com/), [Diabetes Technology Society](https://www.diabetestechnology.org/seg.shtml), as well as a contributing author for [Data Journalism in R](https://www.storybench.org/category/data-journalism-in-r/) on the Northeastern University School of Journalism blog/website, and other volunteer and non-profit organizations. He's a data journalism instructor for California State University, Chico. Martin holds a graduate degree in Clinical Research and is passionate about data literacy and open source technologies.
+
+Martin is passionate about data literacy and open-source technologies. As a Data Visualization Engineer at [Atorus](https://www.atorusresearch.com/), he builds dashboards and tools for making data-informed decisions. Previously, Martin has built statistical tools and dashboards at [BioMarin](https://www.biomarin.com/), the [Diabetes Technology Society](https://www.diabetestechnology.org/seg.shtml), and other volunteer and non-profit organizations. He’s also a data journalism lecturer at California State University, Chico. Martin was one of the original contributing authors for [Data Journalism in R](https://www.storybench.org/category/data-journalism-in-r/), an award-winning resource hosted by Northeastern University's School of Journalism. Before obtaining graduate degrees in Clinical Research and Exercise Science, Martin served as a US Army medic in Operation Enduring Freedom.
 
 :::
 
