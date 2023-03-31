@@ -4,21 +4,7 @@
     "href": "index.html",
     "title": "ParadigmDataGroup, LLC",
     "section": "",
-    "text": "Welcome to Paradigm Data Group, LLC. We provide data science training and solutions from Posit (formerly RStudio) certified instructors."
-  },
-  {
-    "objectID": "index.html#trainings",
-    "href": "index.html#trainings",
-    "title": "ParadigmDataGroup, LLC",
-    "section": "Trainings",
-    "text": "Trainings\nExamples of our trainings\n\nODSC East ggplot2: R Markdown website & slides\nODSC West ggplot2: Quarto website & slides\nData Management, R Markdown, Shiny intro (R Markdown website & slides)"
-  },
-  {
-    "objectID": "index.html#dashboards",
-    "href": "index.html#dashboards",
-    "title": "ParadigmDataGroup, LLC",
-    "section": "Dashboards",
-    "text": "Dashboards\nExample dashboards\n\nCannabis Sales Dashboard\nCalFresh Outreach Program Dashboard"
+    "text": "Welcome to Paradigm Data Group, LLC.\n\nWe provide data science training and solutions from Posit (formerly RStudio) certified instructors.\n\nTrainings\nExamples of our workshops:\n\nODSC East ggplot2: R Markdown website & slides\nODSC West ggplot2: Quarto website & slides\nData Management, R Markdown, Shiny intro (R Markdown website & slides)\n\n\n\nDashboards\nExample dashboards:\n\nCannabis Sales Dashboard\nCalFresh Outreach Program Dashboard\n\n\n\nContact\nPlease reach out to Martin (mfrigaard(at)paradigmdata.io) or Peter (pspangler(at)paradigmdata.io) for questions or information on training, dashboards, or anything #rstats!"
   },
   {
     "objectID": "about.html",
