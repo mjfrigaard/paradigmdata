@@ -111,10 +111,12 @@ I'll continue focusing on three technical areas: **Start**, **Build**, and **Use
 #| eval: true
 #| echo: false
 #| results: asis
-co_box(color = "o", "`golem` = pakcage", contents = "
+co_box(color = "o", "`golem` = package", contents = "
 `golem` apps [**are** R packages](https://engineering-shiny.org/golem.html#understanding-golem-app-structure), so many of the the features in `myPkgApp` are available in `myGolemApp` (and lots of extras!).
   ")
 ```
+
+The completed application is deployed [here](https://mjfrigaard.shinyapps.io/mygolemapp/)
 
 ## Start
 
@@ -402,6 +404,25 @@ The `dev/02_dev.R` file covers development, so most of the `golem` functions are
     -   `with_test = TRUE` ensures these functions will also create test files in `tests/`
     
 ### Configure
+
+-   The [`R/app_config.R` file](https://github.com/mjfrigaard/shiny-app-setups/blob/main/myGolemApp/R/app_config.R) contains two functions: `app_sys()` (covered above) and `get_golem_config()`, which reads the `inst/golem-config.yml` configuration file
+
+    ::: {style="font-size: 0.80em;"}
+    ```{bash}
+    #| label: golem_config-yml
+    #| code-fold: false
+    default:
+      golem_name: myGolemApp
+      golem_version: 0.0.0.9000
+      app_prod: no
+    production:
+      app_prod: yes
+    dev:
+      golem_wd: !expr here::here()
+    ```
+    :::
+    
+    -   [`golem-config.yml`](https://engineering-shiny.org/golem.html#manipulating-golem-config.yml) gives access to the app version, name, and (development) working directory, so it can be used to add "production-only elements" and is "shareable across golem projects"\
     
 -   `golem` uses `app_sys()` (a wrapper around `system.file()`) to add external resources to the application
 
@@ -427,7 +448,7 @@ The `dev/02_dev.R` file covers development, so most of the `golem` functions are
     ::: {style="font-size: 0.80em;"}
     ```{r}
     #| label: get_golem_config-golem
-    #| code-fold: show
+    #| code-fold: true
     # Read App Config
     get_golem_config <- function(
       value,
@@ -493,26 +514,7 @@ inst/
 ```
 :::
 
-The `golem-config.yml` file is covered below, but the `inst/app/` folder works just like the `inst/extdata` folder (it is loaded when the package is installed and makes these files available to the application).
-
--   The [`R/app_config.R` file](https://github.com/mjfrigaard/shiny-app-setups/blob/main/myGolemApp/R/app_config.R) contains two functions: `app_sys()` (covered above) and `get_golem_config()`, which reads the `inst/golem-config.yml` configuration file
-
-    ::: {style="font-size: 0.80em;"}
-    ```{bash}
-    #| label: golem_config-yml
-    #| code-fold: false
-    default:
-      golem_name: golex
-      golem_version: 0.0.0.9000
-      app_prod: no
-    production:
-      app_prod: yes
-    dev:
-      golem_wd: !expr here::here()
-    ```
-    :::
-    
-    -   [`golem-config.yml`](https://engineering-shiny.org/golem.html#manipulating-golem-config.yml) gives access to the app version, name, and (development) working directory, so it can be used to add "production-only elements" and is "shareable across golem projects"\
+The `golem-config.yml` file is covered above, but the `inst/app/` folder works just like the `inst/extdata` folder (it is loaded when the package is installed and makes these files available to the application).
 
 -   `dev/02_dev.R` includes golem wrappers for including CSS, JavaScript, and SASS files to the `inst/app/www/` folder:
 
@@ -568,6 +570,55 @@ The `golem-config.yml` file is covered below, but the `inst/app/` folder works j
         -   [`golem::add_rstudioconnect_file()`](https://thinkr-open.github.io/golem/reference/rstudio_deploy.html), [`golem::add_shinyappsio_file()`](https://thinkr-open.github.io/golem/reference/rstudio_deploy.html), and [`golem::add_shinyserver_file()`](https://thinkr-open.github.io/golem/reference/rstudio_deploy.html)
     -   Docker
         -   [`golem::add_dockerfile_with_renv()`](https://thinkr-open.github.io/golem/reference/dockerfiles.html) and [`golem::add_dockerfile_with_renv_shinyproxy()`](https://thinkr-open.github.io/golem/reference/dockerfiles.html)
+        
+    -   I'll deploy my app using shinyapps.io, so after running `golem::add_shinyappsio_file()` I will see the following output and a new `app.R` file. 
+    
+    ::: {style="font-size: 0.80em; ; color: #696969;"}
+    *Click on Code to view the output from `golem::add_shinyappsio_file()`*
+    :::
+    
+    ::: {style="font-size: 0.80em;"}
+    
+    ```{r, eval=FALSE}
+    #| label: add_shinyappsio_file
+    #| code-fold: true
+    #| eval: false
+    golem::add_shinyappsio_file()
+    ── Creating _disable_autoload.R ──────────────────────────────────────────────────────
+    ✔ Created
+    ✔ Setting active project to '/Users/mjfrigaard/projects/myGolemApp'
+    ✔ Adding '^app\\.R$' to '.Rbuildignore'
+    ✔ Adding '^rsconnect$' to '.Rbuildignore'
+    ✔ Adding 'pkgload' to Imports field in DESCRIPTION
+    • Refer to functions with `pkgload::fun()`
+    ✔ File created at /Users/mjfrigaard/projects/myGolemApp/app.R
+    To deploy, run:
+    • rsconnect::deployApp()
+    
+    • Note that you'll need to upload the whole package to ShinyApps.io
+    ```
+    :::
+    
+    -   The app.R contents
+    
+    ::: {style="font-size: 0.80em; ; color: #696969;"}
+    *Click on Code to view the contents of `app.R`*
+    :::
+    
+    ::: {style="font-size: 0.80em;"}
+    ```{r}
+    #| label: app-dot-r
+    #| code-fold: true
+    #| eval: false
+    # Launch the ShinyApp (Do not remove this comment)
+    # To deploy, run: rsconnect::deployApp()
+    # Or use the blue button on top of this file
+    
+    pkgload::load_all(export_all = FALSE, helpers = FALSE, attach_testthat = FALSE)
+    options( "golem.app.prod" = TRUE)
+    myGolemApp::run_app() # add parameters here (if any)
+    ```
+    :::
 
 
 ## Build
@@ -1001,6 +1052,35 @@ The `golem` workflow is similar to building an R package:
 -   load, document, check, test, install, etc.   
 
 -   then render application (either with `myGolemApp::run_app()` or `golem::run_dev()`)   
+
+6.    Deploying the application can be done with a single function: `rsconnect::deployApp()`, which creates the following output: 
+
+::: {style="font-size: 0.80em; ; color: #696969;"}
+*Click on Code to view the deploy output*
+:::
+    
+::: {style="font-size: 0.80em;"}
+```{bash, eval=FALSE}
+#| label: deployApp
+#| code-fold: true
+Preparing to deploy application...DONE
+Uploading bundle for application: 8775458...DONE
+Deploying bundle: 7054081 for application: 8775458 ...
+Waiting for task: 1288644047
+  building: Parsing manifest
+  building: Building image: 8376474
+  building: Installing system dependencies
+  building: Fetching packages
+  building: Building package: covr
+  building: Installing packages
+  building: Installing files
+  building: Pushing image: 8376474
+  deploying: Starting instances
+  unstaging: Stopping old instances
+Application successfully deployed to https://mjfrigaard.shinyapps.io/mygolemapp/
+```
+:::
+
 
 ## Recap
 

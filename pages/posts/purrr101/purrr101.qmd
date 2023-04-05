@@ -157,7 +157,7 @@ This post is going to cover the recent updates to the [`purrr` package](https://
 
 If you're like me, you've never been a big fan of `for` loops. They're an important concept to grasp, but if you've ever had to debug what's happening in multiple nested `for` loops, you've probably found yourself asking if there's a better way to iterate.
 
-> *Functional programming is complementary to object-oriented programming, which has been the dominant programming paradigm for the last several decades.* - Advanced R, 2nd edition
+In a functional programming language like R, it's nice when we can have functions perform a lot of the work we'd have to write into a `for` loop. 
 
 ## Generic functions
 
@@ -227,7 +227,11 @@ coef(summary(lm_mod))
 ```
 :::
 
-`purrr` (and other tools for iteration) are extremely helpful for solving common problems programmers encounter when working with data because they allow us to express iterative behavior with a complete and consistent set of tools. 
+As you can see, generic functions are flexible and efficient because we're not having to define a new function for each object--the output from the function depends (in part) on the structure of the object.
+
+> *Functional programming is complementary to object-oriented programming, which has been the dominant programming paradigm for the last several decades.* - Advanced R, 2nd edition
+
+The relationship between functions and objects is what makes `purrr` (and other tools for iteration) extremely helpful for solving common problems programmers encounter when working with data. Similar to generic functions, these functions allow us to express iterative behavior using a complete and consistent set of tools.
 
 ## Iteration problems 
 
@@ -607,6 +611,28 @@ purrr::map_df(.x = swdata, .f = tolower)
 ```
 :::
 -->
+
+# Worked Examples
+
+## Copying a directory of files 
+
+> *You have a folder full of files you'd like to rename or copy to a new directory*
+
+## Downloading files 
+
+> *You'd like to download a collection of files from separate URLS*
+  
+## Import multiple datasets 
+
+> *You have several years of data, and each year is contained in separate file. You'd like to read these data into R, combine them into a single dataset*
+
+## Export multiple datasets 
+
+> *You have a non-rectangular (i.e., list) of datasets you'd like to split into individual `data.frame`s, then export these into separate file paths* 
+
+
+
+
 
 :::: {.callout-tip icon=false}
 ## REACP: `purrr` syntax variations
