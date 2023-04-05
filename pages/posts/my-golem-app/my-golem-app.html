@@ -242,7 +242,7 @@ https://mjfrigaard.github.io/posts/my-rhino-app/
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-<code>golem</code> = pakcage
+<code>golem</code> = package
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -254,6 +254,7 @@ https://mjfrigaard.github.io/posts/my-rhino-app/
 </div>
 </div>
 </div>
+<p>The completed application is deployed <a href="https://mjfrigaard.shinyapps.io/mygolemapp/">here</a></p>
 <section id="start" class="level2"><h2 class="anchored" data-anchor-id="start">Start</h2>
 <p>To create a new <code>golem</code> app from the console, enter the following:</p>
 <div style="font-size: 0.80em;">
@@ -533,6 +534,26 @@ https://mjfrigaard.github.io/posts/my-rhino-app/
 </ul></section><section id="configure" class="level3"><h3 class="anchored" data-anchor-id="configure">Configure</h3>
 <ul>
 <li>
+<p>The <a href="https://github.com/mjfrigaard/shiny-app-setups/blob/main/myGolemApp/R/app_config.R"><code>R/app_config.R</code> file</a> contains two functions: <code><a href="https://rdrr.io/pkg/myGolemApp/man/app_sys.html">app_sys()</a></code> (covered above) and <code>get_golem_config()</code>, which reads the <code>inst/golem-config.yml</code> configuration file</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">default:</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">golem_name:</span> myGolemApp</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="ex">golem_version:</span> 0.0.0.9000</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="ex">app_prod:</span> no</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="ex">production:</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="ex">app_prod:</span> yes</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="ex">dev:</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="ex">golem_wd:</span> !expr here::here<span class="er">(</span><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<ul>
+<li>
+<a href="https://engineering-shiny.org/golem.html#manipulating-golem-config.yml"><code>golem-config.yml</code></a> gives access to the app version, name, and (development) working directory, so it can be used to add “production-only elements” and is “shareable across golem projects”<br>
+</li>
+</ul>
+</li>
+<li>
 <p><code>golem</code> uses <code><a href="https://rdrr.io/pkg/myGolemApp/man/app_sys.html">app_sys()</a></code> (a wrapper around <code><a href="https://rdrr.io/r/base/system.file.html">system.file()</a></code>) to add external resources to the application</p>
 <ul>
 <li>
@@ -540,7 +561,7 @@ https://mjfrigaard.github.io/posts/my-rhino-app/
 </ul>
 <div style="font-size: 0.80em;">
 <div class="cell">
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Access files in the current app</span></span>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Access files in the current app</span></span>
 <span><span class="va">app_sys</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="va">...</span>, package <span class="op">=</span> <span class="st">"myGolemApp"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -554,7 +575,7 @@ https://mjfrigaard.github.io/posts/my-rhino-app/
 </div>
 <div style="font-size: 0.80em;">
 <div class="cell">
-<details open=""><summary>Code</summary><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Read App Config</span></span>
+<details><summary>Code</summary><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Read App Config</span></span>
 <span><span class="va">get_golem_config</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
 <span>  <span class="va">value</span>,</span>
 <span>  <span class="va">config</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span><span class="op">(</span></span>
@@ -591,13 +612,13 @@ https://mjfrigaard.github.io/posts/my-rhino-app/
 </ul>
 <div style="font-size: 0.80em;">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tests/testthat/</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>            <span class="ex">├──</span> _snaps</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>            <span class="ex">├──</span> test-golem-recommended.R</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>            <span class="ex">├──</span> test-golem_utils_server.R</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>            <span class="ex">└──</span> test-golem_utils_ui.R</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="ex">2</span> directories, 4 files</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tests/testthat/</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>            <span class="ex">├──</span> _snaps</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>            <span class="ex">├──</span> test-golem-recommended.R</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>            <span class="ex">├──</span> test-golem_utils_server.R</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>            <span class="ex">└──</span> test-golem_utils_ui.R</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="ex">2</span> directories, 4 files</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <ul>
@@ -607,35 +628,15 @@ https://mjfrigaard.github.io/posts/my-rhino-app/
 </ul></section><section id="external" class="level3"><h3 class="anchored" data-anchor-id="external">External</h3>
 <p>The <code>inst/</code> file initially has the following contents/structure:</p>
 <div style="font-size: 0.80em;">
-<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">inst/</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">├──</span> WORDLIST</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="ex">├──</span> app/</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="ex">│</span>   └── www/</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="ex">│</span>       └── favicon.ico</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="ex">└──</span> golem-config.yml </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">inst/</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">├──</span> WORDLIST</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="ex">├──</span> app/</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="ex">│</span>   └── www/</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="ex">│</span>       └── favicon.ico</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="ex">└──</span> golem-config.yml </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The <code>golem-config.yml</code> file is covered below, but the <code>inst/app/</code> folder works just like the <code>inst/extdata</code> folder (it is loaded when the package is installed and makes these files available to the application).</p>
+<p>The <code>golem-config.yml</code> file is covered above, but the <code>inst/app/</code> folder works just like the <code>inst/extdata</code> folder (it is loaded when the package is installed and makes these files available to the application).</p>
 <ul>
-<li>
-<p>The <a href="https://github.com/mjfrigaard/shiny-app-setups/blob/main/myGolemApp/R/app_config.R"><code>R/app_config.R</code> file</a> contains two functions: <code><a href="https://rdrr.io/pkg/myGolemApp/man/app_sys.html">app_sys()</a></code> (covered above) and <code>get_golem_config()</code>, which reads the <code>inst/golem-config.yml</code> configuration file</p>
-<div style="font-size: 0.80em;">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">default:</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">golem_name:</span> golex</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="ex">golem_version:</span> 0.0.0.9000</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="ex">app_prod:</span> no</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="ex">production:</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="ex">app_prod:</span> yes</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="ex">dev:</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="ex">golem_wd:</span> !expr here::here<span class="er">(</span><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-<ul>
-<li>
-<a href="https://engineering-shiny.org/golem.html#manipulating-golem-config.yml"><code>golem-config.yml</code></a> gives access to the app version, name, and (development) working directory, so it can be used to add “production-only elements” and is “shareable across golem projects”<br>
-</li>
-</ul>
-</li>
 <li><p><code>dev/02_dev.R</code> includes golem wrappers for including CSS, JavaScript, and SASS files to the <code>inst/app/www/</code> folder:</p></li>
 <li><p><a href="https://thinkr-open.github.io/golem/reference/add_files.html"><code>golem::add_js_file("script")</code></a></p></li>
 <li><p><a href="https://thinkr-open.github.io/golem/reference/add_files.html"><code>golem::add_js_handler("handlers")</code></a></p></li>
@@ -692,7 +693,47 @@ https://mjfrigaard.github.io/posts/my-rhino-app/
 </li>
 </ul>
 </li>
+<li>I’ll deploy my app using shinyapps.io, so after running <code><a href="https://rdrr.io/pkg/golem/man/rstudio_deploy.html">golem::add_shinyappsio_file()</a></code> I will see the following output and a new <code>app.R</code> file.</li>
 </ul>
+<div style="font-size: 0.80em; ; color: #696969;">
+<p><em>Click on Code to view the output from <code><a href="https://rdrr.io/pkg/golem/man/rstudio_deploy.html">golem::add_shinyappsio_file()</a></code></em></p>
+</div>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<details><summary>Code</summary><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>golem<span class="sc">::</span><span class="fu">add_shinyappsio_file</span>()</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>── Creating _disable_autoload.R ──────────────────────────────────────────────────────</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>✔ Created</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>✔ Setting active project to <span class="st">'/Users/mjfrigaard/projects/myGolemApp'</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>✔ Adding <span class="st">'^app</span><span class="sc">\\</span><span class="st">.R$'</span> to <span class="st">'.Rbuildignore'</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>✔ Adding <span class="st">'^rsconnect$'</span> to <span class="st">'.Rbuildignore'</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>✔ Adding <span class="st">'pkgload'</span> to Imports field <span class="cf">in</span> DESCRIPTION</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>• Refer to functions with <span class="st">`</span><span class="at">pkgload::fun()</span><span class="st">`</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>✔ File created at <span class="sc">/</span>Users<span class="sc">/</span>mjfrigaard<span class="sc">/</span>projects<span class="sc">/</span>myGolemApp<span class="sc">/</span>app.R</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>To deploy, run<span class="sc">:</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>• rsconnect<span class="sc">::</span><span class="fu">deployApp</span>()</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>• Note that you<span class="st">'ll need to upload the whole package to ShinyApps.io</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<ul>
+<li>The app.R contents</li>
+</ul>
+<div style="font-size: 0.80em; ; color: #696969;">
+<p><em>Click on Code to view the contents of <code>app.R</code></em></p>
+</div>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<details><summary>Code</summary><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Launch the ShinyApp (Do not remove this comment)</span></span>
+<span><span class="co"># To deploy, run: rsconnect::deployApp()</span></span>
+<span><span class="co"># Or use the blue button on top of this file</span></span>
+<span></span>
+<span><span class="fu">pkgload</span><span class="fu">::</span><span class="fu"><a href="https://pkgload.r-lib.org/reference/load_all.html">load_all</a></span><span class="op">(</span>export_all <span class="op">=</span> <span class="cn">FALSE</span>, helpers <span class="op">=</span> <span class="cn">FALSE</span>, attach_testthat <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span> <span class="st">"golem.app.prod"</span> <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu">myGolemApp</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/myGolemApp/man/run_app.html">run_app</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># add parameters here (if any)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
 </li>
 </ul></section></section><section id="build" class="level2"><h2 class="anchored" data-anchor-id="build">Build</h2>
 <p>Building an application with <code>golem</code> is very similar to developing an R package. New code files are placed in <code>R/</code>, external resources are placed in <code>inst/</code>, etc. I’ll cover creating modules and utility functions in the next section.</p>
@@ -703,7 +744,7 @@ https://mjfrigaard.github.io/posts/my-rhino-app/
 <p>These functions are added to the <code>R/</code> folder and include <a href="https://style.tidyverse.org/documentation.html#internal-functions"><code>@noRd</code></a> by default (which must be removed create the <code>.Rd</code> files in the <code>man/</code> folder)</p>
 <div style="font-size: 0.80em;">
 <div class="cell">
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># UI module template -------------------</span></span>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># UI module template -------------------</span></span>
 <span><span class="co">#' test UI Function</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @description A shiny Module.</span></span>
@@ -727,7 +768,7 @@ https://mjfrigaard.github.io/posts/my-rhino-app/
 </div>
 <div style="font-size: 0.80em;">
 <div class="cell">
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#' plot UI Function</span></span>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#' plot UI Function</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @param id</span></span>
 <span><span class="co">#'</span></span>
@@ -764,7 +805,7 @@ https://mjfrigaard.github.io/posts/my-rhino-app/
 </div>
 <div style="font-size: 0.80em;">
 <div class="cell">
-<details><summary>Code</summary><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#' plot Server Functions</span></span>
+<details><summary>Code</summary><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#' plot Server Functions</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @param id module id</span></span>
 <span><span class="co">#' @param var_inputs inputs from mod_var_input</span></span>
@@ -859,16 +900,16 @@ Module names
 <p>Include tests for new modules and functions using the <code>with_test = TRUE</code> argument</p>
 <div style="font-size: 0.80em;">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tests/testthat/</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>            <span class="ex">├──</span> _snaps</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>            <span class="ex">├──</span> test-golem-recommended.R</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>            <span class="ex">├──</span> test-golem_utils_server.R</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>            <span class="ex">├──</span> test-golem_utils_ui.R</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>            <span class="ex">├──</span> test-mod_plot.R</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>            <span class="ex">├──</span> test-mod_plot_utils_server.R</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>            <span class="ex">└──</span> test-mod_var_input.R</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="ex">2</span> directories, 6 files</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tests/testthat/</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>            <span class="ex">├──</span> _snaps</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>            <span class="ex">├──</span> test-golem-recommended.R</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>            <span class="ex">├──</span> test-golem_utils_server.R</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>            <span class="ex">├──</span> test-golem_utils_ui.R</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>            <span class="ex">├──</span> test-mod_plot.R</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>            <span class="ex">├──</span> test-mod_plot_utils_server.R</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>            <span class="ex">└──</span> test-mod_var_input.R</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="ex">2</span> directories, 6 files</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </li>
@@ -878,7 +919,7 @@ Module names
 <p>To include other files (like images), add the image file to <code>inst/app/www/</code>, then add the <code>www/</code> to the path (see example UI code below)</p>
 <div style="font-size: 0.80em;">
 <div class="cell">
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add icon</span></span>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add icon</span></span>
 <span><span class="fu">shiny</span><span class="fu">::</span><span class="va"><a href="https://rstudio.github.io/htmltools/reference/builder.html">tags</a></span><span class="op">$</span><span class="fu">img</span><span class="op">(</span>src <span class="op">=</span> <span class="st">"www/shiny.png"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
@@ -887,7 +928,7 @@ Module names
 <p>If I wanted to include images in their own folder (like <code>images/</code>), I can use <code>golem::addResourcePath()</code> to add the name of the sub-folder to <code>inst/app/</code></p>
 <div style="font-size: 0.80em;">
 <div class="cell">
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add icon</span></span>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add icon</span></span>
 <span><span class="fu">golem</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/golem/man/add_resource_path.html">add_resource_path</a></span><span class="op">(</span></span>
 <span>          prefix <span class="op">=</span> <span class="st">'images'</span>, </span>
 <span>          directoryPath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">'app/images'</span>, package <span class="op">=</span> <span class="st">'myGolemApp'</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -898,7 +939,7 @@ Module names
 <p>Now I can add the image file to the <code>inst/app/www/images/</code> folder and include the following code in the UI:</p>
 <div style="font-size: 0.80em;">
 <div class="cell">
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add icon</span></span>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add icon</span></span>
 <span><span class="fu">shiny</span><span class="fu">::</span><span class="va"><a href="https://rstudio.github.io/htmltools/reference/builder.html">tags</a></span><span class="op">$</span><span class="fu">img</span><span class="op">(</span>src <span class="op">=</span> <span class="st">"www/images/golem-hex.png"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
@@ -910,7 +951,7 @@ Module names
 </div>
 <div style="font-size: 0.80em;">
 <div class="cell">
-<details open=""><summary>Code</summary><div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#' The application User-Interface</span></span>
+<details open=""><summary>Code</summary><div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#' The application User-Interface</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @param request Internal parameter for `{shiny}`.</span></span>
 <span><span class="co">#'     DO NOT REMOVE.</span></span>
@@ -951,7 +992,7 @@ Module names
 </div>
 <div style="font-size: 0.80em;">
 <div class="cell">
-<details open=""><summary>Code</summary><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># this is also included in the app_ui.R script</span></span>
+<details open=""><summary>Code</summary><div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># this is also included in the app_ui.R script</span></span>
 <span><span class="va">golem_add_external_resources</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/golem/man/add_resource_path.html">add_resource_path</a></span><span class="op">(</span></span>
 <span>    <span class="st">"www"</span>,</span>
@@ -996,47 +1037,47 @@ Using the <code>inst/</code> folder
 <div style="font-size: 0.95em; color: #38B44A;">
 <p><code>golem</code> takes advantage of the <code>inst/</code> folder and R package structure to allow users to provide additional ‘assets’ to the application.</p>
 <p>For example, if we use <code>golem</code>s <code><a href="https://rdrr.io/pkg/myGolemApp/man/app_sys.html">app_sys()</a></code> function on the local directory (<code>'.'</code>), we see all the folders available to the application <em>at runtime</em></p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>fs<span class="sc">::</span><span class="fu">dir_tree</span>(<span class="at">path =</span> <span class="fu">app_sys</span>(<span class="st">'.'</span>))</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="sc">/</span>Library<span class="sc">/</span>Frameworks<span class="sc">/</span>R.framework<span class="sc">/</span>Versions<span class="sc">/</span><span class="fl">4.2</span><span class="sc">/</span>Resources<span class="sc">/</span>library<span class="sc">/</span>myGolemApp<span class="sc">/</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>├── DESCRIPTION</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>├── INDEX</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>├── LICENSE</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>├── Meta</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>│   ├── Rd.rds</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>│   ├── data.rds</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>│   ├── features.rds</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>│   ├── hsearch.rds</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>│   ├── links.rds</span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>│   ├── nsInfo.rds</span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>│   └── package.rds</span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>├── NAMESPACE</span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>├── R</span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>│   ├── myGolemApp</span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>│   ├── myGolemApp.rdb</span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>│   └── myGolemApp.rdx</span>
-<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>├── WORDLIST</span>
-<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>├── app</span>
-<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>│   └── www</span>
-<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>│       ├── favicon.ico</span>
-<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>│       ├── images</span>
-<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>│       │   └── golem<span class="sc">-</span>hex.png</span>
-<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>│       └── shiny.png</span>
-<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>├── data</span>
-<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>│   ├── Rdata.rdb</span>
-<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>│   ├── Rdata.rds</span>
-<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>│   └── Rdata.rdx</span>
-<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>├── extdata</span>
-<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a>│   └── movies.RData</span>
-<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>├── golem<span class="sc">-</span>config.yml</span>
-<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>├── help</span>
-<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>│   ├── AnIndex</span>
-<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>│   ├── aliases.rds</span>
-<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>│   ├── myGolemApp.rdb</span>
-<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>│   ├── myGolemApp.rdx</span>
-<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>│   └── paths.rds</span>
-<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a>└── html</span>
-<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a>    ├── 00Index.html</span>
-<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a>    └── R.css</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>fs<span class="sc">::</span><span class="fu">dir_tree</span>(<span class="at">path =</span> <span class="fu">app_sys</span>(<span class="st">'.'</span>))</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="sc">/</span>Library<span class="sc">/</span>Frameworks<span class="sc">/</span>R.framework<span class="sc">/</span>Versions<span class="sc">/</span><span class="fl">4.2</span><span class="sc">/</span>Resources<span class="sc">/</span>library<span class="sc">/</span>myGolemApp<span class="sc">/</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>├── DESCRIPTION</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>├── INDEX</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>├── LICENSE</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>├── Meta</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>│   ├── Rd.rds</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>│   ├── data.rds</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>│   ├── features.rds</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>│   ├── hsearch.rds</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>│   ├── links.rds</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>│   ├── nsInfo.rds</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>│   └── package.rds</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>├── NAMESPACE</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>├── R</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>│   ├── myGolemApp</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>│   ├── myGolemApp.rdb</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>│   └── myGolemApp.rdx</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>├── WORDLIST</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>├── app</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>│   └── www</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>│       ├── favicon.ico</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>│       ├── images</span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>│       │   └── golem<span class="sc">-</span>hex.png</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>│       └── shiny.png</span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>├── data</span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>│   ├── Rdata.rdb</span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>│   ├── Rdata.rds</span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>│   └── Rdata.rdx</span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a>├── extdata</span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>│   └── movies.RData</span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a>├── golem<span class="sc">-</span>config.yml</span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>├── help</span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a>│   ├── AnIndex</span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>│   ├── aliases.rds</span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a>│   ├── myGolemApp.rdb</span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a>│   ├── myGolemApp.rdx</span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>│   └── paths.rds</span>
+<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a>└── html</span>
+<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a>    ├── 00Index.html</span>
+<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a>    └── R.css</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1063,7 +1104,7 @@ Using the <code>inst/</code> folder
 </div>
 <div style="font-size: 0.80em;">
 <div class="cell">
-<details><summary>Code</summary><div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#' Run run_dev.R</span></span>
+<details><summary>Code</summary><div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#' Run run_dev.R</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @param file File path to `run_dev.R`. Defaults to `R/run_dev.R`.</span></span>
 <span><span class="co">#' @inheritParams add_module</span></span>
@@ -1112,7 +1153,34 @@ Using the <code>inst/</code> folder
 <li><p>write functions (modules, helper functions, etc.)</p></li>
 <li><p>load, document, check, test, install, etc.</p></li>
 <li><p>then render application (either with <code><a href="https://rdrr.io/pkg/myGolemApp/man/run_app.html">myGolemApp::run_app()</a></code> or <code><a href="https://rdrr.io/pkg/golem/man/run_dev.html">golem::run_dev()</a></code>)</p></li>
-</ul></section><section id="recap" class="level2"><h2 class="anchored" data-anchor-id="recap">Recap</h2>
+</ul>
+<ol start="6" type="1">
+<li>Deploying the application can be done with a single function: <code><a href="https://rdrr.io/pkg/rsconnect/man/deployApp.html">rsconnect::deployApp()</a></code>, which creates the following output:</li>
+</ol>
+<div style="font-size: 0.80em; ; color: #696969;">
+<p><em>Click on Code to view the deploy output</em></p>
+</div>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<details><summary>Code</summary><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Preparing</span> to deploy application...DONE</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Uploading</span> bundle for application: 8775458...DONE</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Deploying</span> bundle: 7054081 for application: 8775458 ...</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Waiting</span> for task: 1288644047</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="ex">building:</span> Parsing manifest</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="ex">building:</span> Building image: 8376474</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="ex">building:</span> Installing system dependencies</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="ex">building:</span> Fetching packages</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="ex">building:</span> Building package: covr</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  <span class="ex">building:</span> Installing packages</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  <span class="ex">building:</span> Installing files</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>  <span class="ex">building:</span> Pushing image: 8376474</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>  <span class="ex">deploying:</span> Starting instances</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>  <span class="ex">unstaging:</span> Stopping old instances</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a><span class="ex">Application</span> successfully deployed to https://mjfrigaard.shinyapps.io/mygolemapp/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</section><section id="recap" class="level2"><h2 class="anchored" data-anchor-id="recap">Recap</h2>
 <p>Generally speaking, <code>golem</code>’s start-up scripts save time and serves as a gentle introduction to some of the functions used in R package development. The <code>golem::add_</code> functions are an area where (I think) <code>golem</code> really separates itself from standard R packages. Having dedicated shiny development functions (and the <code>app/inst/www</code> folder) reduces the cognitive overhead of mapping the standard R package development functions (i.e., those from <code>usethis</code> and <code>devtools</code>) into shiny-specific development.</p>
 <div id="fig-golem" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure"><div class="quarto-figure quarto-figure-center">
