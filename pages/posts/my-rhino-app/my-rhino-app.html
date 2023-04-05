@@ -1,0 +1,1849 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="Martin Frigaard">
+<meta name="dcterms.date" content="2023-03-03">
+<title>ParadigmDataGroup, LLC - Shiny frameworks (part 5, rhino)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script><link rel="stylesheet" href="../../../styles.css">
+</head>
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">ParadigmDataGroup, LLC</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item">
+    <a class="nav-link" href="../../../index.html">Home</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../about.html">Who we are</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../listings.html">Posts</a>
+  </li>  
+</ul>
+<div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto"><nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Contents</h2>
+   
+  <ul>
+<li><a href="#framework-comparisons" id="toc-framework-comparisons" class="nav-link active" data-scroll-target="#framework-comparisons">Framework comparisons</a></li>
+  <li>
+<a href="#myrhinoapp" id="toc-myrhinoapp" class="nav-link" data-scroll-target="#myrhinoapp"><code>myRhinoApp</code></a>
+  <ul>
+<li>
+<a href="#start" id="toc-start" class="nav-link" data-scroll-target="#start">Start</a>
+  <ul>
+<li><a href="#app" id="toc-app" class="nav-link" data-scroll-target="#app"><code>app/</code></a></li>
+  <li><a href="#app.r" id="toc-app.r" class="nav-link" data-scroll-target="#app.r"><code>app.R</code></a></li>
+  <li><a href="#config.yml" id="toc-config.yml" class="nav-link" data-scroll-target="#config.yml"><code>config.yml</code></a></li>
+  <li><a href="#dependencies.r" id="toc-dependencies.r" class="nav-link" data-scroll-target="#dependencies.r"><code>dependencies.R</code></a></li>
+  <li><a href="#renv" id="toc-renv" class="nav-link" data-scroll-target="#renv"><code>renv/</code></a></li>
+  <li><a href="#rhino.yml" id="toc-rhino.yml" class="nav-link" data-scroll-target="#rhino.yml"><code>rhino.yml</code></a></li>
+  <li>
+<a href="#tests" id="toc-tests" class="nav-link" data-scroll-target="#tests"><code>tests/</code></a>
+  <ul class="collapse">
+<li><a href="#cypress" id="toc-cypress" class="nav-link" data-scroll-target="#cypress"><code>cypress/</code></a></li>
+  <li><a href="#testthat" id="toc-testthat" class="nav-link" data-scroll-target="#testthat"><code>testthat/</code></a></li>
+  </ul>
+</li>
+  </ul>
+</li>
+  <li>
+<a href="#build" id="toc-build" class="nav-link" data-scroll-target="#build">Build</a>
+  <ul>
+<li>
+<a href="#box" id="toc-box" class="nav-link" data-scroll-target="#box"><code>box</code></a>
+  <ul class="collapse">
+<li><a href="#box-modules" id="toc-box-modules" class="nav-link" data-scroll-target="#box-modules"><code>box</code> modules</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#modules" id="toc-modules" class="nav-link" data-scroll-target="#modules">Modules</a>
+  <ul class="collapse">
+<li><a href="#init-files" id="toc-init-files" class="nav-link" data-scroll-target="#init-files">Init files</a></li>
+  <li><a href="#logic" id="toc-logic" class="nav-link" data-scroll-target="#logic">Logic</a></li>
+  </ul>
+</li>
+  <li><a href="#external-scripts" id="toc-external-scripts" class="nav-link" data-scroll-target="#external-scripts">External scripts</a></li>
+  </ul>
+</li>
+  <li><a href="#use" id="toc-use" class="nav-link" data-scroll-target="#use">Use</a></li>
+  </ul>
+</li>
+  </ul></nav>
+</nav><!-- margin-sidebar --><div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">Shiny frameworks (part 5, <code>rhino</code>)</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">shiny</div>
+    <div class="quarto-category">code</div>
+    <div class="quarto-category">packages</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Martin Frigaard </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 3, 2023</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header><!--
+https://mjfrigaard.github.io/posts/vanilla-shiny/
+
+https://mjfrigaard.github.io/posts/my-pkg-app/
+
+https://mjfrigaard.github.io/posts/my-golem-app/
+
+https://mjfrigaard.github.io/posts/my-leprechaun-app/
+
+https://mjfrigaard.github.io/posts/my-rhino-app/
+--><p>This is the fifth and final post on creating shiny apps with various frameworks. In this post, I’ll build a <em>‘high quality, enterprise-grade’</em> shiny app using the <a href="https://appsilon.github.io/rhino/index.html"><code>rhino</code></a> package and framework.</p>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+ALERT!
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div style="font-size: 0.90em; color: #696969;">
+<p><strong>This post is currently under development. Thank you for your patience.</strong></p>
+</div>
+</div>
+</div>
+</div>
+<section id="framework-comparisons" class="level2"><h2 class="anchored" data-anchor-id="framework-comparisons">Framework comparisons</h2>
+<p>This series has focused on the following technical areas: <strong>Start</strong>, <strong>Build</strong>, and <strong>Use</strong>.</p>
+<ul>
+<li><p><strong>Start</strong> covers the steps required to begin building a shiny app with the framework (from the console and IDE), and any additional packages or dependencies.</p></li>
+<li><p><strong>Build</strong> covers the development process, which includes writing and storing code, data, external resources (like CSS or JavaScript), testing, etc.</p></li>
+<li><p><strong>Use</strong> shows how developers can launch their application using the given framework/package locally (i.e., within the RStudio (Posit) IDE), common workflow tips, and any points I found confusing.</p></li>
+<li><p>In part one, I built a ‘minimal’ shiny app (<a href="https://mjfrigaard.github.io/posts/vanilla-shiny/"><code>VanillaApp</code></a>)</p></li>
+<li><p>In part two, I structured the shiny application as an R package using <a href="https://usethis.r-lib.org/"><code>usethis</code></a> and <a href="https://devtools.r-lib.org/"><code>devtools</code></a>, <a href="https://mjfrigaard.github.io/posts/my-pkg-app/"><code>myPkgApp</code></a>.</p></li>
+<li><p>In part three, I used the popular <a href="https://thinkr-open.github.io/golem/"><code>golem</code> framework</a>, <a href="https://mjfrigaard.github.io/posts/my-golem-app/"><code>myGolemApp</code></a>.</p></li>
+<li><p>In part four, I created a shiny app using the <a href="https://leprechaun.opifex.org/#/"><code>leprechaun</code> package</a> and framework, <a href="https://mjfrigaard.github.io/posts/my-leprechaun-app/"><code>myLeprechaunApp</code></a></p></li>
+</ul>
+<p>The GitHub repo with all shiny app setups is <a href="https://github.com/mjfrigaard/shiny-app-setups">here</a>.</p>
+<p><br></p>
+</section><section id="myrhinoapp" class="level1"><h1><code>myRhinoApp</code></h1>
+<p><code>rhino</code> is a package developed by <a href="https://appsilon.com/">Appsilon</a> (yes, <a href="https://shinyconf.appsilon.com/"><code>shinyconf</code> Appsilon</a>) for “<em>Build[ing] high quality, enterprise-grade Shiny apps at speed.</em>”</p>
+<p><code>rhino</code> differs from the previous frameworks and methods in a couple important ways. First, a <code>rhino</code> application <strong>is not an R package</strong>. Instead, <code>rhino</code> shiny apps rely on <a href="https://klmr.me/box/"><code>box</code></a> for managing importing dependencies (instead of the <code>DESCRIPTION</code> and <code>NAMESPACE</code>). Second, <code>rhino</code> requires <a href="https://www.wikiwand.com/en/Node.js">node.js</a>, open-source JavaScript runtime environment.</p>
+<section id="start" class="level2"><h2 class="anchored" data-anchor-id="start">Start</h2>
+<p>To create a new rhino application, select <strong>Project</strong> &gt; <strong>New Project</strong> &gt; <strong>New Directory</strong>, and <strong>Shiny Application using rhino</strong></p>
+<p>The <strong>New Project Wizard</strong> will require a <em>Directory name</em> and <em>subdirectory</em>. I’ve also left <em>Github Actions CI</em> selected (the default)</p>
+<div id="fig-rhino-setup" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="rhino-setup.png" style="width:100.0%;height:100.0%" class="figure-img"></p>
+</figure>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;1: <code>myRhinoApp</code></figcaption><p></p>
+</figure>
+</div>
+<div style="font-size: 0.80em;">
+<p><em>Click <strong>Code</strong> to see output</em></p>
+</div>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<details><summary>Code</summary><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">*</span> Initializing project ...</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">*</span> Discovering package dependencies ... Done!</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">*</span> Copying packages into the cache ... Done!</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">The</span> following package<span class="er">(</span><span class="ex">s</span><span class="kw">)</span> <span class="ex">will</span> be updated in the lockfile:</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># CRAN ===============================</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ex">-</span> R.cache        [<span class="pp">*</span> <span class="at">-</span><span class="op">&gt;</span> 0.16.0]</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ex">-</span> R.methodsS3    [<span class="pp">*</span> <span class="at">-</span><span class="op">&gt;</span> 1.8.2]</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="op">&lt;</span> <span class="op">&lt;</span> <span class="op">&lt;</span> <span class="op">&lt;</span> <span class="op">&lt;</span> <span class="op">&lt;</span> <span class="op">&lt;</span> OMITTED <span class="op">&gt;</span> <span class="op">&gt;</span> <span class="op">&gt;</span> <span class="op">&gt;</span> <span class="op">&gt;</span> <span class="op">&gt;</span> <span class="op">&gt;</span> <span class="op">&gt;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="ex">-</span> xtable         [<span class="pp">*</span> <span class="at">-</span><span class="op">&gt;</span> 1.8-4]</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="ex">-</span> yaml           [<span class="pp">*</span> <span class="at">-</span><span class="op">&gt;</span> 2.3.7]</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># GitHub =============================</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="ex">-</span> box            [<span class="pp">*</span> <span class="at">-</span><span class="op">&gt;</span> klmr/box@dev]</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="ex">The</span> version of R recorded in the lockfile will be updated:</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="ex">-</span> R              [<span class="pp">*</span>] <span class="at">-</span><span class="op">&gt;</span> [4.2.2]</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="ex">*</span> Lockfile written to <span class="st">'~/projects/myRhinoApp/renv.lock'</span>.</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Initialized renv.</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Application structure created.</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Unit tests structure created.</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> E2E tests structure created.</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Github Actions CI added.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<p>This initializes the new <code>rhino</code> app by opening the <code>.Rproj</code> file in RStudio.</p>
+<p>If I wanted to create the <code>myRhinoApp</code> application from the console, I would use the following:</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"rhino"</span><span class="op">)</span></span>
+<span><span class="fu">rhino</span><span class="fu">::</span><span class="fu"><a href="https://appsilon.github.io/rhino/reference/init.html">init</a></span><span class="op">(</span><span class="st">"/Users/mjfrigaard/projects/myRhinoApp"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div style="font-size: 0.80em;">
+<p><em>Click <strong>Code</strong> to see output</em></p>
+</div>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<details><summary>Code</summary><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Rproj file created.</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">*</span> Initializing project ...</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">*</span> Discovering package dependencies ... Done!</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ex">*</span> Copying packages into the cache ... Done!</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">The</span> following package<span class="er">(</span><span class="ex">s</span><span class="kw">)</span> <span class="ex">will</span> be updated in the lockfile:</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># CRAN ===============================</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="ex">-</span> R.cache        [<span class="pp">*</span> <span class="at">-</span><span class="op">&gt;</span> 0.16.0]</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="ex">-</span> R.methodsS3    [<span class="pp">*</span> <span class="at">-</span><span class="op">&gt;</span> 1.8.2]</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="op">&lt;</span> <span class="op">&lt;</span> <span class="op">&lt;</span> <span class="op">&lt;</span> <span class="op">&lt;</span> <span class="op">&lt;</span> <span class="op">&lt;</span> OMITTED <span class="op">&gt;</span> <span class="op">&gt;</span> <span class="op">&gt;</span> <span class="op">&gt;</span> <span class="op">&gt;</span> <span class="op">&gt;</span> <span class="op">&gt;</span> <span class="op">&gt;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="ex">-</span> xtable         [<span class="pp">*</span> <span class="at">-</span><span class="op">&gt;</span> 1.8-4]</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="ex">-</span> yaml           [<span class="pp">*</span> <span class="at">-</span><span class="op">&gt;</span> 2.3.7]</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># GitHub =============================</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="ex">-</span> box            [<span class="pp">*</span> <span class="at">-</span><span class="op">&gt;</span> klmr/box@dev]</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="ex">The</span> version of R recorded in the lockfile will be updated:</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="ex">-</span> R              [<span class="pp">*</span>] <span class="at">-</span><span class="op">&gt;</span> [4.2.2]</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="ex">*</span> Lockfile written to <span class="st">'~/projects/myRhinoApp/renv.lock'</span>.</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Initialized renv.</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Application structure created.</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Unit tests structure created.</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> E2E tests structure created.</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Github Actions CI added.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+What’s the difference?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div style="font-size: 0.90em; color: #696969;">
+<p>Both methods create the same structure, using <code><a href="https://appsilon.github.io/rhino/reference/init.html">rhino::init()</a></code> will not automatically open the new rhino application project file (<code>~/projects/myRhinoApp/myRhinoApp.Rproj</code>), so I have to navigate to this file and open it.</p>
+</div>
+</div>
+</div>
+</div>
+<p>The initial folder structure for a new rhino app is below:</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">myRhinoApp/</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>      <span class="ex">├──</span> app/</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>      <span class="ex">│</span>   ├── js</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>      <span class="ex">│</span>   │   └── index.js</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>      <span class="ex">│</span>   ├── logic</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>      <span class="ex">│</span>   │   └── __init__.R</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>      <span class="ex">│</span>   ├── main.R</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>      <span class="ex">│</span>   ├── static</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>      <span class="ex">│</span>   │   └── favicon.ico</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>      <span class="ex">│</span>   ├── styles</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>      <span class="ex">│</span>   │   └── main.scss</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>      <span class="ex">│</span>   └── view</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>      <span class="ex">│</span>       └── __init__.R</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>      <span class="ex">├──</span> app.R</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>      <span class="ex">├──</span> config.yml</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>      <span class="ex">├──</span> dependencies.R</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>      <span class="ex">├──</span> myRhinoApp.Rproj</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>      <span class="ex">├──</span> renv/</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>      <span class="ex">│</span>   ├── activate.R</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>      <span class="ex">│</span>   ├── library</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>      <span class="ex">│</span>   │   └── R-4.2</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>      <span class="ex">│</span>   ├── sandbox</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>      <span class="ex">│</span>   │   └── R-4.2</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>      <span class="ex">│</span>   └── settings.dcf</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>      <span class="ex">├──</span> renv.lock</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>      <span class="ex">├──</span> rhino.yml</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>      <span class="ex">└──</span> tests/</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>          <span class="ex">├──</span> cypress</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>          <span class="ex">│</span>   └── integration</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>          <span class="ex">├──</span> cypress.json</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>          <span class="ex">└──</span> testthat</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>              <span class="ex">└──</span> test-main.R</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="ex">16</span> directories, 16 files</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>The <code>rhino</code> package website has <a href="https://appsilon.github.io/rhino/articles/explanation/application-structure.html">excellent documentation on their app structure philosophy</a>, and it’s worth reading through this before getting started. I’ll do my best to summarize the application’s files below:</p>
+<section id="app" class="level3"><h3 class="anchored" data-anchor-id="app"><code>app/</code></h3>
+<p>The <code>app/</code> folder contains the primary folder and files for my application.</p>
+<ul>
+<li>
+<p><code>app/</code> includes the following files and sub-folders:</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">app/</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">├──</span> js/</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="ex">│</span>   └── index.js</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="ex">├──</span> logic/</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="ex">│</span>   └── __init__.R</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="ex">├──</span> main.R</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="ex">├──</span> static/</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="ex">│</span>   └── favicon.ico</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="ex">├──</span> styles/</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="ex">│</span>   └── main.scss</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="ex">└──</span> view/</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>      <span class="ex">└──</span> __init__.R</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="ex">6</span> directories, 6 files</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</li>
+<li><p><code>js/</code>: the <code>js</code> folder initially contains a blank <code>index.js</code> script</p></li>
+<li>
+<p><code>logic/</code>: the <code>logic</code> folder contains <a href="https://appsilon.github.io/rhino/articles/explanation/application-structure.html#logic"><em>code independent from Shiny</em></a></p>
+<ul>
+<li>
+<code>logic/__init__.R</code> is originally blank, but provides a link to the website section on project structure</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Logic: application code independent from Shiny.</span></span>
+<span><span class="co"># https://go.appsilon.com/rhino-project-structure</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</li>
+<li>
+<p><code>static/</code>: the <code>static/</code> folder will contain external resources (like JavaScript files) and is similar to the sub-folders in <code>inst/</code> from <code>golem</code> and <code>leprechaun</code>.</p>
+<ul>
+<li>Use these file in the UI with:</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">tags</span><span class="op">$</span><span class="fu">script</span><span class="op">(</span>src <span class="op">=</span> <span class="st">"static/js/app.min.js"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</li>
+<li><p><code>styles/</code>: the <code>styles/</code> folder will hold custom styles (CSS and HTML) in the <code>styles/main.css</code> file (which is initially blank)</p></li>
+<li>
+<p><code>view/</code>: the <code>view/</code> folder holds the <a href="https://appsilon.github.io/rhino/articles/explanation/application-structure.html#view"><em>code which describes the user interface of your application and relies upon the reactive capabilities of Shiny.</em></a></p>
+<ul>
+<li>
+<code>view/__init__.R</code> is also intially blank, but provides a link to the website section on project structure</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># View: Shiny modules and related code.</span></span>
+<span><span class="co"># https://go.appsilon.com/rhino-project-structure</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</li>
+<li>
+<p><code>main.R</code>: the <code>main.R</code> file contains the <em>actual</em> application code (this is where I’ll make edits).</p>
+<ul>
+<li>
+<code>app/main.R</code> contains the code for the application I see when I run <code><a href="https://appsilon.github.io/rhino/reference/app.html">rhino::app()</a></code>
+</li>
+</ul>
+<div style="font-size: 0.80em;">
+<p><em>Click <strong>Code</strong> to see <code>app/main.R</code></em></p>
+</div>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<details open=""><summary>Code</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">box</span><span class="fu">::</span><span class="fu"><a href="http://klmr.me/box/reference/use.html">use</a></span><span class="op">(</span></span>
+<span>  <span class="va">shiny</span><span class="op">[</span><span class="va">bootstrapPage</span>, <span class="va">moduleServer</span>, <span class="va">NS</span>, <span class="va">renderText</span>, <span class="va">tags</span>, <span class="va">textOutput</span><span class="op">]</span>,</span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#' @export</span></span>
+<span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">ns</span> <span class="op">&lt;-</span> <span class="fu">NS</span><span class="op">(</span><span class="va">id</span><span class="op">)</span></span>
+<span>  <span class="fu">bootstrapPage</span><span class="op">(</span></span>
+<span>    <span class="va">tags</span><span class="op">$</span><span class="fu">h3</span><span class="op">(</span></span>
+<span>      <span class="fu">textOutput</span><span class="op">(</span><span class="fu">ns</span><span class="op">(</span><span class="st">"message"</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co">#' @export</span></span>
+<span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">moduleServer</span><span class="op">(</span><span class="va">id</span>, <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">output</span><span class="op">$</span><span class="va">message</span> <span class="op">&lt;-</span> <span class="fu">renderText</span><span class="op">(</span><span class="st">"Hello!"</span><span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</li>
+</ul>
+<p><br></p>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<code><a href="http://klmr.me/box/reference/use.html">box::use()</a></code>?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div style="font-size: 0.90em; color: #696969;">
+<p>If <code>box</code>’s syntax looks strange–don’t worry! It looked strange to me too at first. But it’s actually something special with those <code>roxygen2</code> tags. I’ll cover it more in the <strong>Build</strong> section below.</p>
+</div>
+</div>
+</div>
+</div>
+</section><section id="app.r" class="level3"><h3 class="anchored" data-anchor-id="app.r"><code>app.R</code></h3>
+<ul>
+<li>
+<p><code>app.R</code> is the file that will run my application and contains the <code><a href="https://appsilon.github.io/rhino/reference/app.html">rhino::app()</a></code> function.</p>
+<div style="font-size: 0.95em; color: #E74A2F;">
+<p><strong>Do not edit this file!</strong></p>
+</div>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Rhino / shinyApp entrypoint. Do not edit.</span></span>
+<span><span class="fu">rhino</span><span class="fu">::</span><span class="fu"><a href="https://appsilon.github.io/rhino/reference/app.html">app</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<ul>
+<li>
+<code>rhino</code> has a ‘minimal <code>app.R</code>’ <a href="https://appsilon.github.io/rhino/articles/explanation/application-structure.html#minimal-app-r">philosophy</a>, and the call to <code><a href="https://appsilon.github.io/rhino/reference/app.html">rhino::app()</a></code> <a href="https://appsilon.github.io/rhino/reference/app.html">performs multiple operations</a> beyond <code><a href="https://shiny.rstudio.com/reference/shiny/latest/runApp.html">shiny::runApp()</a></code>
+</li>
+</ul>
+</li>
+</ul></section><section id="config.yml" class="level3"><h3 class="anchored" data-anchor-id="config.yml"><code>config.yml</code></h3>
+<ul>
+<li>
+<p><code>config.yml</code> is a YAML file that follows the <a href="https://rstudio.github.io/config/"><code>config</code> package</a> format. This file initially contains two calls to <code><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv()</a></code>:</p>
+<div style="font-size: 0.80em;">
+<div class="sourceCode" id="cb11"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">default</span><span class="kw">:</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">rhino_log_level</span><span class="kw">:</span><span class="at"> !expr Sys.getenv("RHINO_LOG_LEVEL", "INFO")</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">rhino_log_file</span><span class="kw">:</span><span class="at"> !expr Sys.getenv("RHINO_LOG_FILE", NA)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Read more about how to use <code>config.yml</code> in the <strong>Environments</strong> section of the <a href="https://appsilon.github.io/rhino/articles/how-to/manage-secrets-and-environments.html?#environments">How to: Manage secrets and environments</a> vignette.</li>
+</ul>
+</li>
+</ul></section><section id="dependencies.r" class="level3"><h3 class="anchored" data-anchor-id="dependencies.r"><code>dependencies.R</code></h3>
+<ul>
+<li>
+<p><code>dependencies.R</code> is an <code>.R</code> script that contains any other packages used by the application. Using this file is covered in the <a href="https://appsilon.github.io/rhino/articles/how-to/manage-r-dependencies.html">Manage Dependencies vignette</a> on the package website, and I’ve covered <code>renv</code> in the <a href="https://mjfrigaard.github.io/posts/vanilla-shiny/#renv">first application (<code>VanillaShiny</code>)</a>.</p>
+<ul>
+<li>As I can see from the note in the comments, the dependencies will be tracked using <code>packrat</code> in rsconnect.</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># This file allows packrat (used by rsconnect during deployment)</span></span>
+<span><span class="co"># to pick up dependencies.</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://appsilon.github.io/rhino/">rhino</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<ul>
+<li>I know I’ll be using <code>ggplot2</code> and <code>stringr</code> in this application, so I’ll load those there.</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># This file allows packrat (used by rsconnect during deployment)</span></span>
+<span><span class="co"># to pick up dependencies.</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://appsilon.github.io/rhino/">rhino</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://stringr.tidyverse.org">stringr</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<ul>
+<li>Now I <code>install</code> and take a snapshot with <code>renv</code>:</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">renv</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/renv/reference/install.html">install</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ggplot2"</span>, <span class="st">"stringr"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">renv</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/renv/reference/snapshot.html">snapshot</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</li>
+</ul></section><section id="renv" class="level3"><h3 class="anchored" data-anchor-id="renv"><code>renv/</code></h3>
+<ul>
+<li>
+<p>The <code>renv/</code> folder contains the R version and packages used to build the application:</p>
+<ul>
+<li>
+<code>renv.lock</code> is the lock file and contains the packages and R version used in the application.</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">myRhinoApp/</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">├──</span> renv/</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="ex">│</span>    ├── activate.R</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="ex">│</span>    ├── library/</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="ex">│</span>    │   └── R-4.2</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="ex">│</span>    │       └── x86_64-apple-darwin17.0</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="ex">│</span>    ├── sandbox/</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="ex">│</span>    │   └── R-4.2</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="ex">│</span>    │       └── x86_64-apple-darwin17.0</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="ex">│</span>    └── settings.dcf</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="ex">└──</span> renv.lock</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<ul>
+<li>Read more about <a href="https://rstudio.github.io/renv/articles/renv.html">getting started with <code>renv</code></a> and using <a href="https://rstudio.github.io/renv/articles/packages.html"><code>renv</code> in package development</a>
+</li>
+</ul>
+</li>
+</ul></section><section id="rhino.yml" class="level3"><h3 class="anchored" data-anchor-id="rhino.yml"><code>rhino.yml</code></h3>
+<ul>
+<li>
+<p><code>rhino.yml</code> is the configuration file and contains options for setting how Sass is built or for importing from another application structure to <code>rhino</code>.</p>
+<ul>
+<li>the code below showcases the optional arguments (and is not included in the application)</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="sourceCode" id="cb16"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sass</span><span class="kw">:</span><span class="at"> string</span><span class="co">               # required | one of: "node", "r"</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">legacy_entrypoint</span><span class="kw">:</span><span class="at"> string</span><span class="co">  # optional | one of: "app_dir", "source", "box_top_level"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Read more about <code>rhino.yml</code> in the <a href="https://appsilon.github.io/rhino/articles/explanation/rhino-yml.html">Explanation: Configuring Rhino - rhino.yml</a> vignette.</li>
+</ul>
+</li>
+</ul></section><section id="tests" class="level3"><h3 class="anchored" data-anchor-id="tests"><code>tests/</code></h3>
+<ul>
+<li>
+<p><code>tests/</code> contains two sub-folders, <code>cypress/</code> and <code>testthat/</code>:</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tests/</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">├──</span> cypress/</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">│</span>   └── integration/</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="ex">│</span>       └── app.spec.js</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">├──</span> cypress.json</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="ex">└──</span> testthat/</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>        <span class="ex">└──</span> test-main.R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</li>
+</ul>
+<section id="cypress" class="level4"><h4 class="anchored" data-anchor-id="cypress"><code>cypress/</code></h4>
+<ul>
+<li>
+<p><code>tests/cypress/</code> holds folders for using the <a href="https://www.cypress.io/">Cypress web and component testing framework</a>.</p>
+<ul>
+<li>This is also covered in the <a href="https://appsilon.github.io/rhino/articles/how-to/use-shinytest2.html">‘Use <code>shinttest2</code> vignette’</a>.</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tests/</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">├──</span> cypress/</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">│</span>    └── integration/</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="ex">│</span>        └── app.spec.js</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">└──</span> cypress.json</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</li>
+</ul></section><section id="testthat" class="level4"><h4 class="anchored" data-anchor-id="testthat"><code>testthat/</code></h4>
+<ul>
+<li>
+<p><code>tests/testthat/</code> contains the architecture for writing tests with <a href="https://testthat.r-lib.org/">testthat</a></p>
+<ul>
+<li>
+<code>rhino</code> also has a helper function for running all tests in the <code>testthat/</code> folder (<a href="https://appsilon.github.io/rhino/reference/test_r.html"><code>rhino::test_r()</code></a>)</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tests/</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">└──</span> testthat/</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>            <span class="ex">└──</span> test-main.R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</li>
+</ul></section></section></section><section id="build" class="level2"><h2 class="anchored" data-anchor-id="build">Build</h2>
+<p>Unlike the previous applications in this series, <code>rhino</code> applications don’t use the <code>NAMESPACE</code> and <code>DESCRIPTION</code> to manage dependencies. Instead, they use the <code>box</code> modules to explicitly import packages and functions</p>
+<section id="box" class="level3"><h3 class="anchored" data-anchor-id="box"><code>box</code></h3>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-right">
+<figure class="figure"><p><img src="box-logo.png" class="img-fluid figure-img" style="width:1in"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p><code>rhino</code> apps use <a href="https://klmr.me/box/index.html"><code>box</code></a> to create modules, which is handy, because it’s specifically designed for writing “<em>reusable, composable and modular R code</em>”</p>
+<p><strong>Quick refresher:</strong> if I’m building a shiny app,</p>
+<ul>
+<li><p>I install dependencies using <code>install.packages('&lt;package&gt;')</code> (or <code>renv::install('&lt;package&gt;')</code>)</p></li>
+<li><p>When I want to use an installed package, I run <code>library(&lt;package&gt;)</code>, which loads the package namespace ‘<em>and attach[es] it on the search list</em>’ (or I can use <code>&lt;package&gt;::&lt;function&gt;</code>)</p></li>
+<li><p>If the application gets converted into an R package, I track these dependencies using <code>roxygen2</code> tags <code>@importFrom</code> or <code>@import</code> (which are converted into <code>NAMESPACE</code> directives)</p></li>
+<li><p>I also include them in the <code>DESCRIPTION</code> under <code>Imports:</code></p></li>
+</ul>
+<p>So, I run <code>library(&lt;package&gt;)</code> to load the entire package namespace when I want to use a function, but it’s recommended I use <code>@importFrom</code> to <em>specify</em> the package functions if I’m developing my own R package.</p>
+<p>Put another way,</p>
+<p><em>“If I only need one or two items from a package, why am I loading</em> <strong>everything</strong> <em>in the namespace with <code><a href="https://rdrr.io/r/base/library.html">library()</a></code>?“</em></p>
+<p>This is where <a href="https://klmr.me/box/index.html"><code>box</code></a> comes in–it’s designed to <em>‘completely replace the base R <code>library</code> and <code>require</code> functions’</em>.</p>
+<p><a href="https://klmr.me/box/index.html"><code>box</code></a> handles dependencies by <em>‘writing modular code’</em> and is perhaps best summarized in the following quote from <a href="https://peps.python.org/pep-0020/">The Zen of Python</a> (also on the <a href="https://klmr.me/box/index.html#why-box">package website</a>)</p>
+<blockquote class="blockquote">
+<p>‘<em>explicit is better than implicit.</em>’</p>
+</blockquote>
+<p>A <code>box</code> module is essentially just an R script in a folder. However, in <code><a href="http://klmr.me/box/reference/use.html">box::use()</a></code>, instead of loading packages and functions using <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> or <code>::</code>, I can <strong>encapsulate and explicitly import packages and functions</strong> in these R scripts using the syntax <code>package[function]</code>.</p>
+<ul>
+<li>
+<p>The module below imports the <code>foo()</code> and <code>bar()</code> functions from the <code>pkg</code> package in the <code>mod.R</code> file (in the <code>box/</code> folder)</p>
+<div style="font-size: 0.80em;">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># contents of box/mod.R</span></span>
+<span><span class="co">#' @export</span></span>
+<span><span class="fu">box</span><span class="fu">::</span><span class="fu"><a href="http://klmr.me/box/reference/use.html">use</a></span><span class="op">(</span></span>
+<span>  <span class="va">pkg</span><span class="op">[</span><span class="va">foo</span>, <span class="va">bar</span><span class="op">]</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</li>
+<li>
+<p>I can now access <code>foo()</code> and <code>bar()</code> from <code>mod.R</code> using <code>box::use(box/mod)</code>:</p>
+<div style="font-size: 0.80em;">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># using contents of box/mod.R</span></span>
+<span><span class="fu">box</span><span class="fu">::</span><span class="fu"><a href="http://klmr.me/box/reference/use.html">use</a></span><span class="op">(</span></span>
+<span>  <span class="va">box</span><span class="op">/</span><span class="va">mod</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</li>
+</ul>
+<section id="box-modules" class="level4"><h4 class="anchored" data-anchor-id="box-modules">
+<code>box</code> modules</h4>
+<p>Here is a quick example:</p>
+<ul>
+<li>
+<p>Below I attempt to use <code>tidyverse</code>s <code>tidyverse_logo()</code> function</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tidyverse_logo</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in tidyverse_logo(): could not find function "tidyverse_logo"</code></pre>
+</div>
+</div>
+</div>
+<ul>
+<li>The error is expected, because <code>dplyr</code> has been installed, but hasn’t been loaded.</li>
+</ul>
+</li>
+<li>
+<p>In a <code>box</code> module, I import the <code>tidyverse_logo()</code> from <code>tidyverse</code> (without using <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> or <code>::</code>), by creating a <code>logo.R</code> file in a <code>tidy</code> folder. In <code>logo.R</code>, I include <code><a href="http://klmr.me/box/reference/use.html">box::use()</a></code> and the following code:</p>
+<ul>
+<li>I also include <code>#' @export</code> on the preceding line:</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># contents of tidy/logo.R</span></span>
+<span><span class="co">#' @export</span></span>
+<span><span class="fu">box</span><span class="fu">::</span><span class="fu"><a href="http://klmr.me/box/reference/use.html">use</a></span><span class="op">(</span></span>
+<span>  <span class="va">tidyverse</span><span class="op">[</span><span class="va">tidyverse_logo</span><span class="op">]</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<ul>
+<li>Note I did not have to use <code><a href="https://tidyverse.tidyverse.org/reference/tidyverse_logo.html">tidyverse::tidyverse_logo()</a></code>
+</li>
+</ul>
+</li>
+<li>
+<p>To use this module, I call <code>box::use(tidy/logo)</code>, which loads <code>logo</code> into the environment.</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">box</span><span class="fu">::</span><span class="fu"><a href="http://klmr.me/box/reference/use.html">use</a></span><span class="op">(</span><span class="va">tidy</span><span class="op">/</span><span class="va">logo</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="va">logo</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a> <span class="op">&lt;</span>module: <span class="ex">tidy/logo</span><span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>I can use <code><a href="https://rdrr.io/r/base/ls.html">ls()</a></code> on <code>logo</code> to return the imported names.</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="va">logo</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[1]</span> <span class="st">"tidyverse_logo"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</li>
+<li>
+<p>To use the <code>tidyverse_logo()</code> function, I use <code>$</code>:</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">logo</span><span class="op">$</span><span class="fu">tidyverse_logo</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">⬢</span> __  _    __   .    ⬡           ⬢  . </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a> <span class="ex">/</span> /_<span class="er">(</span><span class="ex">_</span><span class="kw">)</span><span class="ex">__/</span> /_ ___  _____ _______ ___ </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="ex">/</span> __/ / _  / // / <span class="kw">|</span><span class="ex">/</span> / <span class="at">-_</span><span class="er">)</span> <span class="ex">__</span><span class="er">(</span><span class="ex">_-</span><span class="op">&lt;</span>/ <span class="at">-_</span><span class="kw">)</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="ex">\__/_/\_,_/\_,</span> /<span class="kw">|</span><span class="ex">___/\__/_/</span> /___/\__/ </span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>     <span class="ex">⬢</span>  . /___/      ⬡      .       ⬢ </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</li>
+<li>
+<p>Note that <code>tidyverse_logo()</code> is still not loaded <em>outside</em> the <code>logo</code> module</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tidyverse_logo</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in tidyverse_logo(): could not find function "tidyverse_logo"</code></pre>
+</div>
+</div>
+</div>
+</li>
+</ul>
+<p>I can also include (or wrap) <code><a href="http://klmr.me/box/reference/use.html">box::use()</a></code> inside custom functions, and then call these when I’ve imported the module:</p>
+<ul>
+<li>
+<p><code>tidy/plogo.R</code> imports <code>tidyverse_logo()</code> <em>inside</em> a custom function, <code>print_logo()</code></p>
+<ul>
+<li>Note that to use a packages/functions from a module, you must include <code>#' @export</code> from <code>roxygen2</code> (in the line above):</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># contents of tidy/plogo.R</span></span>
+<span></span>
+<span><span class="co">#' prints tidyverse logo</span></span>
+<span><span class="co">#' @export</span></span>
+<span><span class="va">print_logo</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="co"># import pkg[fun] inside function</span></span>
+<span>  <span class="fu">box</span><span class="fu">::</span><span class="fu"><a href="http://klmr.me/box/reference/use.html">use</a></span><span class="op">(</span></span>
+<span>    <span class="va">tidyverse</span><span class="op">[</span><span class="va">tidyverse_logo</span><span class="op">]</span></span>
+<span>  <span class="op">)</span></span>
+<span>  <span class="co"># use fun</span></span>
+<span>  <span class="fu">tidyverse_logo</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<ul>
+<li>I load the module into the environment with <code>box::use(path/to/module)</code>
+</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># use tidy/plogo</span></span>
+<span><span class="fu">box</span><span class="fu">::</span><span class="fu"><a href="http://klmr.me/box/reference/use.html">use</a></span><span class="op">(</span><span class="va">tidy</span><span class="op">/</span><span class="va">plogo</span><span class="op">)</span></span>
+<span><span class="va">plogo</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>module: <span class="ex">tidy/plogo</span><span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>I can use the <code>print_logo()</code> function the same way I used <code>tidyverse_logo()</code> in the <code>logo</code> module.</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># access print_logo() with $</span></span>
+<span><span class="va">plogo</span><span class="op">$</span><span class="fu">print_logo</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="ex">⬢</span> __  _    __   .    ⬡           ⬢  . </span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a> <span class="ex">/</span> /_<span class="er">(</span><span class="ex">_</span><span class="kw">)</span><span class="ex">__/</span> /_ ___  _____ _______ ___ </span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="ex">/</span> __/ / _  / // / <span class="kw">|</span><span class="ex">/</span> / <span class="at">-_</span><span class="er">)</span> <span class="ex">__</span><span class="er">(</span><span class="ex">_-</span><span class="op">&lt;</span>/ <span class="at">-_</span><span class="kw">)</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="ex">\__/_/\_,_/\_,</span> /<span class="kw">|</span><span class="ex">___/\__/_/</span> /___/\__/ </span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>     <span class="ex">⬢</span>  . /___/      ⬡      .       ⬢ </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</li>
+<li>
+<p>Also note <code>print_logo()</code> doesn’t exist outside the <code>plogo</code> module:</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">print_logo</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in print_logo(): could not find function "print_logo"</code></pre>
+</div>
+</div>
+</div>
+<ul>
+<li>This is what is meant by <em>encapsulation</em>
+</li>
+</ul>
+</li>
+</ul>
+<p><code>box</code> modules can also import functions and packages using aliases.</p>
+<ul>
+<li>
+<p>The example below (<code>tidy/tidy_logo.R</code>) exports <code>tidyverse_logo()</code> as <code>tidy_logo()</code> and <code>print_logo()</code></p>
+<ul>
+<li>Both the contents of <code><a href="http://klmr.me/box/reference/use.html">box::use()</a></code> and <code>print_logo()</code> need the <code>#' @export</code> tag</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># contents of tidy/tidy_logo.R</span></span>
+<span></span>
+<span><span class="co">#' import alias tidyverse logo</span></span>
+<span><span class="co">#' @export</span></span>
+<span><span class="fu">box</span><span class="fu">::</span><span class="fu"><a href="http://klmr.me/box/reference/use.html">use</a></span><span class="op">(</span></span>
+<span>  <span class="va">tidyverse</span><span class="op">[</span>tidy_logo <span class="op">=</span> <span class="va">tidyverse_logo</span><span class="op">]</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#' prints tidyverse logo</span></span>
+<span><span class="co">#' @export</span></span>
+<span><span class="va">print_logo</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="co"># use fun alias</span></span>
+<span>  <span class="fu">tidy_logo</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<ul>
+<li>After I load the module with <code><a href="http://klmr.me/box/reference/use.html">box::use()</a></code>, I can see both functions in <code>tidy_logo</code> using <code><a href="https://rdrr.io/r/base/ls.html">ls()</a></code>
+</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">box</span><span class="fu">::</span><span class="fu"><a href="http://klmr.me/box/reference/use.html">use</a></span><span class="op">(</span><span class="va">tidy</span><span class="op">/</span><span class="va">tidy_logo</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="va">tidy_logo</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[1]</span> <span class="st">"print_logo"</span> <span class="st">"tidy_logo"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>If I compare both functions, I find they are identical:</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="va">tidy_logo</span><span class="op">$</span><span class="fu">print_logo</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  y <span class="op">=</span> <span class="va">tidy_logo</span><span class="op">$</span><span class="fu">tidy_logo</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[1]</span> TRUE</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</li>
+</ul>
+<p>There are multiple methods for importing packages and functions with <code>box</code>. The table below list a few of these options:</p>
+<div style="font-size: 0.60em;">
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong><code><a href="http://klmr.me/box/reference/use.html">box::use()</a></code> options</strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div style="font-size: 0.90em; color: #696969;">
+
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead><tr>
+<th style="text-align:left;">
+Inside box::use()
+</th>
+<th style="text-align:left;">
+Action
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+box::use( pkg )
+</td>
+<td style="text-align:left;">
+imports ‘pkg’, does not attach any function names
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+box::use( p = pkg )
+</td>
+<td style="text-align:left;">
+imports ‘pkg’ with alias (‘p’), does not attach any function names
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+box::use( pkg = pkg[foo, bar] )
+</td>
+<td style="text-align:left;">
+imports ‘pkg’ and attaches the function names ‘pkg::foo()’ and ‘pkg::bar()’
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+box::use( pkg[my_foo = foo, …] )
+</td>
+<td style="text-align:left;">
+imports ‘pkg’ with alias for ‘foo’ (‘my_foo’) and attaches all exported function names
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div style="font-size: 0.85em; color: [#E74A2F;">
+<p><em>These options are also listed on the <a href="https://klmr.me/box/index.html">package website</a></em></p>
+</div>
+<p>This has been a very brief overview of <code>box</code>, so I <strong>highly recommend</strong> consulting the <a href="https://klmr.me/box/index.html"><code>box</code> website</a> and vignettes (especially <a href="https://klmr.me/box/articles/mod-env-hierarchy.html">“the hierarchy of module environments”</a>). The <code>rhino</code> website also has a great overview on using <a href="https://appsilon.github.io/rhino/articles/explanation/box-modules.html"><code>box</code> with shiny apps</a> (I also have a collection of <code>box</code> module examples in this <a href="https://github.com/mjfrigaard/rbox/blob/main/boxes.md">repo</a>.)</p>
+</section></section><section id="modules" class="level3"><h3 class="anchored" data-anchor-id="modules">Modules</h3>
+<p>Now that I’ve covered a bit on how <code>box</code> modules work, I am going to create the <em>application</em> modules. New modules should be created in the <code>app/view/</code> folder.</p>
+<p>The first module we’ll create is the <code>app/view/inputs.R</code> module for collecting the user inputs</p>
+<ul>
+<li>
+<p>The code below is placed in <code>app/view/inputs.R</code></p>
+<div style="font-size: 0.80em;">
+<p><em>Click <strong>Code</strong> to see <code>app/view/inputs.R</code></em></p>
+</div>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<details><summary>Code</summary><div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># app/view/inputs.R</span></span>
+<span></span>
+<span><span class="co"># define module functions</span></span>
+<span><span class="fu">box</span><span class="fu">::</span><span class="fu"><a href="http://klmr.me/box/reference/use.html">use</a></span><span class="op">(</span></span>
+<span>  <span class="va">shiny</span><span class="op">[</span></span>
+<span>    <span class="va">NS</span>, <span class="va">tagList</span>, <span class="va">selectInput</span>, <span class="va">h3</span>,</span>
+<span>    <span class="va">sliderInput</span>, <span class="va">textInput</span>, <span class="va">moduleServer</span>, <span class="va">reactive</span></span>
+<span>  <span class="op">]</span>,</span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#' input values UI</span></span>
+<span><span class="co">#' @export</span></span>
+<span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">ns</span> <span class="op">&lt;-</span> <span class="fu">NS</span><span class="op">(</span><span class="va">id</span><span class="op">)</span></span>
+<span>  <span class="fu">tagList</span><span class="op">(</span></span>
+<span>    <span class="fu">selectInput</span><span class="op">(</span></span>
+<span>      inputId <span class="op">=</span> <span class="fu">ns</span><span class="op">(</span><span class="st">"y"</span><span class="op">)</span>,</span>
+<span>      label <span class="op">=</span> <span class="st">"Y-axis:"</span>,</span>
+<span>      choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>        <span class="st">"IMDB rating"</span> <span class="op">=</span> <span class="st">"imdb_rating"</span>,</span>
+<span>        <span class="st">"IMDB number of votes"</span> <span class="op">=</span> <span class="st">"imdb_num_votes"</span>,</span>
+<span>        <span class="st">"Critics Score"</span> <span class="op">=</span> <span class="st">"critics_score"</span>,</span>
+<span>        <span class="st">"Audience Score"</span> <span class="op">=</span> <span class="st">"audience_score"</span>,</span>
+<span>        <span class="st">"Runtime"</span> <span class="op">=</span> <span class="st">"runtime"</span></span>
+<span>      <span class="op">)</span>,</span>
+<span>      selected <span class="op">=</span> <span class="st">"audience_score"</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    <span class="fu">selectInput</span><span class="op">(</span></span>
+<span>      inputId <span class="op">=</span> <span class="fu">ns</span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span>,</span>
+<span>      label <span class="op">=</span> <span class="st">"X-axis:"</span>,</span>
+<span>      choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>        <span class="st">"IMDB rating"</span> <span class="op">=</span> <span class="st">"imdb_rating"</span>,</span>
+<span>        <span class="st">"IMDB number of votes"</span> <span class="op">=</span> <span class="st">"imdb_num_votes"</span>,</span>
+<span>        <span class="st">"Critics Score"</span> <span class="op">=</span> <span class="st">"critics_score"</span>,</span>
+<span>        <span class="st">"Audience Score"</span> <span class="op">=</span> <span class="st">"audience_score"</span>,</span>
+<span>        <span class="st">"Runtime"</span> <span class="op">=</span> <span class="st">"runtime"</span></span>
+<span>      <span class="op">)</span>,</span>
+<span>      selected <span class="op">=</span> <span class="st">"imdb_rating"</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    <span class="fu">selectInput</span><span class="op">(</span></span>
+<span>      inputId <span class="op">=</span> <span class="fu">ns</span><span class="op">(</span><span class="st">"z"</span><span class="op">)</span>,</span>
+<span>      label <span class="op">=</span> <span class="st">"Color by:"</span>,</span>
+<span>      choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>        <span class="st">"Title Type"</span> <span class="op">=</span> <span class="st">"title_type"</span>,</span>
+<span>        <span class="st">"Genre"</span> <span class="op">=</span> <span class="st">"genre"</span>,</span>
+<span>        <span class="st">"MPAA Rating"</span> <span class="op">=</span> <span class="st">"mpaa_rating"</span>,</span>
+<span>        <span class="st">"Critics Rating"</span> <span class="op">=</span> <span class="st">"critics_rating"</span>,</span>
+<span>        <span class="st">"Audience Rating"</span> <span class="op">=</span> <span class="st">"audience_rating"</span></span>
+<span>      <span class="op">)</span>,</span>
+<span>      selected <span class="op">=</span> <span class="st">"mpaa_rating"</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    <span class="fu">sliderInput</span><span class="op">(</span></span>
+<span>      inputId <span class="op">=</span> <span class="fu">ns</span><span class="op">(</span><span class="st">"alpha"</span><span class="op">)</span>,</span>
+<span>      label <span class="op">=</span> <span class="st">"Alpha:"</span>,</span>
+<span>      min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">1</span>, step <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>      value <span class="op">=</span> <span class="fl">0.5</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    <span class="fu">sliderInput</span><span class="op">(</span></span>
+<span>      inputId <span class="op">=</span> <span class="fu">ns</span><span class="op">(</span><span class="st">"size"</span><span class="op">)</span>,</span>
+<span>      label <span class="op">=</span> <span class="st">"Size:"</span>,</span>
+<span>      min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>      value <span class="op">=</span> <span class="fl">2</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    <span class="fu">textInput</span><span class="op">(</span></span>
+<span>      inputId <span class="op">=</span> <span class="fu">ns</span><span class="op">(</span><span class="st">"plot_title"</span><span class="op">)</span>,</span>
+<span>      label <span class="op">=</span> <span class="st">"Plot title"</span>,</span>
+<span>      placeholder <span class="op">=</span> <span class="st">"Enter plot title"</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co">#' input values server</span></span>
+<span><span class="co">#' @export</span></span>
+<span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">moduleServer</span><span class="op">(</span><span class="va">id</span>, <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
+<span>        <span class="st">"x"</span> <span class="op">=</span> <span class="fu">reactive</span><span class="op">(</span><span class="op">{</span></span>
+<span>          <span class="va">input</span><span class="op">$</span><span class="va">x</span></span>
+<span>        <span class="op">}</span><span class="op">)</span>,</span>
+<span>        <span class="st">"y"</span> <span class="op">=</span> <span class="fu">reactive</span><span class="op">(</span><span class="op">{</span></span>
+<span>          <span class="va">input</span><span class="op">$</span><span class="va">y</span></span>
+<span>        <span class="op">}</span><span class="op">)</span>,</span>
+<span>        <span class="st">"z"</span> <span class="op">=</span> <span class="fu">reactive</span><span class="op">(</span><span class="op">{</span></span>
+<span>          <span class="va">input</span><span class="op">$</span><span class="va">z</span></span>
+<span>        <span class="op">}</span><span class="op">)</span>,</span>
+<span>        <span class="st">"alpha"</span> <span class="op">=</span> <span class="fu">reactive</span><span class="op">(</span><span class="op">{</span></span>
+<span>          <span class="va">input</span><span class="op">$</span><span class="va">alpha</span></span>
+<span>        <span class="op">}</span><span class="op">)</span>,</span>
+<span>        <span class="st">"size"</span> <span class="op">=</span> <span class="fu">reactive</span><span class="op">(</span><span class="op">{</span></span>
+<span>          <span class="va">input</span><span class="op">$</span><span class="va">size</span></span>
+<span>        <span class="op">}</span><span class="op">)</span>,</span>
+<span>        <span class="st">"plot_title"</span> <span class="op">=</span> <span class="fu">reactive</span><span class="op">(</span><span class="op">{</span></span>
+<span>          <span class="va">input</span><span class="op">$</span><span class="va">plot_title</span></span>
+<span>        <span class="op">}</span><span class="op">)</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</li>
+</ul>
+<section id="init-files" class="level4"><h4 class="anchored" data-anchor-id="init-files">Init files</h4>
+<p>Back in the <code>app/view/</code> folder, I want to use the <code>app/view/inputs.R</code> function in the <code>app/main.R</code>. I can do this by adding a <code>__init__.R</code> file in the <code>app/view/</code> folder with the following contents:</p>
+<ul>
+<li>
+<p>The <code>__init__.R</code> files are covered <a href="https://appsilon.github.io/rhino/articles/explanation/box-modules.html#init-files">on the <code>rhino</code> website</a>:</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<details open=""><summary>Code</summary><div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># View: Shiny modules and related code.</span></span>
+<span><span class="co"># https://go.appsilon.com/rhino-project-structure</span></span>
+<span><span class="co">#' @export</span></span>
+<span><span class="fu">box</span><span class="fu">::</span><span class="fu"><a href="http://klmr.me/box/reference/use.html">use</a></span><span class="op">(</span></span>
+<span>  <span class="va">app</span><span class="op">/</span><span class="va">view</span><span class="op">/</span><span class="va">inputs</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</li>
+<li>
+<p>After composing the module in <code>app/view/input.R</code>, I add the <code>input</code> module to the <code>app/main.R</code> file just like the examples above:</p>
+<ul>
+<li>Note that I’ve added the necessary functions for using a <code>fluidPage()</code> layout (instead of the default <code>bootstrapPage()</code>)</li>
+</ul>
+<div style="font-size: 0.80em;">
+<p><em>Click <strong>Code</strong> to see <code>app/main.R</code></em></p>
+</div>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<details open=""><summary>Code</summary><div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># app/main.R</span></span>
+<span><span class="fu">box</span><span class="fu">::</span><span class="fu"><a href="http://klmr.me/box/reference/use.html">use</a></span><span class="op">(</span></span>
+<span>  <span class="va">shiny</span><span class="op">[</span></span>
+<span>    <span class="va">NS</span>, <span class="va">fluidPage</span>, <span class="va">sidebarLayout</span>, <span class="va">sidebarPanel</span>, <span class="va">mainPanel</span>,</span>
+<span>    <span class="va">tags</span>, <span class="va">textOutput</span>, <span class="va">moduleServer</span>, <span class="va">renderText</span></span>
+<span>  <span class="op">]</span>,</span>
+<span><span class="op">)</span></span>
+<span><span class="co"># load inputs module ----</span></span>
+<span><span class="fu">box</span><span class="fu">::</span><span class="fu"><a href="http://klmr.me/box/reference/use.html">use</a></span><span class="op">(</span></span>
+<span>  <span class="va">app</span><span class="op">/</span><span class="va">view</span><span class="op">/</span><span class="va">inputs</span>,</span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#' @export</span></span>
+<span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">ns</span> <span class="op">&lt;-</span> <span class="fu">NS</span><span class="op">(</span><span class="va">id</span><span class="op">)</span></span>
+<span>  <span class="fu">fluidPage</span><span class="op">(</span></span>
+<span>    <span class="fu">sidebarLayout</span><span class="op">(</span></span>
+<span>      <span class="fu">sidebarPanel</span><span class="op">(</span></span>
+<span>        <span class="co"># use inputs module UI ----</span></span>
+<span>        <span class="va">inputs</span><span class="op">$</span><span class="fu">ui</span><span class="op">(</span><span class="fu">ns</span><span class="op">(</span><span class="st">"vals"</span><span class="op">)</span><span class="op">)</span></span>
+<span>      <span class="op">)</span>,</span>
+<span>      <span class="fu">mainPanel</span><span class="op">(</span></span>
+<span>        <span class="va">tags</span><span class="op">$</span><span class="fu">h3</span><span class="op">(</span><span class="st">"myRhinoApp"</span><span class="op">)</span>,</span>
+<span>        <span class="va">tags</span><span class="op">$</span><span class="fu">h3</span><span class="op">(</span><span class="fu">textOutput</span><span class="op">(</span><span class="fu">ns</span><span class="op">(</span><span class="st">"message"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co">#' @export</span></span>
+<span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">moduleServer</span><span class="op">(</span><span class="va">id</span>, <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="co"># use inputs module server ----</span></span>
+<span>    <span class="va">inputs</span><span class="op">$</span><span class="fu">server</span><span class="op">(</span><span class="st">"vals"</span><span class="op">)</span></span>
+<span>    <span class="va">output</span><span class="op">$</span><span class="va">message</span> <span class="op">&lt;-</span> <span class="fu">renderText</span><span class="op">(</span><span class="st">"Hello!"</span><span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</li>
+</ul>
+<p>After saving both <code>app/view/inputs.R</code> and <code>app/main.R</code>, I can click <strong>Run App</strong> in <code>app.R</code> and check the output:</p>
+<div id="fig-input-module" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="input_module.png" style="width:100.0%;height:100.0%" class="figure-img"></p>
+</figure>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;2: <code>inputs.R</code> module</figcaption><p></p>
+</figure>
+</div>
+<p>The <code>display.R</code> module will show the graph output, but I know this module will require adding the <code>movies</code> data <em>and</em> the <code>point_plot()</code> function (both of which I’ll cover below).</p>
+</section><section id="logic" class="level4"><h4 class="anchored" data-anchor-id="logic">Logic</h4>
+<p><code>rhino</code> apps come with an <code>app/logic/</code> folder, which is used to store code for <a href="https://appsilon.github.io/rhino/articles/explanation/application-structure.html#logic"><em>“data manipulation, generating non-interactive plots and graphs, or connecting to an external data source, but outside of definable inputs, it doesn’t interact with or rely on shiny in any way.”</em></a></p>
+<ul>
+<li>
+<p>The <code>point_plot()</code> function definitely meets the definition above, so I will write two modules in <code>app/logic</code>: <code>data</code> for importing the <code>movies</code> data, and <code>plot</code> for creating a scatter plot with <code>point_plot()</code></p>
+<ul>
+<li>
+<code>app/logic/data.R</code>: imports <code>movies</code> from my <a href="https://github.com/mjfrigaard/shiny-app-setups/blob/main/data/movies.csv">GitHub repo</a> with all the shiny frameworks. Using data in <code><a href="https://rdrr.io/r/graphics/box.html">box()</a></code> modules is tricky (and its a <a href="https://appsilon.github.io/rhino/articles/explanation/box-modules.html#known-issues">known</a>, <a href="https://github.com/klmr/box/issues/219">issue</a>), but this method works for my application.</li>
+</ul>
+<div style="font-size: 0.80em;">
+<p><em>Click <strong>Code</strong> to see <code>app/logic/data.R</code></em></p>
+</div>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<details open=""><summary>Code</summary><div class="sourceCode" id="cb48"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># contents of app/logic/data.R</span></span>
+<span><span class="co">#' @export</span></span>
+<span><span class="fu">box</span><span class="fu">::</span><span class="fu"><a href="http://klmr.me/box/reference/use.html">use</a></span><span class="op">(</span></span>
+<span>  <span class="va">readr</span><span class="op">[</span>get_csv <span class="op">=</span> <span class="va">read_csv</span>, <span class="va">cols</span><span class="op">]</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#' @export</span></span>
+<span><span class="va">movies_data</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">raw_csv_url</span> <span class="op">&lt;-</span> <span class="st">"https://bit.ly/3Jds4g1"</span></span>
+<span>  <span class="co"># use alias for read_csv()</span></span>
+<span>  <span class="fu">get_csv</span><span class="op">(</span><span class="va">raw_csv_url</span>, col_types <span class="op">=</span> <span class="fu">cols</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<ul>
+<li>The second module, <code>app/logic/plot.R</code>, holds the <code>point_plot()</code> function:</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<details open=""><summary>Code</summary><div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># contents of app/logic/plot.R</span></span>
+<span><span class="co">#' point plot function</span></span>
+<span><span class="co">#' @export</span></span>
+<span><span class="va">point_plot</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">df</span>, <span class="va">x_var</span>, <span class="va">y_var</span>, <span class="va">col_var</span>, <span class="va">alpha_var</span>, <span class="va">size_var</span><span class="op">)</span> <span class="op">{</span></span>
+<span></span>
+<span><span class="fu">box</span><span class="fu">::</span><span class="fu"><a href="http://klmr.me/box/reference/use.html">use</a></span><span class="op">(</span></span>
+<span>  ggplot2 <span class="op">=</span> <span class="va">ggplot2</span><span class="op">[</span><span class="va">...</span><span class="op">]</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
+<span>    data <span class="op">=</span> <span class="va">df</span>,</span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
+<span>      x <span class="op">=</span> <span class="va">.data</span><span class="op">[[</span><span class="va">x_var</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>      y <span class="op">=</span> <span class="va">.data</span><span class="op">[[</span><span class="va">y_var</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>      color <span class="op">=</span> <span class="va">.data</span><span class="op">[[</span><span class="va">col_var</span><span class="op">]</span><span class="op">]</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="va">alpha_var</span>, size <span class="op">=</span> <span class="va">size_var</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<ul>
+<li>The <code>__init__.R</code> file in <code>app/logic</code> contains the following:</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<details open=""><summary>Code</summary><div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Logic: application code independent from Shiny.</span></span>
+<span><span class="co"># https://go.appsilon.com/rhino-project-structure</span></span>
+<span><span class="co">#' @export</span></span>
+<span><span class="fu">box</span><span class="fu">::</span><span class="fu"><a href="http://klmr.me/box/reference/use.html">use</a></span><span class="op">(</span></span>
+<span>  <span class="va">app</span><span class="op">/</span><span class="va">logic</span><span class="op">/</span><span class="va">data</span>,</span>
+<span>  <span class="va">app</span><span class="op">/</span><span class="va">logic</span><span class="op">/</span><span class="va">plot</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<ul>
+<li>To make sure everything is working, I’ll also include a <code>app/logic/check-point_plot.R</code> file that contains the following:</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<details open=""><summary>Code</summary><div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># contents of app/logic/check-point_plot.R</span></span>
+<span><span class="co"># contents for app/logic/check-point_plot.R</span></span>
+<span></span>
+<span><span class="co"># load modules from logic folder</span></span>
+<span><span class="fu">box</span><span class="fu">::</span><span class="fu"><a href="http://klmr.me/box/reference/use.html">use</a></span><span class="op">(</span></span>
+<span>  <span class="va">app</span><span class="op">/</span><span class="va">logic</span><span class="op">/</span><span class="va">data</span>,</span>
+<span>  <span class="va">app</span><span class="op">/</span><span class="va">logic</span><span class="op">/</span><span class="va">plot</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># import movies data</span></span>
+<span><span class="va">movies</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="fu">movies_data</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># check point plot</span></span>
+<span><span class="va">plot</span><span class="op">$</span><span class="fu">point_plot</span><span class="op">(</span></span>
+<span>  df <span class="op">=</span> <span class="va">movies</span>,</span>
+<span>  x_var <span class="op">=</span> <span class="st">'critics_score'</span>, <span class="co"># as string</span></span>
+<span>  y_var <span class="op">=</span> <span class="st">'imdb_rating'</span>, <span class="co"># as string</span></span>
+<span>  col_var <span class="op">=</span> <span class="st">'mpaa_rating'</span>, <span class="co"># as string</span></span>
+<span>  alpha_var <span class="op">=</span> <span class="fl">2</span> <span class="op">/</span> <span class="fl">3</span>,</span>
+<span>  size_var <span class="op">=</span> <span class="fl">2</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<ul>
+<li>
+<code>check-point_plot.R</code> imports the two logic modules (<code>data</code> and <code>plot</code>), creates the movies data, and checks to see if the data and plotting function work:</li>
+</ul>
+</li>
+<li><p>After saving <code>app/logic/data.R</code> and <code>app/logic/plot.R</code>, I can run the code in <code>check-point_plot.R</code></p></li>
+</ul>
+<div id="fig-check-point-plot" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="check-point-plot.png" style="width:100.0%;height:100.0%" class="figure-img"></p>
+</figure>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;3: <code>app/logic/check-point_plot.R</code> module</figcaption><p></p>
+</figure>
+</div>
+<p>The <code>app/view/display.R</code> module can now call <code><a href="http://klmr.me/box/reference/use.html">box::use()</a></code> to import the <code>app/logic/data</code> and <code>app/logic/plot</code>.</p>
+<ul>
+<li>
+<p>The <code>app/view/display.R</code> module contains the<code>ui</code> and the <code>server</code> functions:</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<details><summary>Code</summary><div class="sourceCode" id="cb52"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># app/view/display.R</span></span>
+<span><span class="co"># import data and plot modules ----</span></span>
+<span><span class="fu">box</span><span class="fu">::</span><span class="fu"><a href="http://klmr.me/box/reference/use.html">use</a></span><span class="op">(</span></span>
+<span>  <span class="va">app</span><span class="op">/</span><span class="va">logic</span><span class="op">/</span><span class="va">data</span>,</span>
+<span>  <span class="va">app</span><span class="op">/</span><span class="va">logic</span><span class="op">/</span><span class="va">plot</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#' display values ui ----</span></span>
+<span><span class="co">#' @export</span></span>
+<span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="fu">box</span><span class="fu">::</span><span class="fu"><a href="http://klmr.me/box/reference/use.html">use</a></span><span class="op">(</span></span>
+<span>  <span class="va">shiny</span><span class="op">[</span><span class="va">NS</span>, <span class="va">tagList</span>, <span class="va">tags</span>, <span class="va">plotOutput</span><span class="op">]</span></span>
+<span><span class="op">)</span></span>
+<span>  <span class="va">ns</span> <span class="op">&lt;-</span> <span class="fu">NS</span><span class="op">(</span><span class="va">id</span><span class="op">)</span></span>
+<span>  <span class="fu">tagList</span><span class="op">(</span></span>
+<span>    <span class="va">tags</span><span class="op">$</span><span class="fu">br</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    <span class="va">tags</span><span class="op">$</span><span class="fu">blockquote</span><span class="op">(</span></span>
+<span>      <span class="va">tags</span><span class="op">$</span><span class="fu">em</span><span class="op">(</span></span>
+<span>        <span class="va">tags</span><span class="op">$</span><span class="fu">h6</span><span class="op">(</span></span>
+<span>          <span class="st">"The code for this application comes from the "</span>,</span>
+<span>          <span class="va">tags</span><span class="op">$</span><span class="fu">a</span><span class="op">(</span><span class="st">"Building web applications with Shiny"</span>,</span>
+<span>            href <span class="op">=</span> <span class="st">"https://rstudio-education.github.io/shiny-course/"</span></span>
+<span>          <span class="op">)</span>,</span>
+<span>          <span class="st">"tutorial"</span></span>
+<span>        <span class="op">)</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    <span class="fu">plotOutput</span><span class="op">(</span>outputId <span class="op">=</span> <span class="fu">ns</span><span class="op">(</span><span class="st">"scatterplot"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co">#' display values server ----</span></span>
+<span><span class="co">#' @export</span></span>
+<span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">id</span>, <span class="va">var_inputs</span><span class="op">)</span> <span class="op">{</span></span>
+<span></span>
+<span><span class="co"># load plotting, shiny, tools, and stringr functions</span></span>
+<span><span class="fu">box</span><span class="fu">::</span><span class="fu"><a href="http://klmr.me/box/reference/use.html">use</a></span><span class="op">(</span></span>
+<span>  ggplot2 <span class="op">=</span> <span class="va">ggplot2</span><span class="op">[</span><span class="va">...</span><span class="op">]</span>,</span>
+<span>  <span class="va">shiny</span><span class="op">[</span><span class="va">NS</span>, <span class="va">moduleServer</span>, <span class="va">plotOutput</span>, <span class="va">reactive</span>, <span class="va">renderPlot</span><span class="op">]</span>,</span>
+<span>  <span class="va">tools</span><span class="op">[</span><span class="va">toTitleCase</span><span class="op">]</span>,</span>
+<span>  <span class="va">stringr</span><span class="op">[</span><span class="va">str_replace_all</span><span class="op">]</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="fu">moduleServer</span><span class="op">(</span><span class="va">id</span>, <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span>
+<span></span>
+<span>    <span class="co"># use data$movies_data() ----</span></span>
+<span>    <span class="va">movies</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="fu">movies_data</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span>      <span class="va">inputs</span> <span class="op">&lt;-</span> <span class="fu">reactive</span><span class="op">(</span><span class="op">{</span></span>
+<span>        <span class="va">plot_title</span> <span class="op">&lt;-</span> <span class="fu">toTitleCase</span><span class="op">(</span><span class="va">var_inputs</span><span class="op">$</span><span class="fu">plot_title</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
+<span>          x <span class="op">=</span> <span class="va">var_inputs</span><span class="op">$</span><span class="fu">x</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>          y <span class="op">=</span> <span class="va">var_inputs</span><span class="op">$</span><span class="fu">y</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>          z <span class="op">=</span> <span class="va">var_inputs</span><span class="op">$</span><span class="fu">z</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>          alpha <span class="op">=</span> <span class="va">var_inputs</span><span class="op">$</span><span class="fu">alpha</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>          size <span class="op">=</span> <span class="va">var_inputs</span><span class="op">$</span><span class="fu">size</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>          plot_title <span class="op">=</span> <span class="va">plot_title</span></span>
+<span>        <span class="op">)</span></span>
+<span>      <span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span>    <span class="va">output</span><span class="op">$</span><span class="va">scatterplot</span> <span class="op">&lt;-</span> <span class="fu">renderPlot</span><span class="op">(</span><span class="op">{</span></span>
+<span>      <span class="co"># use plot$point_plot() ----</span></span>
+<span>      <span class="va">plot</span> <span class="op">&lt;-</span> <span class="va">plot</span><span class="op">$</span><span class="fu">point_plot</span><span class="op">(</span></span>
+<span>        df <span class="op">=</span> <span class="va">movies</span>,</span>
+<span>        x_var <span class="op">=</span> <span class="fu">inputs</span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">x</span>,</span>
+<span>        y_var <span class="op">=</span> <span class="fu">inputs</span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">y</span>,</span>
+<span>        col_var <span class="op">=</span> <span class="fu">inputs</span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">z</span>,</span>
+<span>        alpha_var <span class="op">=</span> <span class="fu">inputs</span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">alpha</span>,</span>
+<span>        size_var <span class="op">=</span> <span class="fu">inputs</span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">size</span></span>
+<span>      <span class="op">)</span></span>
+<span>      <span class="va">plot</span> <span class="op">+</span></span>
+<span>        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>          title <span class="op">=</span> <span class="fu">inputs</span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">plot_title</span>,</span>
+<span>          x <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span></span>
+<span>            <span class="fu">toTitleCase</span><span class="op">(</span></span>
+<span>              <span class="fu">inputs</span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">x</span></span>
+<span>            <span class="op">)</span>,</span>
+<span>            <span class="st">"_"</span>,</span>
+<span>            <span class="st">" "</span></span>
+<span>          <span class="op">)</span>,</span>
+<span>          y <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html">str_replace_all</a></span><span class="op">(</span></span>
+<span>            <span class="fu">toTitleCase</span><span class="op">(</span></span>
+<span>              <span class="fu">inputs</span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">y</span></span>
+<span>            <span class="op">)</span>,</span>
+<span>            <span class="st">"_"</span>,</span>
+<span>            <span class="st">" "</span></span>
+<span>          <span class="op">)</span></span>
+<span>        <span class="op">)</span> <span class="op">+</span></span>
+<span>        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span>
+<span>    <span class="op">}</span><span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</li>
+</ul>
+<p>In <code>app/main.R</code>, I can place the <code>display</code> module in call to <code><a href="http://klmr.me/box/reference/use.html">box::use()</a></code>, then:</p>
+<ul>
+<li><p>Add <code>display$ui()</code> to the <code>mainPanel()</code></p></li>
+<li>
+<p>In the <code>server</code>, the output from <code>inputs$server()</code> is assigned to <code>selected_vars</code>, which becomes the <code>var_inputs</code> input for <code>display$server()</code>:</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<details open=""><summary>Code</summary><div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># app/view/main.R</span></span>
+<span></span>
+<span><span class="co"># shiny functions</span></span>
+<span><span class="fu">box</span><span class="fu">::</span><span class="fu"><a href="http://klmr.me/box/reference/use.html">use</a></span><span class="op">(</span></span>
+<span>  <span class="va">shiny</span><span class="op">[</span><span class="va">NS</span>, <span class="va">fluidPage</span>, <span class="va">sidebarLayout</span>, <span class="va">sidebarPanel</span>,</span>
+<span>        <span class="va">mainPanel</span>, <span class="va">tags</span>, <span class="va">textOutput</span>, <span class="va">moduleServer</span>,</span>
+<span>        <span class="va">renderText</span><span class="op">]</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># import modules</span></span>
+<span><span class="fu">box</span><span class="fu">::</span><span class="fu"><a href="http://klmr.me/box/reference/use.html">use</a></span><span class="op">(</span></span>
+<span>  <span class="co"># load inputs module ----</span></span>
+<span>  <span class="va">app</span><span class="op">/</span><span class="va">view</span><span class="op">/</span><span class="va">inputs</span>,</span>
+<span>  <span class="co"># load display module ----</span></span>
+<span>  <span class="va">app</span><span class="op">/</span><span class="va">view</span><span class="op">/</span><span class="va">display</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#' myRhinoApp ui</span></span>
+<span><span class="co">#' @export</span></span>
+<span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">ns</span> <span class="op">&lt;-</span> <span class="fu">NS</span><span class="op">(</span><span class="va">id</span><span class="op">)</span></span>
+<span>  <span class="fu">fluidPage</span><span class="op">(</span></span>
+<span>    <span class="fu">sidebarLayout</span><span class="op">(</span></span>
+<span>      <span class="fu">sidebarPanel</span><span class="op">(</span></span>
+<span>        <span class="co"># use inputs module UI ----</span></span>
+<span>        <span class="va">inputs</span><span class="op">$</span><span class="fu">ui</span><span class="op">(</span><span class="fu">ns</span><span class="op">(</span><span class="st">"vals"</span><span class="op">)</span><span class="op">)</span></span>
+<span>      <span class="op">)</span>,</span>
+<span>      <span class="fu">mainPanel</span><span class="op">(</span></span>
+<span>        <span class="va">tags</span><span class="op">$</span><span class="fu">h3</span><span class="op">(</span><span class="st">"myRhinoApp"</span><span class="op">)</span>,</span>
+<span>        <span class="va">tags</span><span class="op">$</span><span class="fu">h3</span><span class="op">(</span><span class="fu">textOutput</span><span class="op">(</span><span class="fu">ns</span><span class="op">(</span><span class="st">"message"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>        <span class="co"># use display module UI ----</span></span>
+<span>        <span class="va">display</span><span class="op">$</span><span class="fu">ui</span><span class="op">(</span><span class="fu">ns</span><span class="op">(</span><span class="st">"disp"</span><span class="op">)</span><span class="op">)</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co">#' myRhinoApp server</span></span>
+<span><span class="co">#' @export</span></span>
+<span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">moduleServer</span><span class="op">(</span><span class="va">id</span>, <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="co"># use inputs module server ----</span></span>
+<span>    <span class="va">selected_vars</span> <span class="op">&lt;-</span> <span class="va">inputs</span><span class="op">$</span><span class="fu">server</span><span class="op">(</span>id <span class="op">=</span> <span class="st">"vals"</span><span class="op">)</span></span>
+<span>    <span class="co"># use display module server ----</span></span>
+<span>    <span class="va">display</span><span class="op">$</span><span class="fu">server</span><span class="op">(</span>id <span class="op">=</span> <span class="st">"disp"</span>,</span>
+<span>                   var_inputs <span class="op">=</span> <span class="va">selected_vars</span><span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</li>
+</ul>
+<p>After saving <code>app/view/data.R</code> and <code>app/view/display.R</code> files, the <code>app/view/</code> and <code>app/logic/</code> folders contain the following modules:</p>
+<ul>
+<li>
+<p><code>app/logic/</code>:</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="ex">app/logic/</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>      <span class="ex">├──</span> __init__.R</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>      <span class="ex">├──</span> check-point_plot.R</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>      <span class="ex">├──</span> data.R</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>      <span class="ex">└──</span> plot.R</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a><span class="ex">1</span> directory, 4 files</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</li>
+<li>
+<p><code>app/view/</code>:</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="ex">app/view/</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>      <span class="ex">├──</span> __init__.R</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>      <span class="ex">├──</span> display.R</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>      <span class="ex">└──</span> inputs.R</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a><span class="ex">1</span> directory, 3 files</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</li>
+</ul>
+<p>When I click <strong>Run App</strong> in <code>app.R</code> I should see the following output:</p>
+<div id="fig-complete-rhino" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="complete-rhino.png" style="width:100.0%;height:100.0%" class="figure-img"></p>
+</figure>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;4: <code>myRhinoApp</code></figcaption><p></p>
+</figure>
+</div>
+</section></section><section id="external-scripts" class="level3"><h3 class="anchored" data-anchor-id="external-scripts">External scripts</h3>
+<p>It’s fairly straightforward to add external resources (i.e., JavaScript, CSS, Sass, etc.) to <code>rhino</code> apps. I’ll use the <a href="https://appsilon.github.io/rhino/articles/tutorial/create-your-first-rhino-app.html#add-javascript-code">example from the website</a> to demonstrate because it adds <em>both</em> CSS and JavaScript to the codebase.</p>
+<ul>
+<li>
+<p>The first place to add code is the UI in <code>app/main.R</code>:</p>
+<ul>
+<li>Update the call to <code><a href="http://klmr.me/box/reference/use.html">box::use()</a></code> and include the layout functions (<code>fluidRow</code>, <code>column</code>, <code>icon</code>)</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># app/view/main.R</span></span>
+<span></span>
+<span><span class="co"># shiny functions</span></span>
+<span><span class="fu">box</span><span class="fu">::</span><span class="fu"><a href="http://klmr.me/box/reference/use.html">use</a></span><span class="op">(</span></span>
+<span>  <span class="va">shiny</span><span class="op">[</span></span>
+<span>    <span class="va">NS</span>, <span class="va">fluidPage</span>, <span class="va">sidebarLayout</span>, <span class="va">sidebarPanel</span>,</span>
+<span>    <span class="va">mainPanel</span>, <span class="va">fluidRow</span>, <span class="va">column</span>, <span class="va">tags</span>, <span class="va">icon</span>,</span>
+<span>    <span class="va">textOutput</span>, <span class="va">moduleServer</span>, <span class="va">renderText</span></span>
+<span>  <span class="op">]</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<ul>
+<li>Update the <code>mainPanel()</code> to include the title, info button, and display module:</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<details open=""><summary>Code</summary><div class="sourceCode" id="cb57"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span>  <span class="fu">mainPanel</span><span class="op">(</span></span>
+<span>    <span class="fu">fluidRow</span><span class="op">(</span></span>
+<span>      <span class="fu">column</span><span class="op">(</span></span>
+<span>        width <span class="op">=</span> <span class="fl">12</span>,</span>
+<span>        <span class="va">tags</span><span class="op">$</span><span class="fu">h3</span><span class="op">(</span><span class="st">"myRhinoApp"</span><span class="op">)</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    <span class="fu">fluidRow</span><span class="op">(</span></span>
+<span>      <span class="fu">column</span><span class="op">(</span></span>
+<span>        width <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>        offset <span class="op">=</span> <span class="fl">11</span>,</span>
+<span>        <span class="co"># example info button ---</span></span>
+<span>        <span class="va">tags</span><span class="op">$</span><span class="fu">button</span><span class="op">(</span></span>
+<span>          id <span class="op">=</span> <span class="st">"help-button"</span>,</span>
+<span>          <span class="fu">icon</span><span class="op">(</span><span class="st">"info"</span><span class="op">)</span></span>
+<span>        <span class="op">)</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    <span class="fu">fluidRow</span><span class="op">(</span></span>
+<span>      <span class="fu">column</span><span class="op">(</span></span>
+<span>        width <span class="op">=</span> <span class="fl">12</span>,</span>
+<span>        <span class="co"># use display module UI ----</span></span>
+<span>        <span class="va">display</span><span class="op">$</span><span class="fu">ui</span><span class="op">(</span><span class="fu">ns</span><span class="op">(</span><span class="st">"disp"</span><span class="op">)</span><span class="op">)</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<ul>
+<li>The CSS added to <code>app/styles/main.css</code> is the <code>container</code> for the button.</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="sourceCode" id="cb58"><pre class="sourceCode css code-with-copy"><code class="sourceCode css"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="er">// app/styles/main.scss</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="fu">.components-container</span> {</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">display</span>: <span class="dv">inline-grid</span><span class="op">;</span></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">grid-template-columns</span>: <span class="dv">1</span>fr <span class="dv">1</span>fr<span class="op">;</span></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">width</span>: <span class="dv">100</span><span class="dt">%</span><span class="op">;</span></span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">.component-box</span> {</span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">padding</span>: <span class="dv">10</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">margin</span>: <span class="dv">10</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">box-shadow</span>: <span class="dv">0</span> <span class="dv">4</span><span class="dt">px</span> <span class="dv">8</span><span class="dt">px</span> <span class="dv">0</span> <span class="fu">rgba(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0.2</span><span class="fu">)</span><span class="op">,</span> <span class="dv">0</span> <span class="dv">6</span><span class="dt">px</span> <span class="dv">20</span><span class="dt">px</span> <span class="dv">0</span> <span class="fu">rgba(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0.19</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb58-14"><a href="#cb58-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-15"><a href="#cb58-15" aria-hidden="true" tabindex="-1"></a>h1 {</span>
+<span id="cb58-16"><a href="#cb58-16" aria-hidden="true" tabindex="-1"></a>  <span class="kw">text-align</span>: <span class="dv">center</span><span class="op">;</span></span>
+<span id="cb58-17"><a href="#cb58-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">font-weight</span>: <span class="dv">900</span><span class="op">;</span></span>
+<span id="cb58-18"><a href="#cb58-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb58-19"><a href="#cb58-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-20"><a href="#cb58-20" aria-hidden="true" tabindex="-1"></a><span class="pp">#help-button</span> {</span>
+<span id="cb58-21"><a href="#cb58-21" aria-hidden="true" tabindex="-1"></a>  <span class="kw">position</span>: <span class="dv">fixed</span><span class="op">;</span></span>
+<span id="cb58-22"><a href="#cb58-22" aria-hidden="true" tabindex="-1"></a>  <span class="kw">top</span>: <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb58-23"><a href="#cb58-23" aria-hidden="true" tabindex="-1"></a>  <span class="kw">right</span>: <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb58-24"><a href="#cb58-24" aria-hidden="true" tabindex="-1"></a>  <span class="kw">margin</span>: <span class="dv">10</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb58-25"><a href="#cb58-25" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Run <code><a href="https://appsilon.github.io/rhino/reference/build_sass.html">rhino::build_sass()</a></code> to create the <code>app/static/css/app.min.css</code> file (<strong>requires <a href="https://nodejs.org/en/">node.js</a></strong>)</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">rhino</span><span class="fu">::</span><span class="fu"><a href="https://appsilon.github.io/rhino/reference/build_sass.html">build_sass</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="ex">added</span> 748 packages in 49s</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="ex">build-sass</span></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="ex">sass</span> <span class="at">--no-source-map</span> <span class="at">--style</span><span class="op">=</span>compressed </span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>  <span class="ex">../app/styles/main.scss:../app/static/css/app.min.css</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>This tells me <code>app.min.css</code> has been added to in <code>app/static/css/</code>
+</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="sourceCode" id="cb61"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="ex">app/static/</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>      <span class="ex">└──</span> css</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>           <span class="ex">└──</span> app.min.css</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Add the following to <code>app/js/index.js</code>:</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="sourceCode" id="cb62"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">function</span> <span class="fu">showHelp</span>() {</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">alert</span>(<span class="st">'Learn more about shiny frameworks: https://mjfrigaard.github.io/posts/my-rhino-app/'</span>)<span class="op">;</span></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Run <code><a href="https://appsilon.github.io/rhino/reference/build_js.html">rhino::build_js()</a></code> to build the <code>app/static/js/app.min.js</code> (<strong>requires <a href="https://nodejs.org/en/">node.js</a></strong>)</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">rhino</span><span class="fu">::</span><span class="fu"><a href="https://appsilon.github.io/rhino/reference/build_js.html">build_js</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="ex">build-js</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="ex">webpack</span></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a><span class="ex">asset</span> app.min.js 502 bytes [emitted] [minimized] <span class="er">(</span><span class="ex">name:</span> main<span class="kw">)</span></span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a><span class="ex">runtime</span> modules 670 bytes 3 modules</span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a><span class="ex">../app/js/index.js</span> 126 bytes [built] [code generated]</span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a><span class="ex">webpack</span> 5.69.0 compiled successfully in 1300 ms</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>The output tells me the <code>app.min.js</code> has been created in <code>app/static/js</code>
+</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="sourceCode" id="cb65"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="ex">app/static/</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>      <span class="ex">└──</span> js</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>          <span class="ex">└──</span> app.min.js</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Back in <code>app/main.R</code>, I add the <code>onclick</code> to the <code>mainPanel()</code>
+</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<details open=""><summary>Code</summary><div class="sourceCode" id="cb66"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span>  <span class="fu">mainPanel</span><span class="op">(</span></span>
+<span>    <span class="fu">fluidRow</span><span class="op">(</span></span>
+<span>      <span class="fu">column</span><span class="op">(</span></span>
+<span>        width <span class="op">=</span> <span class="fl">12</span>,</span>
+<span>        <span class="va">tags</span><span class="op">$</span><span class="fu">h3</span><span class="op">(</span><span class="st">"myRhinoApp"</span><span class="op">)</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    <span class="fu">fluidRow</span><span class="op">(</span></span>
+<span>      <span class="fu">column</span><span class="op">(</span></span>
+<span>        width <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>        offset <span class="op">=</span> <span class="fl">11</span>,</span>
+<span>        <span class="co"># example info button ---</span></span>
+<span>        <span class="va">tags</span><span class="op">$</span><span class="fu">button</span><span class="op">(</span></span>
+<span>          id <span class="op">=</span> <span class="st">"help-button"</span>,</span>
+<span>          <span class="fu">icon</span><span class="op">(</span><span class="st">"info"</span><span class="op">)</span>,</span>
+<span>          <span class="co"># add 'onclick' after rhino::build_sass()</span></span>
+<span>          <span class="co"># and rhino::build_js()</span></span>
+<span>          onclick <span class="op">=</span> <span class="st">"App.showHelp()"</span></span>
+<span>        <span class="op">)</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    <span class="fu">fluidRow</span><span class="op">(</span></span>
+<span>      <span class="fu">column</span><span class="op">(</span></span>
+<span>        width <span class="op">=</span> <span class="fl">12</span>,</span>
+<span>        <span class="co"># use display module UI ----</span></span>
+<span>        <span class="va">display</span><span class="op">$</span><span class="fu">ui</span><span class="op">(</span><span class="fu">ns</span><span class="op">(</span><span class="st">"disp"</span><span class="op">)</span><span class="op">)</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</li>
+<li><p>Now when I save everything and click ‘<strong>Run App</strong>’ in <code>app.R</code> I should see the info button (and message):</p></li>
+</ul>
+<div id="fig-js-button" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="js-button.png" style="width:100.0%;height:100.0%" class="figure-img"></p>
+</figure>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;5: Adding <code>.js</code> to <code>app/js/index.js</code></figcaption><p></p>
+</figure>
+</div>
+<div id="fig-js-button-onclick" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="js-button-onclick.png" style="width:100.0%;height:100.0%" class="figure-img"></p>
+</figure>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;6: Adding <code>.js</code> to <code>app/js/index.js</code> ‘on click’</figcaption><p></p>
+</figure>
+</div>
+</section></section><section id="use" class="level2"><h2 class="anchored" data-anchor-id="use">Use</h2>
+<ul>
+<li>To run a <code>rhino</code> application, use <code><a href="https://appsilon.github.io/rhino/reference/app.html">rhino::app()</a></code> in the <code>app.R</code> file:</li>
+</ul>
+<div id="fig-rhino-app" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="rhino-app.png" style="width:100.0%;height:100.0%" class="figure-img"></p>
+</figure>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;7: <code><a href="https://appsilon.github.io/rhino/reference/app.html">rhino::app()</a></code></figcaption><p></p>
+</figure>
+</div>
+<ul>
+<li><p>Most of the development takes place in <code>app/logic</code> and <code>app/view</code> (using <code>box</code> modules). The separation of the ‘business logic’ workflow from the ‘app view’ code is similar to the <code>dev</code> folder in <code>golem</code> and <code>leprechaun</code>, but the modules make it easy to move code and functions back and forth between the two folders.</p></li>
+<li>
+<p>The <code>app/js/index.js</code> and <code>app/styles/main.css</code> are used to include any custom CSS or JavaScript code, but you won’t create any new files (other than <code>index.js</code> and <code>main.css</code>).</p>
+<ul>
+<li><p>New JavaScript or CSS code is placed in <code>app/js/index.js</code> or <code>app/styles/main.css</code> and then the corresponding <code>rhino</code> function is run (<code><a href="https://appsilon.github.io/rhino/reference/build_js.html">rhino::build_js()</a></code> or <code><a href="https://appsilon.github.io/rhino/reference/build_sass.html">rhino::build_sass()</a></code>). This <strong>requires installing <a href="https://nodejs.org/en/">node.js</a></strong>.</p></li>
+<li><p>These functions create output files in <code>app/static/js/app.min.js</code> and <code>app/static/css/app.min.css</code> that are used in the application.</p></li>
+</ul>
+</li>
+<li><p><code>tests/</code> functions like any <code>testthat</code> folder (and can be <a href="https://appsilon.github.io/rhino/articles/how-to/use-shinytest2.html">used with <code>shinytest2</code></a>) and comes with a helper function, <a href="https://appsilon.github.io/rhino/reference/test_r.html"><code>rhino::test_r()</code></a></p></li>
+</ul>
+
+
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

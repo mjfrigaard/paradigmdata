@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="Martin Frigaard">
+<meta name="dcterms.date" content="2023-02-10">
+<title>ParadigmDataGroup, LLC - Shiny frameworks (part 2, usethis &amp; devtools)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script><link rel="stylesheet" href="../../../styles.css">
+</head>
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">ParadigmDataGroup, LLC</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item">
+    <a class="nav-link" href="../../../index.html">Home</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../about.html">Who we are</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../listings.html">Posts</a>
+  </li>  
+</ul>
+<div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto"><nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Contents</h2>
+   
+  <ul>
+<li><a href="#framework-comparisons" id="toc-framework-comparisons" class="nav-link active" data-scroll-target="#framework-comparisons">Framework comparisons</a></li>
+  <li>
+<a href="#mypkgapp" id="toc-mypkgapp" class="nav-link" data-scroll-target="#mypkgapp"><code>myPkgApp</code></a>
+  <ul>
+<li><a href="#start" id="toc-start" class="nav-link" data-scroll-target="#start">Start</a></li>
+  <li>
+<a href="#build" id="toc-build" class="nav-link" data-scroll-target="#build">Build</a>
+  <ul class="collapse">
+<li><a href="#description" id="toc-description" class="nav-link" data-scroll-target="#description"><code>DESCRIPTION</code></a></li>
+  <li>
+<a href="#use_r" id="toc-use_r" class="nav-link" data-scroll-target="#use_r"><code>use_r()</code></a>
+  <ul class="collapse">
+<li><a href="#roxygen2" id="toc-roxygen2" class="nav-link" data-scroll-target="#roxygen2"><code>roxygen2</code></a></li>
+  </ul>
+</li>
+  <li><a href="#load_all" id="toc-load_all" class="nav-link" data-scroll-target="#load_all"><code>load_all()</code></a></li>
+  <li><a href="#document" id="toc-document" class="nav-link" data-scroll-target="#document"><code>document()</code></a></li>
+  <li>
+<a href="#install" id="toc-install" class="nav-link" data-scroll-target="#install"><code>install()</code></a>
+  <ul class="collapse">
+<li><a href="#recap-the-r-folder" id="toc-recap-the-r-folder" class="nav-link" data-scroll-target="#recap-the-r-folder"><strong>Recap: the <code>R/</code> folder</strong></a></li>
+  </ul>
+</li>
+  <li>
+<a href="#use_data_raw" id="toc-use_data_raw" class="nav-link" data-scroll-target="#use_data_raw"><code>use_data_raw()</code></a>
+  <ul class="collapse">
+<li><a href="#inst" id="toc-inst" class="nav-link" data-scroll-target="#inst"><code>inst/</code></a></li>
+  <li><a href="#recap-app-data" id="toc-recap-app-data" class="nav-link" data-scroll-target="#recap-app-data"><strong>Recap: App data</strong></a></li>
+  </ul>
+</li>
+  <li><a href="#use_readme_rmd" id="toc-use_readme_rmd" class="nav-link" data-scroll-target="#use_readme_rmd"><code>use_readme_rmd()</code></a></li>
+  <li>
+<a href="#use_vignette" id="toc-use_vignette" class="nav-link" data-scroll-target="#use_vignette"><code>use_vignette()</code></a>
+  <ul class="collapse">
+<li><a href="#recap-documentation" id="toc-recap-documentation" class="nav-link" data-scroll-target="#recap-documentation"><strong>Recap: documentation</strong></a></li>
+  </ul>
+</li>
+  <li>
+<a href="#use_testthat" id="toc-use_testthat" class="nav-link" data-scroll-target="#use_testthat"><code>use_testthat()</code></a>
+  <ul class="collapse">
+<li><a href="#writing-tests" id="toc-writing-tests" class="nav-link" data-scroll-target="#writing-tests">Writing tests</a></li>
+  <li><a href="#recap-testing" id="toc-recap-testing" class="nav-link" data-scroll-target="#recap-testing"><strong>Recap: testing</strong></a></li>
+  </ul>
+</li>
+  </ul>
+</li>
+  <li><a href="#use" id="toc-use" class="nav-link" data-scroll-target="#use">Use</a></li>
+  <li><a href="#recap" id="toc-recap" class="nav-link" data-scroll-target="#recap">Recap</a></li>
+  </ul>
+</li>
+  </ul></nav>
+</nav><!-- margin-sidebar --><div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">Shiny frameworks (part 2, <code>usethis</code> &amp; <code>devtools</code>)</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">shiny</div>
+    <div class="quarto-category">code</div>
+    <div class="quarto-category">packages</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Martin Frigaard </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 10, 2023</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header><p>This is the second post in my series on shiny application frameworks. In this post, I’ll build a shiny app using two package-development packages (<a href="https://usethis.r-lib.org/"><code>usethis</code></a> and <a href="https://devtools.r-lib.org/"><code>devtools</code></a>). The result is <code>myPkgApp</code>, an R package that <em>contains</em> a shiny application.</p>
+<section id="framework-comparisons" class="level1"><h1>Framework comparisons</h1>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Some background
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div style="font-size: 0.90em; color: #696969;">
+<p>This series was inspired by <a href="https://blog.devgenius.io/which-r-shiny-framework-is-the-best-a-comparison-of-vanilla-shiny-golem-rhino-and-leprechaun-c02ad8e2aa8c">a Medium post</a> comparing a ‘vanilla’ shiny application, <a href="https://thinkr-open.github.io/golem/"><code>golem</code></a>, <a href="https://leprechaun.opifex.org/#/"><code>leprechaun</code></a>, and <a href="https://appsilon.github.io/rhino/"><code>rhino</code></a> across a series of dimensions (framework reliability, target type of developer, overall developing experience, etc.).</p>
+</div>
+</div>
+</div>
+</div>
+<p>I’m still going to focus on three technical areas: <strong>Start</strong>, <strong>Build</strong>, and <strong>Use</strong>.</p>
+<ul>
+<li><p><strong>Start</strong> covers the steps required to begin building a shiny app with the framework (from the console and IDE), and any additional packages or dependencies.</p></li>
+<li><p><strong>Build</strong> covers the development process, which includes writing and storing code, data, external resources (like CSS or JavaScript), testing, etc.</p></li>
+<li><p><strong>Use</strong> shows how developers can launch their application using the given framework/package locally (i.e., within the RStudio (Posit) IDE), common workflow tips, and anything that might be confusing while converting the application to a package.</p></li>
+</ul>
+<p>The GitHub repo with all shiny apps <a href="https://github.com/mjfrigaard/shiny-app-setups">here</a>.</p>
+</section><section id="mypkgapp" class="level1"><h1><code>myPkgApp</code></h1>
+<p>Building a shiny app as a package is <a href="https://mastering-shiny.org/scaling-packaging.html?q=highly%20recommend#scaling-packaging">highly recommended</a>. Both the <a href="https://thinkr-open.github.io/golem/"><code>golem</code></a> and <a href="https://leprechaun.opifex.org/#/"><code>leprechaun</code></a> frameworks convert your shiny application into an R package, and while this might seem like overkill, when you consider the additional development tools accessible to R packages, I think you’ll see why the advice makes sense. I’ll use the application code from <code>VanillaApp</code> as an example to demonstrate.</p>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Warning
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div style="font-size: 0.92em; color: #696969;">
+<p><em>This post is the longest in this series because I cover a lot steps used to build R packages. If you’d prefer to read this topic in R packages, I suggest <a href="https://r-pkgs.org/whole-game.html">the whole game section</a>.</em></p>
+</div>
+</div>
+</div>
+</div>
+<section id="start" class="level2"><h2 class="anchored" data-anchor-id="start">Start</h2>
+<p>To create a shiny app package, I install <a href="https://devtools.r-lib.org/"><code>devtools</code></a> (which also installs <a href="https://usethis.r-lib.org/"><code>usethis</code></a>).</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/">devtools</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>If I am creating a package from the console, the function for building a new package is <code><a href="https://usethis.r-lib.org/reference/create_package.html">usethis::create_package()</a></code>:</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/create_package.html">create_package</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"myPkgApp"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>A new RStudio session will open (and the name of the project–i.e., the name of the <code>.Rproj</code> file–will be identical to the package name).</p>
+<p>If I am using RStudio’s <strong>New Project Wizard</strong> to create a new shiny app package, I’d see the following defaults:</p>
+<div id="fig-rpkg-setup" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="rpkg-setup.png" style="width:100.0%;height:100.0%" class="figure-img"></p>
+</figure>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;1: Default <code><a href="https://usethis.r-lib.org/reference/create_package.html">usethis::create_package</a></code> project setup</figcaption><p></p>
+</figure>
+</div>
+<p>The new package built from the console will have the following folder and files:</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">myPkgApp/</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">├──</span> DESCRIPTION</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="ex">├──</span> NAMESPACE</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="ex">├──</span> R/</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="ex">└──</span> myPkgApp.Rproj</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="ex">1</span> directory, 3 files</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>Packages built from the <strong>New Project Wizard</strong> will have a few additional folders and files:</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">myPkgApp/</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">├──</span> DESCRIPTION</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="ex">├──</span> NAMESPACE</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="ex">├──</span> R/</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="ex">│</span>   └── hello.R</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="ex">├──</span> man/</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="ex">│</span>   └── hello.Rd</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="ex">├──</span> myRPkg.Rproj</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="ex">└──</span> renv/</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>      <span class="ex">├──</span> activate.R</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>      <span class="ex">├──</span> sandbox/</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>      <span class="ex">│</span>   └── R-4.2</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>      <span class="ex">└──</span> settings.dcf</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="ex">4</span> directories, 7 files</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>These additional files are:</p>
+<ul>
+<li>
+<code>hello.R</code> in the <code>R/</code> folder<br>
+</li>
+<li>
+<code>hello.Rd</code> in the <code>man/</code> folder<br>
+</li>
+<li>a <code>renv/</code> folder for package management</li>
+</ul>
+<p><code>R/hello.R</code> and <code>man/hello.Rd</code> are boilerplate files and can be deleted, but both package setups have a <code>DESCRIPTION</code>, <code>NAMESPACE</code>, <code>R/</code> folder, and <code>.Rproj</code> file. These four items can be thought of as the ‘minimal package’ setup required to access RStudio’s <strong>Build</strong> tools.</p>
+</section><section id="build" class="level2"><h2 class="anchored" data-anchor-id="build">Build</h2>
+<div class="callout-caution callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+TLDR
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div style="font-size: 0.92em; color: #696969;">
+<p><em>Mastering Shiny has a section that shows how to <a href="https://mastering-shiny.org/scaling-packaging.html#converting-an-existing-app">convert a shiny app into an R package</a>. This post is similar, except that it doesn’t assume you’re starting with an application that uses modules.</em></p>
+</div>
+</div>
+</div>
+</div>
+<p>The workflow when developing R packages is <a href="https://r-pkgs.org/whole-game.html">well documented elsewhere</a> and slightly more involved than working in a single <code>app.R</code> file. However, the additional steps force better habits (and prevent having to rebuild your application entirely from scratch).</p>
+<p>I’ll work through a ’minimum viable product (MVP) using the app code in <a href="https://github.com/mjfrigaard/shiny-app-setups/tree/main/VanillaApp"><code>VanillaApp</code></a></p>
+<section id="description" class="level3"><h3 class="anchored" data-anchor-id="description"><code>DESCRIPTION</code></h3>
+<p>The <code>DESCRIPTION</code> file plays an important role in R packages–that’s why creating this file is the first step when <a href="https://mastering-shiny.org/scaling-packaging.html#converting-an-existing-app">converting an existing app</a> (and when creating a <a href="https://thinkr-open.github.io/golem/articles/a_start.html#fill-the-description">new <code>golem</code> apps</a>).</p>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<code>DESCRIPTION</code> files
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div style="font-size: 0.90em; color: #696969;">
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure"><p><img src="desc.png" style="width:15.0%;height:15.0%" class="figure-img"></p>
+</figure>
+</div>
+<p><em>‘RStudio and <code>devtools</code> consider any directory containing <code>DESCRIPTION</code> to be a package’</em> - <a href="https://r-pkgs.org/description.html#the-description-file">R Packages</a></p>
+</div>
+</div>
+</div>
+</div>
+<p>The initial <code>DESCRIPTION</code> file in <code>myPkgApp</code> is below:</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Package:</span> myPkgApp</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Title:</span> What the Package Does <span class="er">(</span><span class="ex">One</span> Line, Title Case<span class="kw">)</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Version:</span> 0.0.0.9000</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Authors@R:</span> </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">person</span><span class="er">(</span><span class="st">"First"</span><span class="ex">,</span> <span class="st">"Last"</span>, , <span class="st">"first.last@example.com"</span>, </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="ex">role</span> = c<span class="er">(</span><span class="st">"aut"</span><span class="ex">,</span> <span class="st">"cre"</span><span class="kw">)</span><span class="ex">,</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="ex">comment</span> = c<span class="er">(</span><span class="ex">ORCID</span> = <span class="st">"YOUR-ORCID-ID"</span><span class="kw">))</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="ex">Description:</span> What the package does <span class="er">(</span><span class="ex">one</span> paragraph<span class="kw">)</span><span class="bu">.</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="ex">License:</span> <span class="kw">`</span><span class="fu">use_mit_license()</span><span class="kw">`</span>, <span class="kw">`</span><span class="fu">use_gpl3_license()</span><span class="kw">`</span> or friends to pick a</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="ex">license</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="ex">Encoding:</span> UTF-8</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="ex">Roxygen:</span> list<span class="er">(</span><span class="ex">markdown</span> = TRUE<span class="kw">)</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="ex">RoxygenNote:</span> 7.2.3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>The package name is automatically added, but the remaining fields need to be completed (consult <a href="https://r-pkgs.org/description.html#the-description-file">R packages</a> for more information on filling out the <code>DESCRIPTION</code> file).</p>
+<p>The <code>DESCRIPTION</code> file in the <code>myPkgApp</code> prompts the RStudio IDE to activate the <strong>Build</strong> tools pane (see below):</p>
+<div id="fig-rpkg-ide" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="rpkg-ide.png" style="width:100.0%;height:100.0%" class="figure-img"></p>
+</figure>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;2: Package <strong>Build</strong> tools</figcaption><p></p>
+</figure>
+</div>
+</section><section id="use_r" class="level3"><h3 class="anchored" data-anchor-id="use_r"><code>use_r()</code></h3>
+<p>I’m going to create <code>myPkgApp</code> using <a href="https://mastering-shiny.org/scaling-modules.html#module-motivation">modules</a> to separate the app into the following digestible mental ‘chunks’:</p>
+<ul>
+<li><p>The app collects the inputs in the <code>shiny::sideBar()</code></p></li>
+<li><p>These values are then used to create a plot in the <code><a href="https://shiny.rstudio.com/reference/shiny/latest/sidebarLayout.html">shiny::mainPanel()</a></code></p></li>
+</ul>
+<p>Based on this functionality, I’ll create one module to collect and return the user-inputs (<code>mod_var_input</code>), and another module to display the plot (<code>mod_display_plot</code>).</p>
+<p>I’ll create these files using <a href="https://usethis.r-lib.org/reference/use_r.html"><code>usethis::use_r()</code></a> below:</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/use_r.html">use_r</a></span><span class="op">(</span><span class="st">"mod_var_input"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Setting active project to <span class="st">'/Users/mjfrigaard/projects/myPkgApp'</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">•</span> Modify <span class="st">'R/mod_var_input.R'</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="ex">•</span> Call <span class="kw">`</span><span class="fu">use_test()</span><span class="kw">`</span> to create a matching test file</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/use_r.html">use_r</a></span><span class="op">(</span><span class="st">"mod_display_plot"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">•</span> Modify <span class="st">'R/mod_display_plot.R'</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">•</span> Call <span class="kw">`</span><span class="fu">use_test()</span><span class="kw">`</span> to create a matching test file</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>The display module also relies on a utility function (<code>plot_points()</code>), so I need to create a script for the utility function, which I put in a file with a name similar to the module it belongs to (i.e., <code>utils_display_plot</code>).</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/use_r.html">use_r</a></span><span class="op">(</span><span class="st">"utils_display_plot"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">•</span> Modify <span class="st">'R/utils_display_plot.R'</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ex">•</span> Call <span class="kw">`</span><span class="fu">use_test()</span><span class="kw">`</span> to create a matching test file</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>Finally, I’ll place the modules into basic ui and server arguments in a call to <code><a href="https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html">shiny::shinyApp()</a></code>:</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/use_r.html">use_r</a></span><span class="op">(</span><span class="st">"moviesApp"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">•</span> Modify <span class="st">'R/moviesApp.R'</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ex">•</span> Call <span class="kw">`</span><span class="fu">use_test()</span><span class="kw">`</span> to create a matching test file</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>Modules consist of two functions; one in the UI (with a <code>_ui</code> suffix), and another in the server (with a <code>_server</code> suffix), but it’s common practice to combine them in a single file.</p>
+<p>Below is the <code>mod_var_input</code> module:</p>
+<ul>
+<li>
+<p>The ui function is stored in <code>mod_var_input_ui</code>:</p>
+<div style="font-size: 0.80em; ; color: #696969;">
+<p><em>Click on Code to view the UI function in <code>R/mod_var_input/R</code></em></p>
+</div>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<details><summary>Code</summary><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mod_var_input_ui</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">ns</span> <span class="op">&lt;-</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/NS.html">NS</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span></span>
+<span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/htmltools/reference/tagList.html">tagList</a></span><span class="op">(</span></span>
+<span>    <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/selectInput.html">selectInput</a></span><span class="op">(</span></span>
+<span>      inputId <span class="op">=</span> <span class="fu">ns</span><span class="op">(</span><span class="st">"y"</span><span class="op">)</span>,</span>
+<span>      label <span class="op">=</span> <span class="st">"Y-axis:"</span>,</span>
+<span>      choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>        <span class="st">"IMDB rating"</span> <span class="op">=</span> <span class="st">"imdb_rating"</span>,</span>
+<span>        <span class="st">"IMDB number of votes"</span> <span class="op">=</span> <span class="st">"imdb_num_votes"</span>,</span>
+<span>        <span class="st">"Critics Score"</span> <span class="op">=</span> <span class="st">"critics_score"</span>,</span>
+<span>        <span class="st">"Audience Score"</span> <span class="op">=</span> <span class="st">"audience_score"</span>,</span>
+<span>        <span class="st">"Runtime"</span> <span class="op">=</span> <span class="st">"runtime"</span></span>
+<span>      <span class="op">)</span>,</span>
+<span>      selected <span class="op">=</span> <span class="st">"audience_score"</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/selectInput.html">selectInput</a></span><span class="op">(</span></span>
+<span>      inputId <span class="op">=</span> <span class="fu">ns</span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span>,</span>
+<span>      label <span class="op">=</span> <span class="st">"X-axis:"</span>,</span>
+<span>      choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>        <span class="st">"IMDB rating"</span> <span class="op">=</span> <span class="st">"imdb_rating"</span>,</span>
+<span>        <span class="st">"IMDB number of votes"</span> <span class="op">=</span> <span class="st">"imdb_num_votes"</span>,</span>
+<span>        <span class="st">"Critics Score"</span> <span class="op">=</span> <span class="st">"critics_score"</span>,</span>
+<span>        <span class="st">"Audience Score"</span> <span class="op">=</span> <span class="st">"audience_score"</span>,</span>
+<span>        <span class="st">"Runtime"</span> <span class="op">=</span> <span class="st">"runtime"</span></span>
+<span>      <span class="op">)</span>,</span>
+<span>      selected <span class="op">=</span> <span class="st">"imdb_rating"</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/selectInput.html">selectInput</a></span><span class="op">(</span></span>
+<span>      inputId <span class="op">=</span> <span class="fu">ns</span><span class="op">(</span><span class="st">"z"</span><span class="op">)</span>,</span>
+<span>      label <span class="op">=</span> <span class="st">"Color by:"</span>,</span>
+<span>      choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>        <span class="st">"Title Type"</span> <span class="op">=</span> <span class="st">"title_type"</span>,</span>
+<span>        <span class="st">"Genre"</span> <span class="op">=</span> <span class="st">"genre"</span>,</span>
+<span>        <span class="st">"MPAA Rating"</span> <span class="op">=</span> <span class="st">"mpaa_rating"</span>,</span>
+<span>        <span class="st">"Critics Rating"</span> <span class="op">=</span> <span class="st">"critics_rating"</span>,</span>
+<span>        <span class="st">"Audience Rating"</span> <span class="op">=</span> <span class="st">"audience_rating"</span></span>
+<span>      <span class="op">)</span>,</span>
+<span>      selected <span class="op">=</span> <span class="st">"mpaa_rating"</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/sliderInput.html">sliderInput</a></span><span class="op">(</span></span>
+<span>      inputId <span class="op">=</span> <span class="fu">ns</span><span class="op">(</span><span class="st">"alpha"</span><span class="op">)</span>,</span>
+<span>      label <span class="op">=</span> <span class="st">"Alpha:"</span>,</span>
+<span>      min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">1</span>, step <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>      value <span class="op">=</span> <span class="fl">0.5</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/sliderInput.html">sliderInput</a></span><span class="op">(</span></span>
+<span>      inputId <span class="op">=</span> <span class="fu">ns</span><span class="op">(</span><span class="st">"size"</span><span class="op">)</span>,</span>
+<span>      label <span class="op">=</span> <span class="st">"Size:"</span>,</span>
+<span>      min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>      value <span class="op">=</span> <span class="fl">2</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/textInput.html">textInput</a></span><span class="op">(</span></span>
+<span>      inputId <span class="op">=</span> <span class="fu">ns</span><span class="op">(</span><span class="st">"plot_title"</span><span class="op">)</span>,</span>
+<span>      label <span class="op">=</span> <span class="st">"Plot title"</span>,</span>
+<span>      placeholder <span class="op">=</span> <span class="st">"Enter plot title"</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</li>
+<li>
+<p>The server function is stored in <code>mod_var_input_server</code>:</p>
+<div style="font-size: 0.80em; ; color: #696969;">
+<p><em>Click on Code to view the server function in <code>R/mod_var_input/R</code></em></p>
+</div>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<details><summary>Code</summary><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mod_var_input_server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">{</span></span>
+<span></span>
+<span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/moduleServer.html">moduleServer</a></span><span class="op">(</span><span class="va">id</span>, <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
+<span>        <span class="st">"x"</span> <span class="op">=</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/reactive.html">reactive</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>          <span class="va">input</span><span class="op">$</span><span class="va">x</span></span>
+<span>        <span class="op">}</span><span class="op">)</span>,</span>
+<span>        <span class="st">"y"</span> <span class="op">=</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/reactive.html">reactive</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>          <span class="va">input</span><span class="op">$</span><span class="va">y</span></span>
+<span>        <span class="op">}</span><span class="op">)</span>,</span>
+<span>        <span class="st">"z"</span> <span class="op">=</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/reactive.html">reactive</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>          <span class="va">input</span><span class="op">$</span><span class="va">z</span></span>
+<span>        <span class="op">}</span><span class="op">)</span>,</span>
+<span>        <span class="st">"alpha"</span> <span class="op">=</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/reactive.html">reactive</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>          <span class="va">input</span><span class="op">$</span><span class="va">alpha</span></span>
+<span>        <span class="op">}</span><span class="op">)</span>,</span>
+<span>        <span class="st">"size"</span> <span class="op">=</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/reactive.html">reactive</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>          <span class="va">input</span><span class="op">$</span><span class="va">size</span></span>
+<span>        <span class="op">}</span><span class="op">)</span>,</span>
+<span>        <span class="st">"plot_title"</span> <span class="op">=</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/reactive.html">reactive</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>          <span class="va">input</span><span class="op">$</span><span class="va">plot_title</span></span>
+<span>        <span class="op">}</span><span class="op">)</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<ul>
+<li>View the display module <a href="https://github.com/mjfrigaard/shiny-app-setups/blob/main/myPkgApp/R/mod_display_plot.R">here.</a>
+</li>
+</ul>
+</li>
+</ul>
+<p>After I’ve written the modules and utility functions, I need to add these into the app file, <code>R/moviesApp.R</code>.</p>
+<ul>
+<li>
+<p>This file contains a call to <code><a href="https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html">shiny::shinyApp()</a></code> and includes the module functions (in their relative positions)</p>
+<ul>
+<li>Note the <code>id</code>s in each module function pair must match to create the shared namespace.</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">moviesApp</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="co"># call to shinyApp()</span></span>
+<span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html">shinyApp</a></span><span class="op">(</span></span>
+<span></span>
+<span>    <span class="co"># UI ----</span></span>
+<span>    ui <span class="op">=</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html">fluidPage</a></span><span class="op">(</span></span>
+<span>      <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/sidebarLayout.html">sidebarLayout</a></span><span class="op">(</span></span>
+<span>        <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/sidebarLayout.html">sidebarPanel</a></span><span class="op">(</span></span>
+<span>          <span class="co"># UI input module ----</span></span>
+<span>          <span class="fu">mod_var_input_ui</span><span class="op">(</span><span class="st">"vars"</span><span class="op">)</span></span>
+<span>        <span class="op">)</span>,</span>
+<span>        <span class="co"># UI display module ----</span></span>
+<span>        <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/sidebarLayout.html">mainPanel</a></span><span class="op">(</span></span>
+<span>          <span class="fu">mod_display_plot_ui</span><span class="op">(</span><span class="st">"plot"</span><span class="op">)</span></span>
+<span>        <span class="op">)</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">)</span>,</span>
+<span></span>
+<span>    server <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span>
+<span>      <span class="co"># server input module (capturing inputs) ----</span></span>
+<span>      <span class="va">selected_vars</span> <span class="op">&lt;-</span> <span class="fu">mod_var_input_server</span><span class="op">(</span><span class="st">"vars"</span><span class="op">)</span></span>
+<span>      <span class="co"># server display module (rendering outputs) ----</span></span>
+<span>      <span class="fu">mod_display_plot_server</span><span class="op">(</span><span class="st">"plot"</span>, </span>
+<span>                              var_inputs <span class="op">=</span> <span class="va">selected_vars</span><span class="op">)</span></span>
+<span>    <span class="op">}</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</li>
+</ul>
+<section id="roxygen2" class="level4"><h4 class="anchored" data-anchor-id="roxygen2"><code>roxygen2</code></h4>
+<p>When I’m confident my code works (and the app renders), I want to make sure these functions are properly documented by describing each function with <a href="https://roxygen2.r-lib.org/"><code>roxygen2</code></a> tags. To quickly insert a <code>roxygen2</code> skeleton, use the RStudio IDE (or the keyboard shortcut: <code>Option</code> + <code>Shift</code> + <code>Command</code> + <code>R</code>)</p>
+<p>The standard <code>roxygen2</code> skeleton tags include <code>@param</code>, <code>@return</code>, <code>@export</code>, and <code>@examples</code></p>
+<ul>
+<li><p><code>@param</code> lists the existing arguments (or variables) for the function</p></li>
+<li><p><code>@return</code> should be a description of the object/side-effect/thing the function produces (and any warnings or errors if used incorrectly)</p></li>
+</ul>
+<p>The following <a href="https://roxygen2.r-lib.org/"><code>roxygen2</code></a> tags will be used to update the <code>NAMESPACE</code> file (which you should never edit manually!)</p>
+<ul>
+<li><p><code>@export</code> will make the function available to other people when they use your package</p></li>
+<li>
+<p><code>@importFrom</code> vs.&nbsp;<code>@import</code></p>
+<ul>
+<li>it’s always a good idea to be explicit about the external functions and packages you’re using, so most of the time you should use <code>@importFrom</code> (there’s even a handy helper <code>usethis::use_import_from("package", "function")</code>)<br>
+</li>
+<li>
+<code>@import</code> should only be used when <a href="https://r-pkgs.org/dependencies-in-practice.html#in-code-below-r">“<em>you make such heavy use of so many functions from another package that you want to import its entire namespace. This should be relatively rare.</em>”</a>
+</li>
+</ul>
+</li>
+</ul>
+<p><code>roxygen2</code> imports and exports are covered in more depth <a href="https://r-pkgs.org/dependencies-in-practice.html#sec-dependencies-in-imports">in R packages.</a>.</p>
+<p>You can see the full code for <code>point_plot()</code> below (or follow <a href="https://github.com/mjfrigaard/shiny-app-setups/blob/main/myPkgApp/R/">this link</a> to view all the modules in the <code>R/</code> folder):</p>
+<div style="font-size: 0.80em; ; color: #696969;">
+<p><em>Click on Code to view</em></p>
+</div>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<details><summary>Code</summary><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#' Plot points (shiny)</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#' @param df input dataset (tibble or data.frame)</span></span>
+<span><span class="co">#' @param x_var x variable</span></span>
+<span><span class="co">#' @param y_var y variable</span></span>
+<span><span class="co">#' @param col_var color variable</span></span>
+<span><span class="co">#' @param alpha_var alpha value</span></span>
+<span><span class="co">#' @param size_var size value</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#' @return plot object</span></span>
+<span><span class="co">#' @export point_plot</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#' @importFrom ggplot2 ggplot aes geom_point</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#' @examples</span></span>
+<span><span class="co">#' require(myPkgApp)</span></span>
+<span><span class="co">#' movies &lt;- myPkgApp::movies</span></span>
+<span><span class="co">#' point_plot(df = movies,</span></span>
+<span><span class="co">#'   x_var = "critics_score",</span></span>
+<span><span class="co">#'   y_var = "imdb_rating",</span></span>
+<span><span class="co">#'   col_var = "critics_rating",</span></span>
+<span><span class="co">#'   alpha_var = 1/3,</span></span>
+<span><span class="co">#'   size_var = 2)</span></span>
+<span><span class="co">#' }</span></span>
+<span><span class="va">point_plot</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">df</span>, <span class="va">x_var</span>, <span class="va">y_var</span>, <span class="va">col_var</span>, <span class="va">alpha_var</span>, <span class="va">size_var</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>,</span>
+<span>      <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">.data</span><span class="op">[[</span><span class="va">x_var</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>          y <span class="op">=</span> <span class="va">.data</span><span class="op">[[</span><span class="va">y_var</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>          color <span class="op">=</span> <span class="va">.data</span><span class="op">[[</span><span class="va">col_var</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="va">alpha_var</span>, size <span class="op">=</span> <span class="va">size_var</span><span class="op">)</span></span>
+<span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip: <code>roxygen2</code> skeleton
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div style="font-size: 0.90em; color: #696969;">
+<p><em>As well as generating <code>.Rd</code> files, <code>roxygen</code> will also create a <code>NAMESPACE</code> for you, and will manage the <code>Collate</code> field in <code>DESCRIPTION</code></em></p>
+<div id="fig-roxygen2-tags" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ide-roxygen-skeleton.png" style="width:100.0%;height:100.0%" class="figure-img"></p>
+</figure>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;3: Standard <code>roxygen2</code> skeleton</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section></section><section id="load_all" class="level3"><h3 class="anchored" data-anchor-id="load_all"><code>load_all()</code></h3>
+<p>After documenting everything with <code>roxygen2</code>, I want to make sure none of the functions are in my <strong>Environment</strong> (remove with <code><a href="https://rdrr.io/r/base/rm.html">rm()</a></code> if necessary) and load the functions with <a href="https://r-pkgs.org/whole-game.html#sec-whole-game-load-all"><code>devtools::load_all()</code></a>.</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/load_all.html">load_all</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ℹ</span> Loading myPkgApp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section><section id="document" class="level3"><h3 class="anchored" data-anchor-id="document"><code>document()</code></h3>
+<p>The <a href="https://r-pkgs.org/whole-game.html#whole-game-document"><code>devtools::document()</code></a> function will create the <code>.Rd</code> files in the <code>man/</code> folder.</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/document.html">document</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ℹ</span> Updating myPkgApp documentation</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="ex">First</span> time using roxygen2. Upgrading automatically...</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Setting</span> <span class="kw">`</span><span class="ex">RoxygenNote</span><span class="kw">`</span> to <span class="st">"7.2.3"</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="ex">ℹ</span> Loading myPkgApp</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Writing</span> NAMESPACE</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Writing</span> mod_plot_ui.Rd</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="ex">Writing</span> mod_plot_server.Rd</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="ex">Writing</span> point_plot.Rd</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="ex">Writing</span> mod_var_input_ui.Rd</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="ex">Writing</span> mod_var_input_server.Rd</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="ex">Writing</span> moviesApp.Rd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>It’s important to understand that the <code>roxygen2</code> tags are used to create the <code>.Rd</code> files in the <code>man/</code> folder, and update the <code>NAMESPACE</code>, but <strong><code><a href="https://devtools.r-lib.org/reference/document.html">devtools::document()</a></code> does not update the <code>Imports:</code> section in the <code>DESCRIPTION</code>.</strong></p>
+<p>To add packages dependencies to the <code>DESCRIPTION</code>, you’ll need to use the <a href="https://usethis.r-lib.org/reference/use_package.html"><code>usethis::use_package()</code> function</a>. Read more on this topic in <a href="https://r-pkgs.org/dependencies-in-practice.html#confusion-about-imports">Confusion about <code>Imports</code></a>.</p>
+<p>The table below shows the connection between <code>roxygen2</code> tags, the resulting <code>NAMESPACE</code> entry, and what should be listed in the <code>DESCRIPTION</code>.</p>
+<div style="font-size: 0.60em;">
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<code>roxygen2</code>, <code>NAMESPACE</code> &amp; <code>DESCRPTION</code>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div style="font-size: 0.90em; color: #696969;">
+
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead><tr>
+<th style="text-align:left;">
+roxygen2 tag
+</th>
+<th style="text-align:left;">
+NAMESPACE directive
+</th>
+<th style="text-align:right;">
+DESCRIPTION
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<span class="citation" data-cites="importFrom">@importFrom</span>
+</td>
+<td style="text-align:left;">
+importFrom() : import selected object from another NAMESPACE
+</td>
+<td style="text-align:right;">
+Imports:
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span class="citation" data-cites="import">@import</span>
+</td>
+<td style="text-align:left;">
+import(): import all objects from another package’s NAMESPACE.
+</td>
+<td style="text-align:right;">
+Imports:
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span class="citation" data-cites="export">@export</span>
+</td>
+<td style="text-align:left;">
+export() : export the function, method, generic, or class so it’s available outside of the package (in the NAMESPACE)
+</td>
+<td style="text-align:right;">
+Nothing
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section><section id="install" class="level3"><h3 class="anchored" data-anchor-id="install"><code>install()</code></h3>
+<p>Now I want to make sure I can install the package with <a href="https://r-pkgs.org/whole-game.html#install"><code>devtools::install()</code></a></p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/install.html">install</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">──</span> R CMD build ────────────────────────────────────────────────────────────────</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span>  checking for file ‘/Users/mjfrigaard/projects/myPkgApp/DESCRIPTION’ ...</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="ex">─</span>  preparing ‘myPkgApp’: <span class="er">(</span><span class="ex">1.8s</span><span class="kw">)</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span>  checking DESCRIPTION meta-information</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="ex">─</span>  checking for LF line-endings in source and make files and shell scripts <span class="er">(</span><span class="ex">520ms</span><span class="kw">)</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="ex">─</span>  checking for empty or unneeded directories</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>   <span class="ex">Omitted</span> ‘LazyData’ from DESCRIPTION</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="ex">─</span>  building ‘myPkgApp_0.1.0.tar.gz’</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="ex">Running</span> /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL </span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="ex">--install-tests</span> </span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="ex">*</span> installing to library ...</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="ex">*</span> installing <span class="pp">*</span>source<span class="pp">*</span> package ‘myPkgApp’ ...</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="ex">**</span> using staged installation ...</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="ex">**</span> R</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="ex">**</span> byte-compile and prepare package for lazy loading</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="ex">**</span> help</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a><span class="ex">***</span> installing help indices</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a><span class="ex">**</span> building package indices</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a><span class="ex">**</span> testing if installed package can be loaded from temporary location</span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a><span class="ex">**</span> testing if installed package can be loaded from final location</span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a><span class="ex">**</span> testing if installed package keeps a record of temporary installation path</span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a><span class="ex">*</span> DONE <span class="er">(</span><span class="ex">myPkgApp</span><span class="kw">)</span></span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>   <span class="ex">Restarting</span> R session...</span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a><span class="ex">*</span> Project <span class="st">'~/projects/myPkgApp'</span> loaded. [renv 0.16.0]</span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a><span class="ex">library</span><span class="er">(</span><span class="ex">myPkgApp</span><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>I can also use RStudio’s <strong>Build</strong> tools:</p>
+<div id="fig-build-install" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="build-install.png" style="width:100.0%;height:100.0%" class="figure-img"></p>
+</figure>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;4: <strong>Build</strong> install package</figcaption><p></p>
+</figure>
+</div>
+<p>The <strong>Install</strong> icon in the <strong>Build</strong> pane is great, because installs the package, restarts the R session, and loads the package all with one click!</p>
+<div id="fig-build-restart" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="build-restart.png" style="width:100.0%;height:100.0%" class="figure-img"></p>
+</figure>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;5: <strong>Build</strong> restart and load</figcaption><p></p>
+</figure>
+</div>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip: RStudio Development Tools
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div style="font-size: 0.90em; color: #696969;">
+<p>Package development workflow functions are also available as keyboard shortcuts:</p>
+<ul>
+<li><p><strong>Load</strong> = <code>Ctrl</code> + <code>Shift</code> + <code>L</code>/<code>Shift</code> + <code>Cmd</code> + <code>L</code></p></li>
+<li><p><strong>Document</strong> = <code>Ctrl</code> + <code>Shift</code> + <code>D</code>/<code>Shift</code> + <code>Cmd</code> + <code>D</code></p></li>
+<li><p><strong>Install &amp; restart</strong> = <code>Ctrl</code> + <code>Shift</code> + <code>B</code>/<code>Cmd</code> + <code>Shift</code> + <code>B</code></p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<p>The sequence I’ve demonstrated above (create <code>.R</code> file, write function, document with <code>roxygen2</code>, load, document, install) is a ‘minimal version’ of the <a href="https://r-pkgs.org/whole-game.html">full development workflow</a>. If possible, you should strive to adopt all of the steps. But I’ve found writing and documenting the modules and utility functions (and getting them working within a call to <code>shinyApp()</code>) is an acceptable trade-off to get an initial app up and running.</p>
+<p>Once this ‘beta’ version of the app is deployed, I will come back to the app to refactor, write tests, and make sure all the items in <code><a href="https://devtools.r-lib.org/reference/check.html">devtools::check()</a></code> pass.</p>
+<section id="recap-the-r-folder" class="level4"><h4 class="anchored" data-anchor-id="recap-the-r-folder"><strong>Recap: the <code>R/</code> folder</strong></h4>
+<p>Storing the application’s code in the <code>R/</code> folder and (using RStudio’s build tools) keeps files organized, well documented, and self-contained:</p>
+<ul>
+<li><p>All the code is stored in the <code>R/</code> folder</p></li>
+<li><p>I’ve separated my code into smaller pieces (modules) that can be tested independently (more on this later)</p></li>
+<li>
+<p>My dependencies are being managed by <code>roxygen2</code> and <code><a href="https://devtools.r-lib.org/reference/document.html">devtools::document()</a></code>, which will update the <code>NAMESPACE</code> with any functions tagged with <code>@importFrom</code> (or <code>@import</code>)</p>
+<ul>
+<li>I can also access functions I’ve written <em>outside</em> by adding <code>@export</code>
+</li>
+</ul>
+</li>
+</ul>
+<div id="fig-pkg-man" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="pkg-man.png" style="width:100.0%;height:100.0%" class="figure-img"></p>
+</figure>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;6: Function documentation in <code>man/</code> folder</figcaption><p></p>
+</figure>
+</div>
+<p>Now that I have the R version/package management being tracked and stored with <code>renv/</code> &amp; <code>renv.lock</code>, function documentation in the <code>.Rd</code> files, the <code>DESCRIPTION</code> and <code>NAMESPACE</code>, I can move onto adding and using <strong>data</strong> in a shiny app package.</p>
+</section></section><section id="use_data_raw" class="level3"><h3 class="anchored" data-anchor-id="use_data_raw"><code>use_data_raw()</code></h3>
+<p><a href="https://usethis.r-lib.org/reference/use_data.html"><code>usethis::use_data()</code> or <code>usethis::use_data_raw()</code></a> make it simple to add data to the application package:</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/use_data.html">use_data_raw</a></span><span class="op">(</span><span class="st">"movies"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Creating <span class="st">'data-raw/'</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Writing <span class="st">'data-raw/movies.R'</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="ex">•</span> Modify <span class="st">'data-raw/movies.R'</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="ex">•</span> Finish the data preparation script in <span class="st">'data-raw/movies.R'</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="ex">•</span> Use <span class="kw">`</span><span class="fu">usethis::use_data()</span><span class="kw">`</span> to add prepared data to package</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>In the <code>data-raw/movies.R</code> script, I want to import the <code>movies.RData</code> file, but where should I import it from? It depends. In R packages, data is stored in either <a href="https://r-pkgs.org/data.html"><code>data/</code> or <code>data-raw/</code></a>. To access a copy of the <code>movies</code> dataset in <code>myPkgApp</code> (i.e., with <code>myPkgApp::movies</code>), I can place the <code>movies.RData</code> file in <code>data-raw/</code> and import it by adding the following to <code>data-raw/movies.R</code>:</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">## code to prepare `movies` dataset goes here</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="ex">load</span><span class="er">(</span><span class="st">"data-raw/movies.RData"</span><span class="kw">)</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="ex">usethis::use_data</span><span class="er">(</span><span class="ex">movies,</span> overwrite = TRUE<span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>Note <code>data-raw/movies.R</code> includes a call to <code><a href="https://usethis.r-lib.org/reference/use_data.html">usethis::use_data()</a></code>, and when it’s executed, I can see a <code>data/</code> folder is created and <code>movies</code> is saved as <code>movies.rda</code>:</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"data-raw/movies.RData"</span><span class="op">)</span></span>
+<span><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/use_data.html">use_data</a></span><span class="op">(</span><span class="va">movies</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Adding <span class="st">'R'</span> to Depends field in DESCRIPTION</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Creating <span class="st">'data/'</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Saving <span class="st">'movies'</span> to <span class="st">'data/movies.rda'</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="ex">•</span> Document your data <span class="er">(</span><span class="ex">see</span> <span class="st">'https://r-pkgs.org/data.html'</span><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+External data
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div style="font-size: 0.90em; color: #696969;">
+<p>If I want to test functions in <code>myPkgApp</code> using <code>movies.RData</code> (or another dataset), those should be placed in <code>inst/extdata/</code>:</p>
+<pre>myPkgApp/
+    └──inst/
+         └── extdata/
+                └── movies.RData
+
+2 directories, 1 file
+</pre>
+</div>
+</div>
+</div>
+</div>
+<section id="inst" class="level4"><h4 class="anchored" data-anchor-id="inst"><code>inst/</code></h4>
+<p>The neat thing about the <code>inst/</code> folder is that after we’ve loaded and installed our package, we can access the files in <code>inst/extdata/</code> with the <a href="https://pkgload.r-lib.org/reference/system.file.html"><code>system.file()</code> function</a>:</p>
+<div style="font-size: 0.70em;">
+<div class="cell">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/dir_tree.html">dir_tree</a></span><span class="op">(</span> <span class="co"># wrap this in a folder tree</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"myPkgApp"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">/Users/mjfrigaard/Library/Caches/R/renv/library/myPkgApp-1687e31a/R-4.2/x86_64-apple-darwin17.0/myPkgApp/extdata</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>                                                  <span class="ex">└──</span> movies.RData</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>The <code><a href="https://rdrr.io/r/base/system.file.html">system.file()</a></code> function will show me the path to the locally installed version of the package (hence the <code>/Users/mjfrigaard/Library/</code> at the beginning of the path). The <code>inst/exdata/</code> folder comes in handy for adding example data, but it’s also useful for application development (more on that later).</p>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip: <code>inst/</code> folder
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div style="font-size: 0.90em; color: #696969;">
+<p>Take a look at the <a href="https://github.com/tidyverse/readr/"><code>inst/extdata/</code> folder for <code>readr</code></a> and the accompanying <a href="https://github.com/tidyverse/readr/blob/5ac729aa9a70fef297a634d2332ff8ff1af874fb/R/example.R"><code>readr_example()</code></a> function to understand more about how this works.</p>
+</div>
+</div>
+</div>
+</div>
+</section><section id="recap-app-data" class="level4"><h4 class="anchored" data-anchor-id="recap-app-data"><strong>Recap: App data</strong></h4>
+<p>R Packages have a consistent and standardized way of storing data, and have designated locations for internal and external data.</p>
+<div id="fig-pkg-data" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="pkg-data.png" style="width:100.0%;height:100.0%" class="figure-img"></p>
+</figure>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;7: Package data folders</figcaption><p></p>
+</figure>
+</div>
+</section></section><section id="use_readme_rmd" class="level3"><h3 class="anchored" data-anchor-id="use_readme_rmd"><code>use_readme_rmd()</code></h3>
+<p>Function documentation is handled with the <code>R/</code> folder and <code>roxygen2</code> comments/tags, but <code>myPkgApp</code> needs a <code>README</code> file, and a place for long-form documentation. Fortuntely, <a href="https://rmarkdown.rstudio.com/">RMarkdown</a> handles each of these well:</p>
+<ul>
+<li>
+<p>I can create a <code>README</code> file using <a href="https://usethis.r-lib.org/reference/use_readme_rmd.html"><code>usethis::use_readme_md()</code></a> or <a href="https://usethis.r-lib.org/reference/use_readme_rmd.html"><code>usethis::use_readme_rmd()</code></a></p>
+<ul>
+<li>I prefer the <code>.Rmd</code> file because it comes with executable code chunks.</li>
+</ul>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/use_readme_rmd.html">use_readme_rmd</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Setting active project to <span class="st">'/Users/mjfrigaard/projects/myPkgApp'</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Writing <span class="st">'README.Rmd'</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Adding <span class="st">'^README\\.Rmd$'</span> to <span class="st">'.Rbuildignore'</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="ex">•</span> Modify <span class="st">'README.Rmd'</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="ex">•</span> Update <span class="st">'README.Rmd'</span> to include installation instructions.</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Writing <span class="st">'.git/hooks/pre-commit'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<ul>
+<li>When I knit <code>README.Rmd</code>, it automatically generates the <code>README.md</code> for the package.</li>
+</ul>
+</li>
+</ul></section><section id="use_vignette" class="level3"><h3 class="anchored" data-anchor-id="use_vignette"><code>use_vignette()</code></h3>
+<p>For long-form documentation I can use <a href="https://r-pkgs.org/vignettes.html#introduction">vignettes.</a></p>
+<ul>
+<li>
+<p>Vignettes can be created with <a href="https://usethis.r-lib.org/reference/use_vignette.html"><code>usethis::use_vignette()</code></a></p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/use_vignette.html">use_vignette</a></span><span class="op">(</span><span class="st">"myPkgApp"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Adding <span class="st">'knitr'</span> to Suggests field in DESCRIPTION</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Setting VignetteBuilder field in DESCRIPTION to <span class="st">'knitr'</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Adding <span class="st">'inst/doc'</span> to <span class="st">'.gitignore'</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Creating <span class="st">'vignettes/'</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Adding <span class="st">'*.html'</span>, <span class="st">'*.R'</span> to <span class="st">'vignettes/.gitignore'</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Adding <span class="st">'rmarkdown'</span> to Suggests field in DESCRIPTION</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Writing <span class="st">'vignettes/myPkgApp.Rmd'</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="ex">•</span> Modify <span class="st">'vignettes/myPkgApp.Rmd'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</li>
+</ul>
+<p>Vignettes are also written in RMarkdown and rendered whenever the package is built/installed.</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="ex">myPkgApp/</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">└──</span> vignettes/</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>            <span class="ex">└──</span> myPkgApp.Rmd</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="ex">1</span> directory, 1 file</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>By combining <code>rmarkdown</code> and <code>knitr</code>, R packages have a documentation framework that has the added benefit of being somewhat fool-proof: vignettes have to successfully render for the package to be installed.</p>
+<div id="fig-build-vignettes" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="install-vignettes.png" style="width:100.0%;height:100.0%" class="figure-img"></p>
+</figure>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;8: Package vignettes</figcaption><p></p>
+</figure>
+</div>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Vignette figures
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div style="font-size: 0.90em; color: #696969;">
+<p>Images in vignettes are kept in <code>man/figures/</code></p>
+<pre>myPkgApp/
+  ├── vignettes/
+  │       └── myPkgApp.Rmd
+  └── man/
+      └── figures/
+          └── myPkgApp-img-1.png
+</pre>
+</div>
+</div>
+</div>
+</div>
+<section id="recap-documentation" class="level4"><h4 class="anchored" data-anchor-id="recap-documentation"><strong>Recap: documentation</strong></h4>
+<p>The vignettes folder will long-form documentation about how the application works, use cases, and features (and <code>roxygen2</code> will document each function).</p>
+<div id="fig-pkg-docs" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="pkg-docs.png" style="width:100.0%;height:100.0%" class="figure-img"></p>
+</figure>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;9: Documentation in <code>README</code> and <code>vignettes/</code></figcaption><p></p>
+</figure>
+</div>
+</section></section><section id="use_testthat" class="level3"><h3 class="anchored" data-anchor-id="use_testthat"><code>use_testthat()</code></h3>
+<p>Testing is an important part of any package, and apps tend to require additional tests (especially when they’re moving from ‘development’ into ‘production’ environments).</p>
+<p>To apply the testing framework provided by the <a href="https://testthat.r-lib.org/"><code>testthat</code> package.</a> package, I’ll use <code><a href="https://usethis.r-lib.org/reference/use_testthat.html">usethis::use_testthat()</a></code>:</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/use_testthat.html">use_testthat</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Adding <span class="st">'testthat'</span> to Suggests field in DESCRIPTION</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Setting Config/testthat/edition field in DESCRIPTION to <span class="st">'3'</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Creating <span class="st">'tests/testthat/'</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="ex">✔</span> Writing <span class="st">'tests/testthat.R'</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="ex">•</span> Call <span class="kw">`</span><span class="fu">use_test()</span><span class="kw">`</span> to initialize a basic test file and open it for editing.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>This creates a new <code>tests/</code> folder, with a <code>testthat/</code> sub-folder and script.</p>
+<div style="font-size: 0.80em;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="ex">myPkgApp/</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">└──</span> tests/</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>          <span class="ex">├──</span> testthat/</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>          <span class="ex">└──</span> testthat.R</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="ex">2</span> directories, 1 file</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<section id="writing-tests" class="level4"><h4 class="anchored" data-anchor-id="writing-tests">Writing tests</h4>
+<p><a href="https://testthat.r-lib.org/"><code>testthat</code></a> is designed for unit tests (i.e., testing each functional ‘unit’ in the code), but for shiny apps, we need to think beyond standard unit testing. We need to confirm the functions work and return predictable results, but we also need to make sure they play well with each other (integration tests), and that the application can be deployed (system tests).</p>
+</section><section id="recap-testing" class="level4"><h4 class="anchored" data-anchor-id="recap-testing"><strong>Recap: testing</strong></h4>
+<p>Testing is well described in the <a href="https://shiny.rstudio.com/articles/testing-overview.html">shiny documentation</a> and in <a href="https://mastering-shiny.org/scaling-testing.html">Mastering Shiny</a>. Generally speaking, unit tests are performed with <a href="https://testthat.r-lib.org/"><code>testthat</code></a>, and module testing can be done with <a href="https://shiny.rstudio.com/reference/shiny/1.7.0/testserver"><code>shiny::testServer()</code></a>. To test the full application (or a specific behavior) use the <a href="https://rstudio.github.io/shinytest2/"><code>shinytest2</code></a> package.</p>
+<div id="fig-pkg-tests" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="pkg-tests.png" style="width:100.0%;height:100.0%" class="figure-img"></p>
+</figure>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;10: Testing framework from <code>testthat</code></figcaption><p></p>
+</figure>
+</div>
+</section></section></section><section id="use" class="level2"><h2 class="anchored" data-anchor-id="use">Use</h2>
+<p>Using an app built as a package is similar to using any R function we’ve loaded from a package. After successfully loading, documenting, and installing the package, I can run the app by loading the <code>myPkgApp</code> (with <code><a href="https://rdrr.io/r/base/library.html">library(myPkgApp)</a></code>) and <code>moviesApp()</code>:</p>
+<div id="fig-myPkgApp-inst-app" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="myPkgApp-inst-app.png" style="width:100.0%;height:100.0%" class="figure-img"></p>
+</figure>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;11: <code>myPkgApp::moviesApp()</code></figcaption><p></p>
+</figure>
+</div>
+</section><section id="recap" class="level2"><h2 class="anchored" data-anchor-id="recap">Recap</h2>
+<p>I’ve skipped over some development steps covered in R packages (license, using Git/GitHub, code coverage, NEWS, etc.), but hopefully you’ve seen that by building shiny apps as R packages unlocks a suite of developer tools (and a common structure).</p>
+<p><code>myPkgApp</code> the package holds the code, data, documentation, <em>and</em> includes explicit information on the dependencies and requirements (in the <code>DESCRIPTION</code> and <code>NAMESPACE</code>).</p>
+<p><code>myPkgApp</code> is a substantial improvement over <code>VanillaApp</code>. Next I’ll cover setting up a shiny application with <code>golem</code>.</p>
+
+
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
