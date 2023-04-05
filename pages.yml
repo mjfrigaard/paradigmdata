@@ -1,19 +1,44 @@
 - category: R Packages
   description: |
-    R packages we use
+    These are posts on R packages we're currently using
   tiles:
     - title: Box
       subtitle: write modular code
       href: https://mjfrigaard.github.io/paradigmdata/pages/posts/box.html
       code: https://github.com/mjfrigaard/paradigmdata/blob/main/pages/posts/box.qmd
       thumbnail: pages/posts/box/image.png
+    - title: purrr v1.0.0
+      subtitle: purrr refresher
+      href: https://mjfrigaard.github.io/paradigmdata/pages/posts/purrr101.html
+      code: https://github.com/mjfrigaard/paradigmdata/blob/main/pages/posts/purrr101.qmd
+      thumbnail: pages/posts/purrr101/image.png
       
-- category: Shiny Apps
+- category: Shiny frameworks
   description: |
-    Posts on shiny apps & packages
+    A series exploring shiny frameworks. 
   tiles:
-    - title: rhino
-      subtitle: building a rhino application
-      href: https://mjfrigaard.github.io/paradigmdata/pages/posts/box.html
-      code: https://github.com/mjfrigaard/paradigmdata/blob/main/pages/posts/box.qmd
-      thumbnail: pages/posts/box/image.png
+    - title: vanilla shiny
+      subtitle: minimal shiny
+      href: https://mjfrigaard.github.io/paradigmdata/pages/posts/vanilla-shiny.html
+      code: https://github.com/mjfrigaard/paradigmdata/blob/main/pages/posts/box/box.qmd
+      thumbnail: pages/posts/vanilla-shiny/image.png
+    - title: myPkgApp
+      subtitle: devtools & shiny
+      href: https://mjfrigaard.github.io/paradigmdata/pages/posts/my-pkg-app.html
+      code: https://github.com/mjfrigaard/paradigmdata/blob/main/pages/posts/my-pkg-app/my-pkg-app.qmd
+      thumbnail: pages/posts/my-pkg-app/image.png
+    - title: myGolemApp
+      subtitle: golem & shiny
+      href: https://mjfrigaard.github.io/paradigmdata/pages/posts/my-golem-app.html
+      code: https://github.com/mjfrigaard/paradigmdata/blob/main/pages/posts/my-golem-app/my-golem-app.qmd
+      thumbnail: pages/posts/my-golem-app/image.png
+    - title: myLeprechaunApp
+      subtitle: leprechaun & shiny
+      href: https://mjfrigaard.github.io/paradigmdata/pages/posts/my-leprechaun-app.html
+      code: https://github.com/mjfrigaard/paradigmdata/blob/main/pages/posts/my-leprechaun-app/my-leprechaun-app.qmd
+      thumbnail: pages/posts/my-leprechaun-app/image.png
+    - title: myRhinoApp
+      subtitle: rhino & shiny
+      href: https://mjfrigaard.github.io/paradigmdata/pages/posts/my-rhino-app.html
+      code: https://github.com/mjfrigaard/paradigmdata/blob/main/pages/posts/my-rhino-app/my-rhino-app.qmd
+      thumbnail: pages/posts/my-rhino-app/image.png
