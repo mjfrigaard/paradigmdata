@@ -3,5 +3,5 @@ title: "Posts"
 listing:
   template: pages.ejs
   contents: pages.yml
-# contents: "posts/*.qmd" will search in /pages/posts/ not /posts/ for the targeted files
+# edit the pages.yml file 
 ---
