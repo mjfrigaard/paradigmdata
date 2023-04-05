@@ -90,7 +90,7 @@ https://mjfrigaard.github.io/posts/my-leprechaun-app/
 https://mjfrigaard.github.io/posts/my-rhino-app/
 -->
 
-I've previously built 1) a 'minimal' shiny app ([`VanillaApp`](https://mjfrigaard.github.io/posts/vanilla-shiny/)), and 2) a shiny app built as an R package ([`myPkgApp`](https://mjfrigaard.github.io/posts/my-pkg-app/)). The GitHub repo with all shiny app setups is [here](https://github.com/mjfrigaard/shiny-app-setups).
+I've previously built 1) a 'minimal' shiny app ([`VanillaApp`](https://mjfrigaard.github.io/paradigmdata/pages/posts/vanilla-shiny/vanilla-shiny.html)), and 2) a shiny app built as an R package ([`myPkgApp`](https://mjfrigaard.github.io/paradigmdata/pages/posts/my-pkg-app/my-pkg-app.html)). The GitHub repo with all shiny app setups is [here](https://github.com/mjfrigaard/shiny-app-setups).
 
 ## Framework comparisons 
 
