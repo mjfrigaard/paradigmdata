@@ -1,0 +1,547 @@
+---
+title: "purrr updates (v1.0.0)"
+author: "Martin Frigaard"
+date: "2023-04-05"
+image: "image.png"
+toc: true
+toc-depth: 5
+toc-title: 'Contents'
+toc-location: "left"
+
+fig-align: center
+code-link: true
+fontsize: '11'
+
+callout-icon: false
+callout-appearance: default
+
+freeze: true
+
+execute:
+  echo: true
+  warning: false
+  eval: true
+---
+
+```{r}
+#| label: utils
+#| eval: true
+#| echo: false
+#| include: false
+library(kableExtra)
+co_box <- function(color, header, contents = "Your text") {
+  class <- switch(color,
+    b = "note",
+    g = "tip",
+    r = "important",
+    o = "caution",
+    stop("Invalid `type`", call. = FALSE)
+  )
+  switch(color,
+    b = cat(paste0(
+      "\n",
+      ":::: {.callout-", class, " collapse='false'}", "\n\n",
+      "## ", header, "\n\n",
+      "::: {style='font-size: 0.90em; color: #696969;'}\n\n",
+      contents, "\n\n",
+      "::: \n\n",
+      "::::", "\n"
+    )),
+    g = cat(paste0(
+      "\n",
+      ":::: {.callout-", class, " collapse='true'}", "\n\n",
+      "## ", header, "\n\n",
+      "::: {style='font-size: 0.90em; color: #696969;'}\n\n",
+      contents, "\n\n",
+      "::: \n\n",
+      "::::", "\n"
+    )),
+    o = cat(paste0(
+      "\n",
+      ":::: {.callout-", class, " collapse='false'}", "\n\n",
+      "## ", header, "\n\n",
+      "::: {style='font-size: 0.90em; color: #696969;'}\n\n",
+      contents, "\n\n",
+      "::: \n\n",
+      "::::", "\n"
+    )),
+    r = cat(paste0(
+      "\n",
+      ":::: {.callout-", class, " collapse='false'}", "\n\n",
+      "## ", header, "\n\n",
+      "::: {style='font-size: 0.90em; color: #696969;'}\n\n",
+      contents, "\n\n",
+      "::: \n\n",
+      "::::", "\n"
+    )),
+    stop("Invalid `type`", call. = FALSE)
+  )
+}
+# roxy_ns_df -----
+roxy_ns_df <- data.frame(
+  check.names = FALSE,
+  `roxygen2 tag` = c("@importFrom", "@import", "@export"),
+  `NAMESPACE directive` = c(
+    "importFrom() : import selected object from another NAMESPACE",
+    "import(): import all objects from another package’s NAMESPACE.",
+    "export() : export the function, method, generic, or class so it’s available outside of the package (in the NAMESPACE)"
+  ),
+  DESCRIPTION = c("Imports:", "Imports:", "Nothing")
+)
+# box_use_df -----
+box_use_df <- data.frame(
+  check.names = FALSE,
+  `Inside box::use()` = c(
+    "box::use(
+      pkg
+    )",
+    "box::use(
+      p = pkg
+      )",
+    "box::use(
+      pkg = pkg[foo, bar]
+      )",
+    "box::use(
+      pkg[my_foo = foo, ...]
+      )"
+  ),
+  Action = c(
+    "imports 'pkg', does not attach any function names",
+    "imports 'pkg' with alias ('p'), does not attach any function names",
+    "imports 'pkg' and attaches the function names 'pkg::foo()' and 'pkg::bar()'",
+    "imports 'pkg' with alias for 'foo' ('my_foo') and attaches all exported function names"
+  )
+)
+```
+
+<!--
+https://mjfrigaard.github.io/posts/vanilla-shiny/
+
+https://mjfrigaard.github.io/posts/my-pkg-app/
+
+https://mjfrigaard.github.io/posts/my-golem-app/
+
+https://mjfrigaard.github.io/posts/my-leprechaun-app/
+
+https://mjfrigaard.github.io/posts/my-rhino-app/
+-->
+
+```{r}
+#| label: co_box_dev
+#| echo: false
+#| results: asis
+#| eval: true
+co_box(color = "r", header = "ALERT!", "**This post is currently under development. Thank you for your patience.**")
+```
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| label: pkgs
+#| echo: true
+#| message: false 
+#| warning: false
+# remotes::install_github("tidyverse/purrr", 
+#                   force = TRUE, quiet = TRUE)
+library(purrr)
+library(dplyr)
+library(lubridate)
+library(stringr)
+library(snakecase)
+```
+:::
+
+This post is going to cover the recent updates to the [`purrr` package](https://purrr.tidyverse.org/) ("*a complete and consistent set of tools for working with functions and vectors*"). The release of [version 1.0.0](https://www.tidyverse.org/blog/2022/12/purrr-1-0-0/) (and dev version  [v1.0.1](https://github.com/tidyverse/purrr/blob/main/NEWS.md#purrr-101)) had some breaking changes, which makes it's a great time for a refresher!
+
+# RECAP: Functions and objects 
+
+If you're like me, you've never been a big fan of `for` loops. They're an important concept to grasp, but if you've ever had to debug what's happening in multiple nested `for` loops, you've probably found yourself asking if there's a better way to iterate.
+
+> *Functional programming is complementary to object-oriented programming, which has been the dominant programming paradigm for the last several decades.* - Advanced R, 2nd edition
+
+R's syntax avoids explicit iteration by allowing certain *generic* functions to be used across different types (or objects). For example, the base `plot()` function is an S3 generic function: 
+
+::: {style="font-size: 0.90em;"}
+```{r isS3stdGeneric}
+isS3stdGeneric(plot)
+```
+:::
+
+Which means `plot()` can be applied to a `ts` (Time-Series) object or a standard `data.frame`:
+
+::: {style="font-size: 0.90em;"}
+```{r LakeHuron}
+#| label: LakeHuron
+#| echo: true
+#| eval: true
+#| collapse: true
+class(datasets::LakeHuron)
+class(datasets::chickwts)
+```
+
+```{r chickwts}
+#| layout-ncol: 2
+#| fig-cap: 
+#|   - "Time-series plot"
+#|   - "Scatter Plot"
+plot(datasets::LakeHuron)
+plot(datasets::chickwts)
+```
+:::
+
+`summary()` is similar--we can apply this function to individual data objects, model outputs, etc.
+
+::: {style="font-size: 0.90em;"}
+```{r isS3stdGeneric-summary}
+isS3stdGeneric(summary)
+```
+:::
+
+`plot()` and `summary()` are parametric polymorphic (generic) functions, which means we see slightly different behaviors based on the object we pass into it. 
+
+::: {style="font-size: 0.90em; color: #696969;"}
+*Click **Code** below to view an example using `summary()`*
+:::
+
+::: {style="font-size: 0.90em;"}
+```{r lm}
+#| label: lm_generic
+#| code-fold: true
+#| collapse: true
+
+# get summary of columns
+summary(mtcars$hp)
+summary(mtcars$mpg)
+
+# store model output
+lm_mod <- lm(formula = mpg ~ hp, data = mtcars)
+lm_mod
+
+# get summary of model output
+summary(lm_mod)
+
+# get coefficients of summary of model output
+coef(summary(lm_mod))
+```
+:::
+
+`purrr` (and other tools for iteration) are extremely helpful for solving common problems programmers encounter when working with data because they allow us to express iterative behavior with a complete and consistent set of tools. 
+
+# Typical iteration problems 
+
+In programming, iteration refers to defining an input and applying an operation over every part of it. An example problem I've encountered that requires iteration was converting all the text in a list of character vectors. 
+
+Below is `my_list`, a list of items in various cases. 
+
+```{r}
+#| label: make_my_list
+#| eval: true
+#| echo: false
+make_my_list <- function() {
+  require(stringr)
+  require(snakecase)
+  words <- sample(snakecase::to_random_case(stringr::words),
+              size = 5, replace = FALSE)
+  sentences <- sample(snakecase::to_random_case(stringr::sentences), 
+              size = 3, replace = FALSE)
+  letters <- sample(snakecase::to_random_case(LETTERS),
+              size = 10, replace = FALSE)
+  list(
+    'words' = words,
+    'sentences' = sentences,
+    'letters' = letters
+  )
+}
+my_list <- make_my_list()
+```
+
+
+::: {style="font-size: 0.90em;"}
+```{r my_list}
+#| label: my_list
+#| collapse: true
+my_list
+```
+:::
+
+If I try to use the `tolower()` on `my_list`, it returns a vector.
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| label: tolower_my_list
+#| collapse: true
+tolower(my_list) |> str()
+```
+:::
+
+How can I apply the `tolower()` function to each item in `my_list` (and return the original object type)?
+
+## The `purrr` strategy
+
+If you're new to `purrr`, a great way to start using it's functions is with a recipe covered in [Charlotte Wickham's tutorial](https://posit.co/resources/videos/happy-r-users-purrr-tutorial/)
+
+1. Do it for one element
+
+2. Turn it into a recipe
+
+3. Use `purrr::map()` to do it for all elements
+
+I'll work through these three steps below using `my_list` and `tolower()`
+
+### 1. Do it for one element
+
+The goal with this first step is to get a minimal working example with an element and the function I want to use.
+
+- `_____ <- my_list[[?]]` = subsetted element from a list  
+
+- `tolower(_____)` = operation to apply
+
+In this case, I want to subset `my_list` for a single element (`words`, `sentences`, or `letters`) so I can use it with `tolower()`. 
+
+:::: {.callout-note icon=false}
+## Do it for one 
+
+::: {style="font-size: 1.10em;"}
+```r
+# extract an element from the object
+_____ <- my_list[[?]]
+# apply a function to the element
+tolower(_____)
+```
+:::
+::::
+
+I'll start with the `words` vector in `my_list`
+
+::: {style="font-size: 0.90em;"}
+```{r}
+my_words <- my_list[['words']]
+tolower(my_words)
+```
+:::
+
+Now that I have a working example for one element, in the next step I'll abstract out the parts that need iteration. 
+
+### 2. Turn it into a recipe
+
+A standard `purrr` recipe involves defining `.x` and `.f`, and then supplying any additional function arguments
+
+- `.x` =  a list or atomic vector 
+
+- `.f` = the function we want to apply over every element in `.x`
+
+Or I can also use the formula syntax:
+
+- `~ function()` read as '*map this function*'
+
+- `.x` = `purrr`'s placeholder for one element of our object
+
+The formula syntax can take some getting used to, but Jenny Bryan offers some great advice on [her tutorial](https://jennybc.github.io/purrr-tutorial/ls03_map-function-syntax.html#anonymous_function,_formula), 
+
+> "*[formula syntax] should start with the `~` symbol and then look like a typical top-level expression, as you might write in a script. Use `.x` to refer to the input, i.e. an individual element of the primary vector or list.*"
+
+
+:::: {.callout-note icon=false}
+## Turn it into a recipe
+
+**Standard syntax:**
+
+::: {style="font-size: 1.10em;"}
+```r
+# define .x and .f
+.x = my_list, .f = tolower
+```
+:::
+
+**Formula syntax:**
+
+::: {style="font-size: 1.10em;"}
+```r
+# written as normal expression
+ ~ tolower(.x)
+```
+:::
+::::
+
+
+### 3. Use `purrr::map()` to do it for all elements
+
+The `.x` argument is the list (or atomic vector) I want to iterate over, followed by the formula: 
+
+:::: {.callout-note icon=false}
+## Do it for all elements
+
+**Standard syntax:**
+
+::: {style="font-size: 1.10em;"}
+```r
+purrr::map(.x = my_list, .f = tolower)
+```
+:::
+
+**Formula syntax:**
+
+::: {style="font-size: 1.10em;"}
+```r
+my_list |> purrr::map(~ tolower(.x))
+```
+:::
+::::
+
+
+To turn our `my_list` example into a recipe, we would use the following standard format:
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| label: my_list_purrr_standard
+#| results: hold
+purrr::map(.x = my_list, .f = tolower)
+```
+:::
+
+I'll check the output from the formula syntax using `waldo::compare()`:
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| label: my_list_purrr_lambda
+#| results: hold
+waldo::compare(
+  x = purrr::map(.x = my_list, .f = tolower), 
+  y = my_list |> purrr::map(~ tolower(.x)))
+```
+:::
+
+
+# Updates to anonymous functions
+
+As of [R 4.1.0](https://cran.r-project.org/doc/manuals/r-devel/NEWS.html), new anonymous functions have been added. A typical anonymous (unnamed) function is below:
+
+-   `(function(x) tolower(x))("pIrAtES Ship")`
+
+The updated syntax is below:
+
+-   `(\(x) tolower(x))("pIrAtES Ship")`
+
+> "*R now provides a shorthand notation for creating functions, e.g. `\(x) x + 1` is parsed as `function(x) x + 1`.*"
+
+
+:::: {.callout-note icon=false}
+## Anonymous function syntax
+
+**R anonymous function**
+
+::: {style="font-size: 1.10em;"}
+```r
+# written as an anonymous function
+\(x) tolower(x)
+```
+
+**Using anonymous function with `purrr`**
+
+```r
+my_list |> purrr::map(\(x) tolower(x))
+```
+:::
+::::
+
+I can double-check to see that the output from two variations are identical using `waldo::compare()`.
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| label: my_list_purrr_anonymous
+#| results: hold
+waldo::compare(
+  x = my_list |> purrr::map(\(x) tolower(x)), 
+  y = my_list |> purrr::map(~ tolower(.x)))
+```
+:::
+
+# Updates to `map()`
+
+`map()` is the core function of the `purrr` package. However, by default `map()` returns a list, so there's a `map_` variations for each vector type. I'll demonstrate them below using the `mixed_list` object, which has five vectors. 
+
+```{r}
+#| label: make_mixed_list
+#| eval: true
+#| echo: false
+make_mixed_list <- function() {
+  list(
+    'booleans' = rep(
+      x = sample(c(TRUE, FALSE), size = 2, replace = FALSE),
+      times = 2
+    ),
+    'integers' = as.integer(sample(1:10, size = 5, replace = FALSE)),
+    'doubles' = round(rnorm(n = 5, mean = 3, sd = 0.2), digits = 3),
+    'strings' = sample(x = stringr::words, size = 5, replace = FALSE),
+    'dates' = c(lubridate::as_date(lubridate::today() - 10), 
+                lubridate::as_date(lubridate::today() - 50),
+                lubridate::as_date(lubridate::today() - 100)
+      )
+  )
+}
+mixed_list <- make_mixed_list()
+```
+
+::: {style="font-size: 0.90em;"}
+```{r mixed_list}
+#| label: mixed_list
+mixed_list
+```
+:::
+
+`map_lgl()`: returns a logical vector 
+
+::: {style="font-size: 0.90em;"}
+```{r}
+map_lgl(.x = mixed_list, .f = is.logical)
+```
+:::
+
+`map_int()`: returns an integer vector 
+
+::: {style="font-size: 0.90em;"}
+```{r}
+map_int(.x = mixed_list, .f = is.integer)
+```
+:::
+
+`map_dbl()`: returns a double vector 
+
+::: {style="font-size: 0.90em;"}
+```{r}
+map_dbl(.x = mixed_list, .f = is.double)
+```
+:::
+
+`map_chr()`: returns a character vector 
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| warning: false
+map_chr(.x = mixed_list, .f = is.character)
+```
+:::
+
+> `Warning: Automatic coercion from logical to character was deprecated in purrr`
+> `1.0.0. Please use an explicit call to as.character() within map_chr() instead`
+
+
+
+## `map_vec()`
+
+::: {style="font-size: 0.90em;"}
+```{r}
+map_vec(.x = mixed_list, .f = lubridate::is.Date)
+```
+:::
+
+# map for `data.frame` and `tibble`s
+
+::: {style="font-size: 0.90em;"}
+```{r}
+swdata <- dplyr::select(dplyr::starwars, !where(is.list))
+purrr::map_df(.x = swdata, .f = tolower)
+```
+:::
+
+
+`purrr` contains a collection of tools for iteration in R. For a great intro check out the [iteration chapter in R for Data Science](https://r4ds.had.co.nz/iteration.html).  

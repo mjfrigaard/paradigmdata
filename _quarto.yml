@@ -15,6 +15,9 @@ format:
     theme: cosmo
     css: styles.css
     toc: true
+    dpi: 320
+    fig-format: retina
+    fig-asp: 0.618
 
 
 

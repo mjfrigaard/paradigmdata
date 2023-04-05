@@ -1,0 +1,16 @@
+{
+  "hash": "5e6e95eb2a4f824011cc301d057ae4db",
+  "result": {
+    "markdown": "---\ntitle: \"purrr updates (v1.0.1)\"\nauthor: \"Martin Frigaard\"\ndate: \"2023-04-05\"\nimage: \"image.png\"\ntoc: true\ntoc-depth: 5\ntoc-title: 'Contents'\ntoc-location: \"left\"\n\nfig-align: center\ncode-link: true\nfontsize: '10'\n\ncallout-icon: false\n\nfreeze: true\n\nexecute:\n  echo: true\n  warning: false\n  eval: true\n---\n\n\n\n\n<!--\nhttps://mjfrigaard.github.io/posts/vanilla-shiny/\n\nhttps://mjfrigaard.github.io/posts/my-pkg-app/\n\nhttps://mjfrigaard.github.io/posts/my-golem-app/\n\nhttps://mjfrigaard.github.io/posts/my-leprechaun-app/\n\nhttps://mjfrigaard.github.io/posts/my-rhino-app/\n-->\n\n\n\n:::: {.callout-important collapse='false'}\n\n## ALERT!\n\n::: {style='font-size: 0.90em; color: #696969;'}\n\n**This post is currently under development. Thank you for your patience.**\n\n::: \n\n::::\n\n\nIf you're like me, you were never a big fan of `for` loops. They're an important concept to grasp, but if you've ever had to try and debug what's happening in a nested `for` loop, you've probably found yourself asking if there's a better way to iterate.\n\n\n## Functions and objects \n\n`purrr` (and other tools for iteration) are extremely helpful for solving common problems programmers encounter when working with data. R's syntax avoids explicit iteration by using generic functions across different types of objects. For example, the base `plot()` function can be applied to `ts` (Time-Series) data or a standard `data.frame`:\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nclass(datasets::LakeHuron)\n## [1] \"ts\"\nclass(datasets::chickwts)\n## [1] \"data.frame\"\n```\n:::\n\n::: {.cell layout-ncol=\"2\"}\n\n```{.r .cell-code}\nplot(datasets::LakeHuron)\n```\n\n::: {.cell-output-display}\n![Time-series plot](purrr-v1.0.1_files/figure-html/chickwts-1.png){width=672}\n:::\n\n```{.r .cell-code}\nplot(datasets::chickwts)\n```\n\n::: {.cell-output-display}\n![Scatter Plot](purrr-v1.0.1_files/figure-html/chickwts-2.png){width=672}\n:::\n:::\n\n\n\n> *Functional programming is complementary to object-oriented programming, which has been the dominant programming paradigm for the last several decades.* - Advanced R, 2nd edition\n\n## `purrr` recipe \n\nIf you're new to `purrr`, a great way to start using it's functions is with a recipe covered in Char\n\n`purrr` contains a collection of tools for iteration in R. For a great intro check out the [iteration chapter in R for Data Science](https://r4ds.had.co.nz/iteration.html).  ",
+    "supporting": [
+      "purrr-v1.0.1_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

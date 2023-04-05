@@ -1,7 +1,13 @@
 ---
 title: "Posts"
 listing:
-  contents:
-    - "posts/box.qmd"
+  template: pages.ejs
+  contents: pages.yml
+    # - "posts/my-rhino-app/my-rhino-app.qmd"
+    # - "posts/my-leprechaun-app/my-leprechaun-app.qmd"
+    # - "posts/my-goelm-app/my-goelm-app.qmd"
+    # - "posts/my-pkg-app/my-pkg-app.qmd"
+    # - "posts/vanilla-shiny/vanilla-shiny.qmd"
+    # - "posts/purrr101/purrr101.qmd"
 # contents: "posts/*.qmd" will search in /pages/posts/ not /posts/ for the targeted files
 ---

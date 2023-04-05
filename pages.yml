@@ -1,0 +1,19 @@
+- category: R Packages
+  description: |
+    R packages we use
+  tiles:
+    - title: Box
+      subtitle: write modular code
+      href: https://mjfrigaard.github.io/paradigmdata/pages/posts/box.html
+      code: https://github.com/mjfrigaard/paradigmdata/blob/main/pages/posts/box.qmd
+      thumbnail: pages/posts/box/image.png
+      
+- category: Shiny Apps
+  description: |
+    Posts on shiny apps & packages
+  tiles:
+    - title: rhino
+      subtitle: building a rhino application
+      href: https://mjfrigaard.github.io/paradigmdata/pages/posts/box.html
+      code: https://github.com/mjfrigaard/paradigmdata/blob/main/pages/posts/box.qmd
+      thumbnail: pages/posts/box/image.png
