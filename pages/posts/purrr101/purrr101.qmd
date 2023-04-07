@@ -492,7 +492,7 @@ As noted above, by default `purrr::map()` returns a list. If I'd like to return 
     ::: {style="font-size: 0.90em;"}
     ```{r}
     #| warning: false
-    #| collapse: true
+    #| collapse: false
     mixed_list |> purrr::map_lgl(\(x) is.logical(x))
     ```
     :::
@@ -502,7 +502,7 @@ As noted above, by default `purrr::map()` returns a list. If I'd like to return 
     ::: {style="font-size: 0.90em;"}
     ```{r}
     #| warning: false
-    #| collapse: true
+    #| collapse: false
     mixed_list |> purrr::map_int(\(x) is.integer(x))
     ```
     :::
@@ -512,7 +512,7 @@ As noted above, by default `purrr::map()` returns a list. If I'd like to return 
     ::: {style="font-size: 0.90em;"}
     ```{r}
     #| warning: false
-    #| collapse: true
+    #| collapse: false
     mixed_list |> purrr::map_dbl(\(x) is.double(x))
     ```
     :::
@@ -523,7 +523,7 @@ As noted above, by default `purrr::map()` returns a list. If I'd like to return 
     ```{r}
     #| warning: true
     #| message: true
-    #| collapse: true
+    #| collapse: false
     mixed_list |> purrr::map_chr(\(x) is.character(x))
     ```
     :::
@@ -676,24 +676,548 @@ purrr::map_df(.x = swdata, .f = tolower)
 
 # Worked Examples
 
-## Copying a directory of files 
-
-> *You have a folder full of files you'd like to rename or copy to a new directory*
+In this section, I'll be working through some of the uses I've for `purrr`'s functions. I've tried to choose tasks that are common across *most* projects so my code can be easily copied and adapted. 
 
 ## Downloading files 
 
 > *You'd like to download a collection of files from separate URLS*
-  
+
+I have a collection of 30 .csv files from [Doing Data Science](https://github.com/oreillymedia/doing_data_science) by Cathy O'Neil and Rachel Schutt (O'Reilly Media) in a [GitHub repo](https://github.com/mjfrigaard/dds-data). Let's assume I want to download all of these files into my RStudio session (and not clone the repo).
+
+I'll navigate to the raw url for the first data file (`nyt1.csv`), then paste this into a character vector:
+
+::: {style="font-size: 0.90em;"}
+```{r}
+nyt_url <- "https://raw.githubusercontent.com/mjfrigaard/dds-data/main/nyt1.csv"
+```
+:::
+
+Knowing that all of the files on GitHub with have a similar `root` or `dir`, I can use `nyt_url` to generate urls for each of the 31 files. 
+
+1. First I get the folder of the files on GitHub with `fs::path_dir()` 
+2. I create a vector with the 31 file names  
+3. I combine the directory portion of the url with file name in `nyt_file_urls`
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| label: nyt_file_urls
+#| eval: true
+#| collapse: false
+# create file urls 
+nyt_dir_url <- fs::path_dir(nyt_url)
+nyt_dir_url
+# add numbers to name
+nyt_file_nms <- paste0("nyt", 1:31, ".csv")
+# combine
+nyt_file_urls <- paste(nyt_dir_url, nyt_file_nms, sep = "/")
+head(nyt_file_urls)
+```
+:::
+
+I'll need another vector of destination file names on my local machine, which I can do by combining the file names (`nyt_file_nms`) with the local destination folder (`dds-nyt`).
+
+::: {style="font-size: 0.90em;"}
+```{r nyt_local_pths}
+nyt_local_pths <- paste("dds-nyt", nyt_file_nms, sep = "/")
+head(nyt_local_pths)
+```
+:::
+
+After creating the destination folder, I'll use the `download.file()` function to test downloading a single `.csv` files into my local folder (`dds-nyt/`). `download.file()` has a progress bar which tells me if the file downloaded successfully. 
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| label: download.file
+#| eval: true
+#| collapse: false
+#| results: asis
+# do it for one
+fs::dir_create("dds-nyt")
+download.file(url = nyt_file_urls[1], destfile = nyt_local_pths[1])
+```
+
+```bash
+trying URL 'https:/raw.githubusercontent.com/mjfrigaard/dds-data/main/nyt1.csv'
+Content type 'text/plain; charset=utf-8' length 4920381 bytes (4.7 MB)
+==================================================
+downloaded 4.7 MB
+```
+:::
+
+
+
+The function I'm using to download the files takes two inputs (`url` and `destfile`), which changes the recipe a bit, because I need a `purrr` function with the following:
+
+1. `.x` the input vector of existing url paths 
+
+2. `.y` the output vector of destination file paths 
+
+3. Additional arguments passed from `download.file()` (like `quiet = TRUE`)
+
+In this case, I don't need `purrr` to return value--I just need the `purrr` function to iterate over the items and write them to the new location.
+
+`walk()` is ideal for this circumstance:
+
+> "*`walk()` returns the input `.x` (invisibly)*" and "*The return value of `.f()` is ignored*"
+
+***What does 'return `.x` invisibly' and 'the side-effect of `.f`'***
+
+### Return invisibly 
+
+The previous `purrr` functions I covered varied in the kinds of values they returned (lists vs. vectors), but for some operations I won't need a return value. If I'm ever curious about whether I should be using `map()` or `walk()`, I'll ask myself, *"would it make sense to assign the output from this function to an object?*"
+
+If the answer is no, then I probably need to be thinking `walk()` instead of `map()`
+
+### Side-effects 
+
+In the help documentation `walk()`'s description states, "*calls .f for its side-effect*"
+
+(i.e., there's nothing to assign the output from that function to).
+
+Downloading files performs 
+
+I'll use `walk2()` below and add `.progress = TRUE` to view the `purrr` progress bar (and `quiet = TRUE` to silence the `download.file()` progress bar).  
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| label: walk2_download_files
+walk2(.x = nyt_file_urls, .y = nyt_local_pths, .f =  download.file, 
+  .progress = TRUE, quiet = TRUE)
+```
+:::
+
+<br>
+
+
+```{r}
+#| label: purrr-progress
+#| echo: false
+#| fig-align: center
+#| out-width: '100%'
+#| fig-dpi: 320
+#| fig-asp: 0.618
+knitr::include_graphics(path = "purrr-progress.gif")
+```
+
+<!--fs::dir_tree("dds-nyt")-->
+
+<br>
+
+I can confirm the download using `fs::dir_tree()`
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| label: dir_tree_download_files
+fs::dir_tree("dds-nyt")
+```
+:::
+
+
+## Copying a directory of files 
+
+> *You have a folder of files you'd like to rename or copy to a new directory*
+
+The collection of 31 .csv files from [Doing Data Science](https://github.com/oreillymedia/doing_data_science) by Cathy O'Neil and Rachel Schutt (O'Reilly Media) are now in the `dds-nyt/` folder. 
+
+As with any project, I don't want to alter the raw data, so I'm going to copy these files into `dds-nyt-raw/` and `dds-nyt-processed/`. I also want the processed file names to have a date stamp prefix. 
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| label: file_pths
+file_pths <- list.files("dds-nyt", full.names = TRUE, pattern = ".csv$")
+head(file_pths)
+```
+:::
+
+I'll start with the raw data folder. I need to create a vector of the new raw file paths and names: `raw_file_pths` (the raw data paths will have the original file names)
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| label: raw_file_pths
+#| eval: true
+#| collapse: true
+# do it for one
+gsub(pattern = "^dds-nyt",
+  replacement = "dds-nyt/raw",
+  x = file_pths[1])
+
+# write the recipe
+file_pths |> purrr::map_chr(\(x) gsub(x, 
+                                pattern = "^dds-nyt", 
+                                replacement = "dds-nyt/raw")) |> head()
+
+# map it across all
+raw_file_pths <- file_pths |> 
+                  purrr::map_chr(\(x) gsub(x, 
+                                        pattern = "^dds-nyt", 
+                                        replacement = "dds-nyt/raw"))
+```
+:::
+
+Before copying the files, I need to create the destination folder for the raw data (`dds-nyt/raw`). Then, I'll make sure I can copy the first element from `file_pths` into the path in the first element of `raw_file_pths`:
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| label: create_paths
+#| eval: true
+fs::dir_create("dds-nyt/raw")
+# do it for one
+fs::file_copy(
+  path = file_pths[1], 
+  new_path = raw_file_pths[1], 
+  overwrite = TRUE)
+fs::dir_tree("dds-nyt/raw", type = "any")
+```
+:::
+
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| label: walk2_file_copy
+walk2(.x = file_pths, .y = raw_file_pths, .f = fs::file_copy, 
+      .progress = TRUE, overwrite = TRUE)
+fs::dir_tree("dds-nyt/raw", type = "any")
+```
+:::
+
+Now that I've copied the files into their respective folders, I'll need to remove the files from their original location in the parent `dds-nyt` folder.
+
+Fortunately, I have a vector of these files in `file_pths`, and I can test removal with `fs::file_delete()`:
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| label: test_file_delete
+fs::file_delete(file_pths[1])
+```
+:::
+
+Great! Now that I know this will work, I'll use `walk()` because I want `.x` returned invisibly and the side-effect of `.f`
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| label: error_file_delete
+#| error: true
+walk(.x = file_pths, .f = fs::file_delete)
+```
+:::
+
+Why does this throw an error? Well--I've just deleted the first element in `file_pths`, so when `fs::file_delete()` when looking for that file, it found nothing and returned an error. I can protect against this by supplying the output from `list.files()` directly to `walk2()`, but include a `pattern` so it only matches the `.csv` files.
+
+::: {style="font-size: 0.90em;"}
+```{r}
+walk(# list CURRENT files 
+    .x = list.files(
+      path = "dds-nyt",
+      pattern = ".csv$",
+      full.names = TRUE),
+    # map function
+    .f = fs::file_delete)
+```
+:::
+
+
+And confirm the new folder contents and structure
+
+::: {style="font-size: 0.90em;"}
+```{r}
+fs::dir_tree("dds-nyt", type = "any", recurse = TRUE)
+```
+:::
+
+
 ## Import multiple datasets 
 
-> *You have several years of data, and each year is contained in separate file. You'd like to read these data into R, combine them into a single dataset*
+> *You have several days of data, and each day is contained in separate file. You'd like to read these data into R, and combine them into a single dataset*
+
+Now that I have separate raw and processed folders, I can import the NYT data into R. Below I've imported a single file from the `raw` data folder to examine it's contents:
+
+::: {style="font-size: 0.90em;"}
+```{r nyt1}
+#| label: import_nyt1.csv
+nyt1 <- vroom::vroom(
+  "dds-nyt/raw/nyt1.csv", 
+  delim = ",", 
+  show_col_types = FALSE)
+str(nyt1)
+```
+:::
+
+Each `nyt` file contains daily ads shown and clicks recorded on the New York Times home page. The rows represent users, and the variables are: `Age`, `Gender` (0 = female, 1 = male), `Impressions` (number impressions), `Clicks` (number clicks), and a binary indicator for signed in or not `Signed_in`. 
+
+I'll add some hypothetical wrangling steps to make this example more realistic.
+
+  1. Create `age_group`, an ordered factor which contains six levels of Age ("<18", "18-24", "25-34", "35-44", "45-54", "55-64", and "65+")
+
+  2. Create `ctr_rate` or click-through rate, calculated as the number of clicks / the number of impressions. Round it to 3 digits.
+
+  3. Create `female`, a factor version of `Gender`, where when `Gender` = `0`, then `female` = `"yes"`, and when `Gender` = `1`, then `female` = `"no"` 
+
+  4. Create `signed_in`, a factor variable with levels `"no"` and `"yes"` from the `Signed_In` = `0` and `1`
+
+I've bundled all of these steps into a function (`nyt_data_processing()`) that I can pass each dataset through:
+
+::: {style="font-size: 0.90em;"}
+```{r nyt_data_processing}
+#| label: fun_nyt_data_processing
+#| code-fold: true 
+nyt_data_processing <- function(nyt_csv) {
+  orig_nms <- c("Age", "Gender", "Impressions", "Clicks", "Signed_In")
+  nyt_nms <- names(nyt_csv)
+  if (isFALSE(identical(x = orig_nms, y = nyt_nms))) {
+    cli::cli_abort("these data don't have the correct columns!")
+  } else {
+    nyt_proc <- nyt_csv |> 
+      dplyr::mutate(
+        # create age_group variable
+          age_group = case_when( 
+              Age < 18 ~ "<18",
+              Age >= 18 & Age < 25 ~ "18-24",
+              Age >= 25 & Age < 35 ~ "25-34",
+              Age >= 35 & Age < 45 ~ "35-44",
+              Age >= 45 & Age < 55 ~ "45-54",
+              Age >= 55 & Age < 65 ~ "55-64",
+              Age >= 65 ~ "65+"), 
+        # factor age_group (ordered)
+          age_group = factor(age_group, 
+            levels = c("<18", "18-24", "25-34",
+              "35-44", "45-54", "55-64", "65+"), 
+            ordered = TRUE),
+        # create CTR variable
+          ctr_rate = round(x = Clicks/Impressions, digits = 3),
+        # create new Female variable
+          female = case_when( 
+              Gender == 0 ~ "yes", 
+              Gender == 1 ~ "no",
+              TRUE ~ NA_character_),
+        # factor female (un-ordered)
+          female = factor(female, 
+            levels = c("no", "yes")),
+          signed_in = case_when( 
+              Signed_In == 0 ~ "no", 
+              Signed_In == 1 ~ "yes",
+              TRUE ~ NA_character_),
+        # factor signed_in (un-ordered)
+          signed_in = factor(signed_in, 
+            levels = c("no", "yes"))) |> 
+    # remove Signed_in
+    dplyr::select(-c(Signed_In)) |> 
+    # format columns
+    janitor::clean_names() 
+  
+  }
+  return(nyt_proc)
+}
+```
+:::
+
+I'll do some quick checks to make sure it only works with the raw data columns:
+
+::: {style="font-size: 0.90em;"}
+```{r nyt1_proc}
+#| label: test_nyt_data_processing
+#| error: false
+nyt1_proc <- nyt_data_processing(nyt1)
+str(nyt1_proc)
+```
+:::
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| label: test_nyt_data_processing_error
+#| error: true
+nyt_data_processing(nyt1_proc)
+```
+:::
+
+Now I'm ready to write the import step. First I'll store the raw file paths in `raw_data_pths`, then take a subset to test with (`test_raw_data_pths`).
+
+::: {style="font-size: 0.90em;"}
+```{r raw_data_pths}
+raw_data_pths <- list.files(path = "dds-nyt/raw", pattern = ".csv$", full.names = TRUE)
+test_raw_data_pths <- raw_data_pths[1:2]
+test_raw_data_pths
+```
+:::
+
+We'll test `purrr::map()` and `vroom::vroom()` to import the `.csv` files in `test_raw_data_pths` into a list. I also add `str(list.len = 2)` to limit the output.
+
+::: {style="font-size: 0.90em;"}
+```{r}
+test_raw_data_pths |> 
+  # import
+  purrr::map(
+    vroom::vroom, 
+        delim = ",", show_col_types = FALSE) |> 
+  str(list.len = 2)
+```
+:::
+
+This returns a list, but you may have noticed I don't have a great way for keeping track of the data files in the list--this is where `purrr::set_names()` comes in handy. 
+
+`purrr::set_names()` works a lot like `names()`, but `purrr::set_names()` will automatically set the names of `x` to `as.character(x)` is no names are provided to `nm`. See below:
+
+::: {style="font-size: 0.90em;"}
+```{r}
+test_raw_data_pths |> purrr::set_names()
+```
+:::
+
+Now the imported file will have their file path and name associated with the dataset:
+
+::: {style="font-size: 0.90em;"}
+```{r}
+test_raw_data_pths |> 
+  # names 
+  purrr::set_names() |> 
+  # import  
+    purrr::map(
+      vroom::vroom, 
+          delim = ",", show_col_types = FALSE) |> 
+  str(list.len = 2)
+```
+:::
+
+To add the wrangling function, I can pipe in another call to `purrr::map()`, and add the custom wrangling function. 
+
+::: {style="font-size: 0.90em;"}
+```{r}
+test_raw_data_pths |> 
+  # names 
+  purrr::set_names() |> 
+  # import 
+    purrr::map(
+      vroom::vroom, 
+          delim = ",", show_col_types = FALSE) |> 
+  # wrangle 
+  purrr::map(.f = nyt_data_processing) |> 
+  str(list.len = 2)
+```
+:::
+
+
+For the final step, I'll bind all the data into a `data.frame` with the updated `purrr::list_rbind()` function (set `names_to = "id"`).
+
+::: {style="font-size: 0.90em;"}
+```{r}
+test_raw_data_pths |> 
+  # names 
+  purrr::set_names() |> 
+  # import 
+    purrr::map(
+      vroom::vroom, 
+          delim = ",", show_col_types = FALSE) |> 
+  # wrangle 
+  purrr::map(.f = nyt_data_processing) |> 
+  # bind
+  purrr::list_rbind(names_to = "id") |> 
+  str()
+```
+:::
+
+Now that we have a complete recipe, so all I do is swap out test vector with the full list of file paths and store the result in `nyt_data_proc`. I can also confirm all files were imported and wrangled by checking the `count()` of id.
+
+::: {style="font-size: 0.90em;"}
+```{r nyt_data_proc}
+nyt_data_proc <- raw_data_pths |> 
+  # names 
+  purrr::set_names() |> 
+  # import 
+    purrr::map(
+      vroom::vroom, 
+          delim = ",", show_col_types = FALSE) |> 
+  # wrangle 
+  purrr::map(.f = nyt_data_processing) |> 
+  # bind
+  purrr::list_rbind(names_to = "id") 
+```
+
+```{r}
+dplyr::glimpse(nyt_data_proc)
+```
+
+```{r}
+nyt_data_proc |> 
+  dplyr::count(id)
+```
+:::
 
 ## Export multiple datasets 
 
-> *You have a non-rectangular (i.e., list) of datasets you'd like to split into individual `data.frame`s, then export these into separate file paths* 
+> *You have a non-rectangular (i.e., list) of datasets you'd like to split into individual `data.frame`s, then export these into separate file paths*
+
+Now I have a processed dataset, and I want to export this into a `dds-nyt/processed/` folder. 
+
+Creating a vector of processed data file paths is a little more involved because I wanted to add the date prefix, and because I want to add this path as a variable in the `nyt_data_proc` dataset. 
+
+I do this below in `proc_file_pth`:
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| label: proc_file_pth
+#| eval: true
+#| collapse: true
+# create file names 
+nyt_data_proc_pths <- dplyr::mutate(.data = nyt_data_proc,
+        file_nm = tools::file_path_sans_ext(base::basename(id)),
+        proc_file_pth = paste0("dds-nyt/processed/", 
+                        as.character(Sys.Date()), "-", 
+                        file_nm))
+nyt_data_proc_pths |> dplyr::count(proc_file_pth)
+```
+:::
+
+Note that I didn't include the file extension, but that's because I might want to change this when I'm exporting. 
+
+Now that I have my data (`nyt_data_proc_pths`) and processed file paths (`proc_file_pth`), I need create the processed data folder, then group `nyt_data_proc_pths` on the new `proc_file_pth` variable, and then pass the output to the `group_walk()` function from `dplyr`:
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| label: group_walk
+#| eval: true
+#| collapse: true
+# create file names 
+# create folder 
+fs::dir_create("dds-nyt/processed/")
+# 
+nyt_data_proc_pths |>  
+  dplyr::group_by(proc_file_pth) |>   
+  dplyr::group_walk( ~vroom::vroom_write(x = .x, 
+                          file = paste0(.y$proc_file_pth, ".csv"),
+                          delim = ","))
+# check
+fs::dir_tree("dds-nyt/processed/")
+```
+:::
+
+I'll import the first file in the new processed data folder and check it against the `nyt1_proc` data to evaluate the differences.  
+
+::: {style="font-size: 0.90em;"}
+```{r}
+nyt1_proc_check <- vroom::vroom(
+  list.files(path = "dds-nyt/processed", 
+                    pattern = ".csv$", 
+        full.names = TRUE)[[1]], # grab the first file
+   delim = ",", show_col_types = FALSE
+  )
+```
+:::
+
+::: {style="font-size: 0.90em;"}
+```{r}
+waldo::compare(
+  x = nyt1_proc,
+  y = nyt1_proc_check)
+```
+:::
 
 
-
+```{r}
+#| label: master_clean_up_dds_nyt
+#| echo: false
+fs::dir_delete("dds-nyt/raw")
+fs::dir_delete("dds-nyt/processed/")
+fs::dir_delete("dds-nyt")
+```
 
 
 :::: {.callout-tip icon=false}
