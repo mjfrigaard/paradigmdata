@@ -152,16 +152,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
 <li>
-<a href="#refresher-functions-and-objects" id="toc-refresher-functions-and-objects" class="nav-link active" data-scroll-target="#refresher-functions-and-objects">REFRESHER: Functions and objects</a>
+<a href="#refresher-functions-and-objects" id="toc-refresher-functions-and-objects" class="nav-link active" data-scroll-target="#refresher-functions-and-objects"><strong>Refresher</strong>: functions and objects</a>
   <ul>
-<li><a href="#generic-functions" id="toc-generic-functions" class="nav-link" data-scroll-target="#generic-functions">Generic functions</a></li>
+<li><a href="#generic-functions-s3-objects" id="toc-generic-functions-s3-objects" class="nav-link" data-scroll-target="#generic-functions-s3-objects">Generic functions &amp; S3 objects</a></li>
+  <li><a href="#fp-oop" id="toc-fp-oop" class="nav-link" data-scroll-target="#fp-oop">FP + OOP</a></li>
   <li><a href="#iteration-problems" id="toc-iteration-problems" class="nav-link" data-scroll-target="#iteration-problems">Iteration problems</a></li>
   </ul>
 </li>
-  <li><a href="#the-for-loop" id="toc-the-for-loop" class="nav-link" data-scroll-target="#the-for-loop">The <code>for</code> loop</a></li>
-  <li><a href="#base-r" id="toc-base-r" class="nav-link" data-scroll-target="#base-r">Base R</a></li>
+  <li><a href="#the-for-loop" id="toc-the-for-loop" class="nav-link" data-scroll-target="#the-for-loop"><strong>The <code>for</code> loop</strong></a></li>
   <li>
-<a href="#purrr" id="toc-purrr" class="nav-link" data-scroll-target="#purrr"><code>purrr</code></a>
+<a href="#base-r" id="toc-base-r" class="nav-link" data-scroll-target="#base-r"><strong>Base R</strong></a>
+  <ul>
+<li><a href="#lapply" id="toc-lapply" class="nav-link" data-scroll-target="#lapply"><code>lapply()</code></a></li>
+  <li><a href="#sapply" id="toc-sapply" class="nav-link" data-scroll-target="#sapply"><code>sapply()</code></a></li>
+  <li><a href="#anonmymous-functions" id="toc-anonmymous-functions" class="nav-link" data-scroll-target="#anonmymous-functions">Anonmymous functions</a></li>
+  <li><a href="#vapply" id="toc-vapply" class="nav-link" data-scroll-target="#vapply"><code>vapply()</code></a></li>
+  </ul>
+</li>
+  <li>
+<a href="#purrr" id="toc-purrr" class="nav-link" data-scroll-target="#purrr"><strong><code>purrr</code></strong></a>
   <ul>
 <li><a href="#do-it-for-one-element" id="toc-do-it-for-one-element" class="nav-link" data-scroll-target="#do-it-for-one-element">1. Do it for one element</a></li>
   <li><a href="#turn-it-into-a-recipe" id="toc-turn-it-into-a-recipe" class="nav-link" data-scroll-target="#turn-it-into-a-recipe">2. Turn it into a recipe</a></li>
@@ -169,15 +178,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </ul>
 </li>
   <li>
-<a href="#updates-in-version-1.0.0" id="toc-updates-in-version-1.0.0" class="nav-link" data-scroll-target="#updates-in-version-1.0.0">Updates in version 1.0.0</a>
+<a href="#version-1.0.0-updates" id="toc-version-1.0.0-updates" class="nav-link" data-scroll-target="#version-1.0.0-updates"><strong>Version 1.0.0 updates</strong></a>
   <ul>
-<li><a href="#anonymous-functions" id="toc-anonymous-functions" class="nav-link" data-scroll-target="#anonymous-functions">Anonymous functions</a></li>
-  <li>
+<li>
 <a href="#map-updates" id="toc-map-updates" class="nav-link" data-scroll-target="#map-updates"><code>map()</code> updates</a>
   <ul>
 <li><a href="#map_vec" id="toc-map_vec" class="nav-link" data-scroll-target="#map_vec"><code>map_vec()</code></a></li>
   </ul>
 </li>
+  <li><a href="#anonymous-functions" id="toc-anonymous-functions" class="nav-link" data-scroll-target="#anonymous-functions">Anonymous functions</a></li>
   </ul>
 </li>
   <li>
@@ -255,46 +264,69 @@ ALERT!
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org">lubridate</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://stringr.tidyverse.org">stringr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Tazinho/snakecase">snakecase</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-lib/sloop">sloop</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-lib/sloop">sloop</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://waldo.r-lib.org">waldo</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<p>This post is going to cover the recent updates to the <a href="https://purrr.tidyverse.org/"><code>purrr</code> package</a> (“<em>a complete and consistent set of tools for working with functions and vectors</em>”). The release of <a href="https://www.tidyverse.org/blog/2022/12/purrr-1-0-0/">version 1.0.0</a> (and dev version <a href="https://github.com/tidyverse/purrr/blob/main/NEWS.md#purrr-101">v1.0.1</a>) had some breaking changes, which I’ve always found to be a great time for a refresher!</p>
-<section id="refresher-functions-and-objects" class="level1"><h1>REFRESHER: Functions and objects</h1>
+<p>This post is going to cover the recent updates to the <a href="https://purrr.tidyverse.org/"><code>purrr</code> package</a>. The release of <a href="https://www.tidyverse.org/blog/2022/12/purrr-1-0-0/">version 1.0.0</a> (and dev version <a href="https://github.com/tidyverse/purrr/blob/main/NEWS.md#purrr-101">v1.0.1</a>) had some breaking changes, which I will cover below. But first, I’ll dive into some attributes of R’s functions and objects that make <code>purrr</code> particularly useful, and I’ll work through iteration problems I’ve encountered (and solved with <code>purrr</code>).</p>
+<section id="refresher-functions-and-objects" class="level1"><h1>
+<strong>Refresher</strong>: functions and objects</h1>
 <p>If you’re like me, you’ve never been a big fan of <code>for</code> loops. They’re an important concept to grasp, but if you’ve ever had to debug what’s happening in multiple nested <code>for</code> loops, you’ve probably found yourself asking if there’s a better way to iterate.</p>
 <p>In a functional programming language like R, it’s nice when we can have functions perform a lot of the work we’d have to write into a <code>for</code> loop.</p>
-<section id="generic-functions" class="level2"><h2 class="anchored" data-anchor-id="generic-functions">Generic functions</h2>
-<p>R’s syntax avoids explicit iteration by allowing certain <em>generic</em> functions to be used across different types (or objects). For example, the base <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> function is an S3 generic function:</p>
+<section id="generic-functions-s3-objects" class="level2"><h2 class="anchored" data-anchor-id="generic-functions-s3-objects">Generic functions &amp; S3 objects</h2>
+<p>R’s syntax avoids explicit iteration by allowing certain <em>generic</em> functions to be used across different types (or objects). For example, the base <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> and <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> functions are S3 generic function:</p>
 <div style="font-size: 0.90em;">
 <div class="cell">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/ftype.html">ftype</a></span><span class="op">(</span><span class="va">plot</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "S3"      "generic"</code></pre>
 </div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/ftype.html">ftype</a></span><span class="op">(</span><span class="va">summary</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "S3"      "generic"</code></pre>
 </div>
 </div>
-<p>Which means <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> can be applied to a <code>ts</code> (Time-Series) object or a standard <code>data.frame</code>:</p>
+</div>
+<p>Which means <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> can be applied to S3 objects, like time-series (<code>ts</code>) and rectangular datasets (<code>data.frame</code>):</p>
 <div style="font-size: 0.90em;">
 <div class="cell">
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/LakeHuron.html">LakeHuron</a></span><span class="op">)</span></span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/otype.html">otype</a></span><span class="op">(</span><span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/LakeHuron.html">LakeHuron</a></span><span class="op">)</span></span>
+<span><span class="co">## [1] "S3"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/LakeHuron.html">LakeHuron</a></span><span class="op">)</span></span>
 <span><span class="co">## [1] "ts"</span></span>
+<span><span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/otype.html">otype</a></span><span class="op">(</span><span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/chickwts.html">chickwts</a></span><span class="op">)</span></span>
+<span><span class="co">## [1] "S3"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/chickwts.html">chickwts</a></span><span class="op">)</span></span>
 <span><span class="co">## [1] "data.frame"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/LakeHuron.html">LakeHuron</a></span><span class="op">)</span></span>
+<span><span class="co">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span><span class="co">##   576.0   578.1   579.1   579.0   579.9   581.9</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/chickwts.html">chickwts</a></span><span class="op">)</span></span>
+<span><span class="co">##      weight             feed   </span></span>
+<span><span class="co">##  Min.   :108.0   casein   :12  </span></span>
+<span><span class="co">##  1st Qu.:204.5   horsebean:10  </span></span>
+<span><span class="co">##  Median :258.0   linseed  :12  </span></span>
+<span><span class="co">##  Mean   :261.3   meatmeal :11  </span></span>
+<span><span class="co">##  3rd Qu.:323.5   soybean  :14  </span></span>
+<span><span class="co">##  Max.   :423.0   sunflower:12</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/LakeHuron.html">LakeHuron</a></span><span class="op">)</span></span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/LakeHuron.html">LakeHuron</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/chickwts.html">chickwts</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-top">
 <div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="purrr101_files/figure-html/chickwts-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="purrr101_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
 <p></p><figcaption class="figure-caption">Time-series plot</figcaption><p></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="purrr101_files/figure-html/chickwts-2.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="purrr101_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid figure-img" width="672"></p>
 <p></p><figcaption class="figure-caption">Scatter Plot</figcaption><p></p>
 </figure>
 </div>
@@ -303,22 +335,13 @@ ALERT!
 </div>
 </div>
 </div>
-<p><code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> is also generic–we can apply this function to individual data objects, model outputs, etc.</p>
-<div style="font-size: 0.90em;">
-<div class="cell">
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/ftype.html">ftype</a></span><span class="op">(</span><span class="va">summary</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "S3"      "generic"</code></pre>
-</div>
-</div>
-</div>
-<p><code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> and <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> are parametric polymorphic (generic) functions, which means we see slightly different behaviors based on the object we pass into it.</p>
+<p><code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> is a particularly versatile function, because it can be used on <code>data.frame</code>s, a single column in a <code>data.frame</code>, model outputs, and more.</p>
 <div style="font-size: 0.90em; color: #696969;">
 <p><em>Click <strong>Code</strong> below to view an example using <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code></em></p>
 </div>
 <div style="font-size: 0.90em;">
 <div class="cell">
-<details><summary>Code</summary><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># get summary of columns ----------------------------------------------------</span></span>
+<details><summary>Code</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># get summary of columns ----------------------------------------------------</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">$</span><span class="va">hp</span><span class="op">)</span></span>
 <span><span class="co">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
 <span><span class="co">##    52.0    96.5   123.0   146.7   180.0   335.0</span></span>
@@ -366,6 +389,8 @@ ALERT!
 </details>
 </div>
 </div>
+</section><section id="fp-oop" class="level2"><h2 class="anchored" data-anchor-id="fp-oop">FP + OOP</h2>
+<p><code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> and <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> are parametric polymorphic (generic) functions, which means we see slightly different behaviors based on the object we pass into it.</p>
 <p>As you can see, generic functions are flexible and efficient because we’re not having to define a new function for each object–the output from the function depends (in part) on the structure of the object.</p>
 <blockquote class="blockquote">
 <p><em>Functional programming is complementary to object-oriented programming, which has been the dominant programming paradigm for the last several decades.</em> - Advanced R, 2nd edition</p>
@@ -374,60 +399,59 @@ ALERT!
 </section><section id="iteration-problems" class="level2"><h2 class="anchored" data-anchor-id="iteration-problems">Iteration problems</h2>
 <p>In programming, iteration refers to defining an input and applying an operation over every part of it. Some examples of problems that iteration can solve include:</p>
 <ol type="1">
+<li><p>You have a list of objects and you’d like to apply a function (or a series of functions) over the elements in the list</p></li>
 <li><p>You have a folder full of files you’d like to rename or copy to a new directory</p></li>
 <li><p>You’d like to download a collection of files from separate URLS</p></li>
 <li><p>You have several years of data, and each year is contained in separate file. You’d like to read these data into R, combine them into a single dataset</p></li>
 <li><p>You have a non-rectangular (i.e., list) of datasets you’d like to split into individual <code>data.frame</code>s, then export these into separate file paths.</p></li>
 </ol>
-<p>These are all problems I’ve personally encountered that required a variety of iteration tools to tackle. But I’ll start with a simple example because the principles remain the same (regardless of the size/scope of the problem):</p>
-<ol start="5" type="1">
-<li>I have a list of character strings and I’d like to convert the case of the text</li>
-</ol>
-<p>It just so happens I have such a list (<code>my_list</code>), with items in various cases.</p>
+<p>These are all problems I’ve personally encountered that required a variety of iteration tools to tackle. I’ll start with the first example because the principles remain the same (regardless of the size/scope of the problem):</p>
+</section></section><section id="the-for-loop" class="level1"><h1><strong>The <code>for</code> loop</strong></h1>
+<p><code>for</code> loops are ubiquitous in programming, and (for the most part) they describe the types of problems they’re solving:</p>
+<blockquote class="blockquote">
+<p>“<em>for each <code>item</code> in <code>object</code>, do <code>operation</code></em>”</p>
+</blockquote>
+<p>I have a list (<code>my_list</code>), with items in various cases:</p>
 <div style="font-size: 0.90em;">
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">my_list</span></span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">my_list</span></span>
 <span><span class="co">## $words</span></span>
-<span><span class="co">## [1] "obvioUs" "waSH"    "Side"    "Sex"     "word"   </span></span>
+<span><span class="co">## [1] "tHAN"      "ORdeR"     "encoUragE" "lEFt"      "actIVe"   </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $sentences</span></span>
-<span><span class="co">## [1] "ThEy SlIce thE sAUsage tHiN WITh a kNIfE."</span></span>
-<span><span class="co">## [2] "Feed tHE WhiTe MOUsE soMe FLoWeR sEedS."  </span></span>
-<span><span class="co">## [3] "the sMeLL of burnEd RaGS itCheS my NosE." </span></span>
+<span><span class="co">## [1] "sevEN SeaLS WERE stAMped ON gReat sheEts."    </span></span>
+<span><span class="co">## [2] "In soME fORm OR OtheR WE neED FuN."           </span></span>
+<span><span class="co">## [3] "THe FIsh TWIStEd aNd TUrnEd On ThE BenT hoOk."</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $letters</span></span>
-<span><span class="co">##  [1] "Z" "h" "j" "v" "o" "p" "d" "c" "x" "l"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##  [1] "W" "M" "P" "c" "o" "x" "a" "J" "R" "G"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <p>If I try to use the <code><a href="https://rdrr.io/r/base/chartr.html">tolower()</a></code> on <code>my_list</code>, it returns a vector.</p>
 <div style="font-size: 0.90em;">
 <div class="cell">
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">my_list</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">##  chr [1:3] "c(\"obvious\", \"wash\", \"side\", \"sex\", \"word\")" ...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">my_list</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">##  chr [1:3] "c(\"than\", \"order\", \"encourage\", \"left\", \"active\")" ...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<p>How can I apply the <code><a href="https://rdrr.io/r/base/chartr.html">tolower()</a></code> function to each item in <code>my_list</code> (and return the original object type)?</p>
-</section></section><section id="the-for-loop" class="level1"><h1>The <code>for</code> loop</h1>
-<p><code>for</code> loops are ubiquitous in programming, and (for the most part) they describe the types of problems they’re solving:</p>
-<blockquote class="blockquote">
-<p>“<em>for each <code>item</code> in <code>object</code>, do <code>operation</code></em>”</p>
-</blockquote>
-<p>I’ll use <code>my_list</code> and <code><a href="https://rdrr.io/r/base/chartr.html">tolower()</a></code> to demonstrate how I was taught to write <code>for</code> loops:</p>
+<p>How can I apply the <code><a href="https://rdrr.io/r/base/chartr.html">tolower()</a></code> function to each item in <code>my_list</code>, and return the original object type? I’ll use <code>my_list</code> and <code><a href="https://rdrr.io/r/base/chartr.html">tolower()</a></code> to demonstrate how I was taught to write <code>for</code> loops:</p>
 <ul>
 <li>
 <p><strong>First</strong>: define the sequence, ‘<em>for <code>[item]</code> in <code>[items in object]</code></em>’</p>
 <ul>
 <li>In this case, <code>x</code> is the abstracted <code>[item]</code> taking on the values returned by <code>seq_along(my_list)</code> (the <code>[items in object]</code>)</li>
 </ul>
+<div style="font-size: 0.90em;">
 <div class="cell">
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span><span class="op">(</span><span class="va">my_list</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span><span class="op">(</span><span class="va">my_list</span><span class="op">)</span></span>
 <span><span class="co">## [1] 1 2 3</span></span>
 <span><span class="co"># take single value of 'x'</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span><span class="op">(</span><span class="va">my_list</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
 <span><span class="co">## [1] 1</span></span>
 <span><span class="co"># use this to get 'items in object'</span></span>
 <span><span class="va">my_list</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span><span class="op">(</span><span class="va">my_list</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="co">## [1] "obvioUs" "waSH"    "Side"    "Sex"     "word"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">## [1] "tHAN"      "ORdeR"     "encoUragE" "lEFt"      "actIVe"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div>
 </li>
 <li>
@@ -435,42 +459,42 @@ ALERT!
 <ul>
 <li>Test this with a few values if you like</li>
 </ul>
+<div style="font-size: 0.90em;">
 <div class="cell">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">my_list</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">my_list</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "they slice the sausage thin with a knife."
-[2] "feed the white mouse some flower seeds."  
-[3] "the smell of burned rags itches my nose." </code></pre>
+<pre><code>[1] "seven seals were stamped on great sheets."    
+[2] "in some form or other we need fun."           
+[3] "the fish twisted and turned on the bent hook."</code></pre>
+</div>
 </div>
 </div>
 </li>
 <li>
 <p><strong>Third</strong>: define an (optional) object to capture the results of the loop (<code>lc_list</code>), and make sure it’s the correct size</p>
 <ul>
-<li>Creating empty lists</li>
+<li>Two methods for creating empty lists</li>
 </ul>
+<div style="font-size: 0.90em;">
 <div class="cell">
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/vector.html">vector</a></span><span class="op">(</span>mode <span class="op">=</span> <span class="st">"list"</span>, length <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[[1]]
-NULL
-
-[[2]]
-NULL
-
-[[3]]
-NULL</code></pre>
-</div>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="cn">NULL</span>, <span class="cn">NULL</span>, <span class="cn">NULL</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[[1]]
-NULL
-
-[[2]]
-NULL
-
-[[3]]
-NULL</code></pre>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/vector.html">vector</a></span><span class="op">(</span>mode <span class="op">=</span> <span class="st">"list"</span>, length <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">## [[1]]</span></span>
+<span><span class="co">## NULL</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## [[2]]</span></span>
+<span><span class="co">## NULL</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## [[3]]</span></span>
+<span><span class="co">## NULL</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="cn">NULL</span>, <span class="cn">NULL</span>, <span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="co">## [[1]]</span></span>
+<span><span class="co">## NULL</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## [[2]]</span></span>
+<span><span class="co">## NULL</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## [[3]]</span></span>
+<span><span class="co">## NULL</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </li>
@@ -478,7 +502,7 @@ NULL</code></pre>
 <p>Finally, we put it all together in a <code>for</code> loop</p>
 <div style="font-size: 1.0em;">
 <div class="cell">
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># define capture object</span></span>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># define capture object</span></span>
 <span><span class="va">lc_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html">vector</a></span><span class="op">(</span>mode <span class="op">=</span> <span class="st">"list"</span>, length <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co"># write sequence</span></span>
 <span><span class="kw">for</span> <span class="op">(</span><span class="va">x</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span><span class="op">(</span><span class="va">my_list</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>        </span>
@@ -490,15 +514,15 @@ NULL</code></pre>
 <span><span class="va">lc_list</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$words
-[1] "obvious" "wash"    "side"    "sex"     "word"   
+[1] "than"      "order"     "encourage" "left"      "active"   
 
 $sentences
-[1] "they slice the sausage thin with a knife."
-[2] "feed the white mouse some flower seeds."  
-[3] "the smell of burned rags itches my nose." 
+[1] "seven seals were stamped on great sheets."    
+[2] "in some form or other we need fun."           
+[3] "the fish twisted and turned on the bent hook."
 
 $letters
- [1] "z" "h" "j" "v" "o" "p" "d" "c" "x" "l"</code></pre>
+ [1] "w" "m" "p" "c" "o" "x" "a" "j" "r" "g"</code></pre>
 </div>
 </div>
 </div>
@@ -526,26 +550,146 @@ $letters
 <li><code>lc_list[[x]]</code></li>
 </ul>
 </li>
-</ol></section><section id="base-r" class="level1"><h1>Base R</h1>
-<p>The family of functions <code>apply</code> functions from base R (<code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code>, <code><a href="https://rdrr.io/r/base/tapply.html">tapply()</a></code>, <code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code>, <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code>) take advantage of R’s functional programming and remove a lot of the ‘book keeping’ code we have to write in <code>for</code> loops.</p>
-<p>The function I want for the example above is <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code> (pronounced ‘l-apply’, and the <code>l</code> stands for list). There are only two required arguments: <code>X</code> and <code>FUN</code>, with <code>X</code> being the object we want to iterate over, and <code>FUN</code> being the function we want iterated:</p>
+</ol></section><section id="base-r" class="level1"><h1><strong>Base R</strong></h1>
+<p>base R has the <code>_apply</code> family of functions (<code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code>, <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code>, <code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code>, <code><a href="https://rdrr.io/r/base/lapply.html">vapply()</a></code>, etc.) that remove a lot of the ‘book keeping’ code we had to write in the <code>for</code> loop.</p>
+<section id="lapply" class="level2"><h2 class="anchored" data-anchor-id="lapply"><code>lapply()</code></h2>
+<p>Sticking with the <code>my_list</code> and <code><a href="https://rdrr.io/r/base/chartr.html">tolower()</a></code> example, the <code>apply</code> function I want is <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code> (pronounced ‘l-apply’), and the <code>l</code> stands for list.</p>
+<p><code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code> has only two required arguments:</p>
+<ul>
+<li><p><code>X</code> the object we want to iterate over</p></li>
+<li><p><code>FUN</code> being the function we want iterated</p></li>
+</ul>
+<div style="font-size: 0.90em;">
 <div class="cell">
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">my_list</span>, FUN <span class="op">=</span> <span class="va">tolower</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">my_list</span>, FUN <span class="op">=</span> <span class="va">tolower</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$words
-[1] "obvious" "wash"    "side"    "sex"     "word"   
+[1] "than"      "order"     "encourage" "left"      "active"   
 
 $sentences
-[1] "they slice the sausage thin with a knife."
-[2] "feed the white mouse some flower seeds."  
-[3] "the smell of burned rags itches my nose." 
+[1] "seven seals were stamped on great sheets."    
+[2] "in some form or other we need fun."           
+[3] "the fish twisted and turned on the bent hook."
 
 $letters
- [1] "z" "h" "j" "v" "o" "p" "d" "c" "x" "l"</code></pre>
+ [1] "w" "m" "p" "c" "o" "x" "a" "j" "r" "g"</code></pre>
 </div>
 </div>
-<p>However, the <code>apply</code> functions have minor differences in how they are used.</p>
-</section><section id="purrr" class="level1"><h1><code>purrr</code></h1>
+</div>
+</section><section id="sapply" class="level2"><h2 class="anchored" data-anchor-id="sapply"><code>sapply()</code></h2>
+<p><code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code> attempts to simplify the result depending on the <code>X</code> argument. If <code>X</code> is a list containing vectors where every element has the same length (and it’s greater than 1), then <code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code> returns a matrix:</p>
+<div style="font-size: 0.90em;">
+<div class="cell">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">my_list</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>List of 1
+ $ words: chr [1:5] "tHAN" "ORdeR" "encoUragE" "lEFt" ...</code></pre>
+</div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">my_list</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, FUN <span class="op">=</span> <span class="va">tolower</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     words      
+[1,] "than"     
+[2,] "order"    
+[3,] "encourage"
+[4,] "left"     
+[5,] "active"   </code></pre>
+</div>
+</div>
+</div>
+<p>If a vector is passed to <code>X</code> where every element is length 1, then a vector is returned:</p>
+<div style="font-size: 0.90em;">
+<div class="cell">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">my_list</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> chr [1:5] "tHAN" "ORdeR" "encoUragE" "lEFt" "actIVe"</code></pre>
+</div>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">my_list</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, FUN <span class="op">=</span> <span class="va">tolower</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       tHAN       ORdeR   encoUragE        lEFt      actIVe 
+     "than"     "order" "encourage"      "left"    "active" </code></pre>
+</div>
+</div>
+</div>
+<p>Finally, if <code>X</code> is a list where elements have a length greater than 1, then a list is returned (making it identical to <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code></p>
+<div style="font-size: 0.90em;">
+<div class="cell">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">waldo</span><span class="fu">::</span><span class="fu"><a href="https://waldo.r-lib.org/reference/compare.html">compare</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">my_list</span>, FUN <span class="op">=</span> <span class="va">tolower</span><span class="op">)</span>, </span>
+<span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">my_list</span>, FUN <span class="op">=</span> <span class="va">tolower</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>✔ No differences</code></pre>
+</div>
+</div>
+</div>
+<p>This is because <code>sapply</code> is a wrapper around <code>lapply</code>, but has <code>simplify</code> and <code>USE.NAMES</code> set to <code>FALSE</code> (see what happens below when I change them to <code>TRUE</code>)</p>
+<div style="font-size: 0.90em;">
+<div class="cell">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">waldo</span><span class="fu">::</span><span class="fu"><a href="https://waldo.r-lib.org/reference/compare.html">compare</a></span><span class="op">(</span></span>
+<span>  </span>
+<span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">my_list</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, FUN <span class="op">=</span> <span class="va">tolower</span><span class="op">)</span>, </span>
+<span>  </span>
+<span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">my_list</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, FUN <span class="op">=</span> <span class="va">tolower</span>, </span>
+<span>              simplify <span class="op">=</span> <span class="cn">TRUE</span>, USE.NAMES <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>`old` is a list
+`new` is a character vector ('than', 'order', 'encourage', 'left', 'active')</code></pre>
+</div>
+</div>
+</div>
+</section><section id="anonmymous-functions" class="level2"><h2 class="anchored" data-anchor-id="anonmymous-functions">Anonmymous functions</h2>
+<p>The <code>FUN</code> argument can also take anonymous (undefined) functions. For example, if I wanted to access the second elements in <code>my_list</code>, I could pass an anonymous function the <code>FUN</code> (with the index):</p>
+<div style="font-size: 0.90em;">
+<div class="cell">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">my_list</span>, FUN <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$words
+[1] "ORdeR"
+
+$sentences
+[1] "In soME fORm OR OtheR WE neED FuN."
+
+$letters
+[1] "M"</code></pre>
+</div>
+</div>
+</div>
+</section><section id="vapply" class="level2"><h2 class="anchored" data-anchor-id="vapply"><code>vapply()</code></h2>
+<p>Finally <code><a href="https://rdrr.io/r/base/lapply.html">vapply()</a></code> is unique in that it always simplifies the returned output. If we repeat the example above, we see the returned value is character vector:</p>
+<div style="font-size: 0.90em;">
+<div class="cell">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">vapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">my_list</span>, </span>
+<span>  FUN <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>, </span>
+<span>  FUN.VALUE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">character</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                               words                            sentences 
+                             "ORdeR" "In soME fORm OR OtheR WE neED FuN." 
+                             letters 
+                                 "M" </code></pre>
+</div>
+</div>
+</div>
+<p>The <code>apply</code> functions get us much further than writing <code>for</code> loops because we can 1) iterate over vectors and lists, 2) control the output objects, and 3) <strong>write less code.</strong> Unlike generic functions, <code>apply</code> functions are designed to work with specific object types, and return values depending on these objects.</p>
+<p>One downside of apply functions is they don’t play well with <code>data.frame</code>s or <code>tibble</code>s. However, we can control their return values (and manually supply these to <code><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble::tibble()</a></code> or <code><a href="https://rdrr.io/r/base/data.frame.html">data.frame()</a></code></p>
+<div style="font-size: 0.90em;">
+<div class="cell">
+<details><summary>Code</summary><div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
+<span>  words <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">vapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">my_list</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, </span>
+<span>                FUN <span class="op">=</span> <span class="va">`[`</span>, </span>
+<span>                FUN.VALUE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">character</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  sentences <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">vapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">my_list</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, </span>
+<span>                    FUN <span class="op">=</span> <span class="va">`[`</span>, </span>
+<span>                    FUN.VALUE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">character</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  letters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">vapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">my_list</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, </span>
+<span>                  FUN <span class="op">=</span> <span class="va">`[`</span>, </span>
+<span>                  FUN.VALUE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">character</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<p>Another downside of the <code>apply</code> functions is they’re not very uniform. Each function has slight variations in their arguments and rules for return values. This is where <code>purrr</code> comes in…</p>
+</section></section><section id="purrr" class="level1"><h1><strong><code>purrr</code></strong></h1>
 <p>If you’re new to <code>purrr</code>, a great way to start using it’s functions is with a recipe covered in <a href="https://posit.co/resources/videos/happy-r-users-purrr-tutorial/">Charlotte Wickham’s tutorial</a></p>
 <ol type="1">
 <li><p>Do it for one element</p></li>
@@ -554,24 +698,25 @@ $letters
 </ol>
 <p>I’ll work through these three steps below using <code>my_list</code> and <code><a href="https://rdrr.io/r/base/chartr.html">tolower()</a></code></p>
 <section id="do-it-for-one-element" class="level2"><h2 class="anchored" data-anchor-id="do-it-for-one-element">1. Do it for one element</h2>
-<p>The goal with this first step is to get a minimal working example with a single element from the object I want to use (and the function I want to iterate).</p>
+<p>The goal with the first step is to get a minimal working example with a single element from the object I want to iterate over (with the function I want to iterate with).</p>
+<p>For this example, I need to subset <code>my_list</code> for a single element at position <code>[[1]]</code>, <code>[[2]]</code>, or <code>[[3]]</code> (or using one of the vector names).</p>
+<p>I’ll then pass this element to <code><a href="https://rdrr.io/r/base/chartr.html">tolower()</a></code> and make sure it’s the desired behavior:</p>
 <div style="font-size: 0.90em;">
-<div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># subset an element from the list</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>_____ <span class="ot">&lt;-</span> my_list[[?]]</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># apply a function to extracted element</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tolower</span>(_____)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># subset an element from the list</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>? <span class="ot">&lt;-</span> my_list[[?]]</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="co"># apply a function to extracted element</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tolower</span>(?)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
-<li><p><code>_____ &lt;- my_list[[?]]</code> = subsetted element (<code>?</code>) from a list (<code>my_list</code>)</p></li>
-<li><p><code>tolower(_____)</code> = apply operation (i.e., function) to apply across extracted element.</p></li>
+<li><p><code>? &lt;- my_list[[?]]</code> = subset element from the list (<code>my_list</code>)</p></li>
+<li><p><code>tolower(?)</code> = apply operation (i.e., function) to extracted element.</p></li>
 </ul>
-<p>In this case, I’ll subset <code>my_list</code> for a single element (<code>words</code>, <code>sentences</code>, or <code>letters</code>) so I can use it with <code><a href="https://rdrr.io/r/base/chartr.html">tolower()</a></code>. I’ll start with the <code>words</code> vector in <code>my_list</code></p>
 <div style="font-size: 0.90em;">
 <div class="cell">
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">my_words</span> <span class="op">&lt;-</span> <span class="va">my_list</span><span class="op">[[</span><span class="st">'words'</span><span class="op">]</span><span class="op">]</span></span>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">my_words</span> <span class="op">&lt;-</span> <span class="va">my_list</span><span class="op">[[</span><span class="st">'words'</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">my_words</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "obvious" "wash"    "side"    "sex"     "word"   </code></pre>
+<pre><code>[1] "than"      "order"     "encourage" "left"      "active"   </code></pre>
 </div>
 </div>
 </div>
@@ -583,194 +728,100 @@ $letters
 <li><p><code>.f</code> = the function we want to apply over every element in <code>.x</code></p></li>
 </ul>
 <div style="font-size: .90em;">
-<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>.x <span class="ot">=</span> my_list, .f <span class="ot">=</span> tolower</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>.x <span class="ot">=</span> my_list, .f <span class="ot">=</span> tolower</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="map-it-across-all-elements" class="level2"><h2 class="anchored" data-anchor-id="map-it-across-all-elements">3. <code>map()</code> it across all elements</h2>
 <p>In <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code>, the <code>.x</code> argument is the object (list or atomic vector) I want to iterate over, and <code>.f</code> is the function (i.e., operation) I want applied to every element of <code>.x</code></p>
-<p>For example, if I want to convert the case of every element in my_list to lowercase with <code>tolower</code>, I would use the following standard <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code> format:</p>
+<p>If I want to convert the case of every element in <code>my_list</code> to lowercase with <code><a href="https://rdrr.io/r/base/chartr.html">tolower()</a></code> I would use the following standard <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code> format:</p>
 <div style="font-size: 0.90em;">
 <div class="cell">
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span>.x <span class="op">=</span> <span class="va">my_list</span>, .f <span class="op">=</span> <span class="va">tolower</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span>.x <span class="op">=</span> <span class="va">my_list</span>, .f <span class="op">=</span> <span class="va">tolower</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$words
-[1] "obvious" "wash"    "side"    "sex"     "word"   
+[1] "than"      "order"     "encourage" "left"      "active"   
 
 $sentences
-[1] "they slice the sausage thin with a knife."
-[2] "feed the white mouse some flower seeds."  
-[3] "the smell of burned rags itches my nose." 
+[1] "seven seals were stamped on great sheets."    
+[2] "in some form or other we need fun."           
+[3] "the fish twisted and turned on the bent hook."
 
 $letters
- [1] "z" "h" "j" "v" "o" "p" "d" "c" "x" "l"</code></pre>
+ [1] "w" "m" "p" "c" "o" "x" "a" "j" "r" "g"</code></pre>
 </div>
 </div>
 </div>
-<p>And there you have it–iteration in a single line of code! <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code> is identical to <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code> in this example, but it’s important to note that <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code> always returns a list (regardless of the object supplied to <code>.x</code>).</p>
-</section></section><section id="updates-in-version-1.0.0" class="level1"><h1>Updates in version 1.0.0</h1>
-<p>Now I’ll cover some of the updates in purrr 1.0.0 (using the examples above).</p>
-<section id="anonymous-functions" class="level2"><h2 class="anchored" data-anchor-id="anonymous-functions">Anonymous functions</h2>
-<p>As of <a href="https://cran.r-project.org/doc/manuals/r-devel/NEWS.html">R 4.1.0</a>, new anonymous functions have been added.</p>
-<blockquote class="blockquote">
-<p>“<em>R now provides a shorthand notation for creating functions, e.g.&nbsp;<code>\(x) x + 1</code> is parsed as <code>function(x) x + 1</code>.</em>”</p>
-</blockquote>
-<p><strong>Anonymous function syntax:</strong></p>
-<div style="font-size: 0.90em;">
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># written as an anonymous function</span></span>
-<span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Below is a comparison of R’s anonymous (unnamed) function and the updated shorthand syntax:</p>
-<ul>
-<li>
-<p>Standard anonymous function</p>
+<p>And there you have it! <code><a href="https://purrr.tidyverse.org/reference/map.html">map()</a></code> is the core function and workhorse of the <code>purrr</code> package. It’s important to note that <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code> always returns a list, regardless of the object supplied to <code>.x</code>.</p>
+</section></section><section id="version-1.0.0-updates" class="level1"><h1><strong>Version 1.0.0 updates</strong></h1>
+<p>Now I’ll cover some of the updates in <code>purrr</code> 1.0.0. I’ll be using <code>mixed_list</code>, a list with five different types of vectors.</p>
 <div style="font-size: 0.90em;">
 <div class="cell">
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">(</span><span class="st">"pIrAtES Ship"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "pirates ship"</code></pre>
-</div>
-</div>
-</div>
-</li>
-<li>
-<p>The updated anonymous syntax is below:</p>
-<div style="font-size: 0.90em;">
-<div class="cell">
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">(</span><span class="st">"pIrAtES Ship"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "pirates ship"</code></pre>
-</div>
-</div>
-</div>
-</li>
-</ul>
-<p>Writing the code above using an anonymous function would look like this:</p>
-<div style="font-size: 0.90em;">
-<div class="cell">
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">my_list</span> <span class="op">|&gt;</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>$words
-[1] "obvious" "wash"    "side"    "sex"     "word"   
-
-$sentences
-[1] "they slice the sausage thin with a knife."
-[2] "feed the white mouse some flower seeds."  
-[3] "the smell of burned rags itches my nose." 
-
-$letters
- [1] "z" "h" "j" "v" "o" "p" "d" "c" "x" "l"</code></pre>
-</div>
-</div>
-</div>
-<p>Anonymous functions make it <em>easier to understand which arguments belong to which function and will tend to yield better error messages.</em></p>
-<p>I’ll confirm the outputs from both methods are identical using <code><a href="https://waldo.r-lib.org/reference/compare.html">waldo::compare()</a></code>:</p>
-<div style="font-size: 0.90em;">
-<div class="cell">
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">waldo</span><span class="fu">::</span><span class="fu"><a href="https://waldo.r-lib.org/reference/compare.html">compare</a></span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span>.x <span class="op">=</span> <span class="va">my_list</span>, .f <span class="op">=</span> <span class="va">tolower</span><span class="op">)</span>, </span>
-<span>  y <span class="op">=</span> <span class="va">my_list</span> <span class="op">|&gt;</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>✔ No differences</code></pre>
-</div>
-</div>
-</div>
-<div class="callout-important callout callout-style-default no-icon callout-captioned">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-caption-container flex-fill">
-Formula syntax
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Prior to <code>purrr</code> v1.0.0, I could also use the formula syntax:</p>
-<p><strong>Formula syntax:</strong></p>
-<p>The formula syntax can take some getting used to, but Jenny Bryan offers some great advice on <a href="https://jennybc.github.io/purrr-tutorial/ls03_map-function-syntax.html#anonymous_function,_formula">her tutorial</a>,</p>
-<blockquote class="blockquote">
-<p>“<em><a href="#formula-syntax">formula syntax</a> should start with the <code>~</code> symbol and then look like a typical top-level expression, as you might write in a script. Use <code>.x</code> to refer to the input, i.e.&nbsp;an individual element of the primary vector or list.</em>”</p>
-</blockquote>
-<div style="font-size: 1.0em;">
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># written as normal expression</span></span>
-<span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<ul>
-<li><p><code>~ function()</code> read as ‘<em>map this function</em>’</p></li>
-<li><p><code>.x</code> = <code>purrr</code>’s placeholder for one element of our object (“<em>must use <code>.x</code> to refer to the first argument. Only recommended if you require backward compatibility with older versions of R.</em>”)</p></li>
-</ul>
-</div>
-</div>
-<p>I can double-check to see that the output from two variations are identical using <code><a href="https://waldo.r-lib.org/reference/compare.html">waldo::compare()</a></code>.</p>
-<div style="font-size: 0.90em;">
-<div class="cell">
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">waldo</span><span class="fu">::</span><span class="fu"><a href="https://waldo.r-lib.org/reference/compare.html">compare</a></span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="va">my_list</span> <span class="op">|&gt;</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>, </span>
-<span>  y <span class="op">=</span> <span class="va">my_list</span> <span class="op">|&gt;</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>✔ No differences</code></pre>
-</div>
-</div>
-</div>
-</section><section id="map-updates" class="level2"><h2 class="anchored" data-anchor-id="map-updates">
-<code>map()</code> updates</h2>
-<p><code><a href="https://purrr.tidyverse.org/reference/map.html">map()</a></code> is the core function and workhorse of the <code>purrr</code> package. However, as noted above, by default <code><a href="https://purrr.tidyverse.org/reference/map.html">map()</a></code> returns a list. Fortunately there are <code>map_</code> variations for each vector type.</p>
-<p>I’ll demonstrate them below using the <code>mixed_list</code> object, which has five vectors.</p>
-<div style="font-size: 0.90em;">
-<div class="cell">
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mixed_list</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mixed_list</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$booleans
-[1]  TRUE FALSE  TRUE FALSE
+[1] FALSE  TRUE FALSE  TRUE
 
 $integers
-[1] 10  1  8  4  7
+[1] 5 7 2 9 1
 
 $doubles
-[1] 2.839 2.942 3.041 3.209 2.882
+[1] 3.213 2.946 3.166 3.043 2.800
 
 $strings
-[1] "programme" "ball"      "practise"  "staff"     "forget"   
+[1] "kill"   "behind" "wee"    "feel"   "quite" 
 
 $dates
-[1] "2023-03-26" "2023-02-14" "2022-12-26"</code></pre>
+[1] "2023-03-27" "2023-02-15" "2022-12-27"</code></pre>
 </div>
 </div>
 </div>
+<section id="map-updates" class="level2"><h2 class="anchored" data-anchor-id="map-updates">
+<code>map()</code> updates</h2>
+<p>As noted above, by default <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code> returns a list. If I’d like to return a vector, I can use one of the <code>map_</code> variations (there’s one for each vector type).</p>
 <ul>
 <li>
-<p><code><a href="https://purrr.tidyverse.org/reference/map.html">map_lgl()</a></code>: returns a logical vector</p>
+<p>By mapping the <code>is.&lt;type&gt;()</code> functions the elements in <code>mixed_list</code>, I can test which elements in <code>mixed_list</code> return <code>TRUE</code>:</p>
+<ul>
+<li>
+<code><a href="https://purrr.tidyverse.org/reference/map.html">map_lgl()</a></code>: returns a logical vector</li>
+</ul>
 <div style="font-size: 0.90em;">
 <div class="cell">
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mixed_list</span> <span class="op">|&gt;</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_lgl</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/logical.html">is.logical</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mixed_list</span> <span class="op">|&gt;</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_lgl</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/logical.html">is.logical</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">## booleans integers  doubles  strings    dates </span></span>
 <span><span class="co">##     TRUE    FALSE    FALSE    FALSE    FALSE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-</li>
+<ul>
 <li>
-<p><code><a href="https://purrr.tidyverse.org/reference/map.html">map_int()</a></code>: returns an integer vector</p>
+<code><a href="https://purrr.tidyverse.org/reference/map.html">map_int()</a></code>: returns an integer vector</li>
+</ul>
 <div style="font-size: 0.90em;">
 <div class="cell">
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mixed_list</span> <span class="op">|&gt;</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_int</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">is.integer</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mixed_list</span> <span class="op">|&gt;</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_int</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">is.integer</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">## booleans integers  doubles  strings    dates </span></span>
 <span><span class="co">##        0        1        0        0        0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-</li>
+<ul>
 <li>
-<p><code><a href="https://purrr.tidyverse.org/reference/map.html">map_dbl()</a></code>: returns a double vector</p>
+<code><a href="https://purrr.tidyverse.org/reference/map.html">map_dbl()</a></code>: returns a double vector</li>
+</ul>
 <div style="font-size: 0.90em;">
 <div class="cell">
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mixed_list</span> <span class="op">|&gt;</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dbl</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/double.html">is.double</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mixed_list</span> <span class="op">|&gt;</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dbl</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/double.html">is.double</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">## booleans integers  doubles  strings    dates </span></span>
 <span><span class="co">##        0        0        1        0        1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-</li>
+<ul>
 <li>
-<p><code><a href="https://purrr.tidyverse.org/reference/map.html">map_chr()</a></code>: returns a character vector</p>
+<code><a href="https://purrr.tidyverse.org/reference/map.html">map_chr()</a></code>: returns a character vector</li>
+</ul>
 <div style="font-size: 0.90em;">
 <div class="cell">
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mixed_list</span> <span class="op">|&gt;</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_chr</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">is.character</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mixed_list</span> <span class="op">|&gt;</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_chr</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">is.character</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">## Warning: Automatic coercion from logical to character was deprecated in purrr 1.0.0.</span></span>
+<span><span class="co">## ℹ Please use an explicit call to `as.character()` within `map_chr()` instead.</span></span>
 <span><span class="co">## booleans integers  doubles  strings    dates </span></span>
 <span><span class="co">##  "FALSE"  "FALSE"  "FALSE"   "TRUE"  "FALSE"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -785,23 +836,130 @@ $dates
 </div>
 <p>As we can see from the output above, the logical return values from <code><a href="https://rdrr.io/r/base/character.html">is.character()</a></code> are coerced to characters (this behavior is now deprecated).</p>
 <section id="map_vec" class="level3"><h3 class="anchored" data-anchor-id="map_vec"><code>map_vec()</code></h3>
-<p>However, the previous <code><a href="https://purrr.tidyverse.org/reference/map_raw.html">map_raw()</a></code> function has been replaced with <code><a href="https://purrr.tidyverse.org/reference/map.html">map_vec()</a></code>, which I demonstrate below with the dates in <code>mixed_list</code> (testing for <code>is.character</code>):</p>
+<p><br></p>
+<p>However, the previous <code><a href="https://purrr.tidyverse.org/reference/map_raw.html">purrr::map_raw()</a></code> function has been replaced with <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map_vec()</a></code>, which “<em>simplifies to the common type of the output.</em>” I’ll demonstrate below with the characters in <code>mixed_list</code>:</p>
 <div style="font-size: 0.90em;">
 <div class="cell">
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mixed_list</span> <span class="op">|&gt;</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_vec</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">is.character</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mixed_list</span> <span class="op">|&gt;</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_vec</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">is.character</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>booleans integers  doubles  strings    dates 
    FALSE    FALSE    FALSE     TRUE    FALSE </code></pre>
 </div>
 </div>
 </div>
-<p>Notice the difference in output? This is because <code><a href="https://purrr.tidyverse.org/reference/map.html">map_vec()</a></code> “<em>simplifies to the common type of the output</em>”, which comes in handy for objects like dates:</p>
+<p>Notice the difference in output? The results are the same as above, but output is not commented (<code>##</code>). The same is true when I test the dates in <code>mixed_list</code> using <code><a href="https://lubridate.tidyverse.org/reference/date_utils.html">lubridate::is.Date()</a></code>:</p>
 <div style="font-size: 0.90em;">
 <div class="cell">
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mixed_list</span> <span class="op">|&gt;</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_vec</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/date_utils.html">is.Date</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mixed_list</span> <span class="op">|&gt;</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_vec</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/date_utils.html">is.Date</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>booleans integers  doubles  strings    dates 
    FALSE    FALSE    FALSE    FALSE     TRUE </code></pre>
+</div>
+</div>
+</div>
+</section></section><section id="anonymous-functions" class="level2"><h2 class="anchored" data-anchor-id="anonymous-functions">Anonymous functions</h2>
+<p>R introduced the shorthand anonymous function syntax in version <a href="https://cran.r-project.org/doc/manuals/r-devel/NEWS.html">4.1.0</a>:</p>
+<blockquote class="blockquote">
+<p>“<em><code>\(x) x + 1</code> is parsed as <code>function(x) x + 1</code>.</em>”</p>
+</blockquote>
+<p>Below is a comparison of an anonymous (unnamed) function and the updated shorthand syntax:</p>
+<ul>
+<li>
+<p>Standard anonymous function</p>
+<div style="font-size: 0.90em;">
+<div class="cell">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">(</span><span class="st">"pIrAtES Ship"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "pirates ship"</code></pre>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>The updated anonymous syntax is below:</p>
+<div style="font-size: 0.90em;">
+<div class="cell">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">(</span><span class="st">"pIrAtES Ship"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "pirates ship"</code></pre>
+</div>
+</div>
+</div>
+</li>
+</ul>
+<p>Writing the code above using an anonymous function would look like this:</p>
+<div style="font-size: 0.90em;">
+<div class="cell">
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">my_list</span> <span class="op">|&gt;</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$words
+[1] "than"      "order"     "encourage" "left"      "active"   
+
+$sentences
+[1] "seven seals were stamped on great sheets."    
+[2] "in some form or other we need fun."           
+[3] "the fish twisted and turned on the bent hook."
+
+$letters
+ [1] "w" "m" "p" "c" "o" "x" "a" "j" "r" "g"</code></pre>
+</div>
+</div>
+</div>
+<p>Anonymous functions make it <em>easier to understand which arguments belong to which function and will tend to yield better error messages.</em></p>
+<p>I’ll confirm the outputs from both methods are identical using <code><a href="https://waldo.r-lib.org/reference/compare.html">waldo::compare()</a></code>:</p>
+<div style="font-size: 0.90em;">
+<div class="cell">
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">waldo</span><span class="fu">::</span><span class="fu"><a href="https://waldo.r-lib.org/reference/compare.html">compare</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span>.x <span class="op">=</span> <span class="va">my_list</span>, .f <span class="op">=</span> <span class="va">tolower</span><span class="op">)</span>, </span>
+<span>  y <span class="op">=</span> <span class="va">my_list</span> <span class="op">|&gt;</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>✔ No differences</code></pre>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+The formula (<code>~ .x + 1</code>)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><br></p>
+<div style="font-size: 1.10em;">
+<p>Prior to <code>purrr</code> v1.0.0, I could also use the formula syntax, but now it’s “<em>only recommended if you require backward compatibility with older versions of R.</em>” I’ll cover the formula syntax briefly because you’re likely to encounter it.</p>
+</div>
+<div style="font-size: 1.10em;">
+<p>The formula syntax is typically used with pipes, so the contents of <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code> become the right-hand side of the formula, with the function we want to iterate (<code>&lt;FUNCTION&gt;</code>) and a placeholder (<code>.x</code>) in the appropriate argument.</p>
+</div>
+<div style="font-size: 1.20em;">
+<div class="sourceCode" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&lt;</span>OBJECT<span class="sc">&gt;</span> <span class="er">|&gt;</span> purrr<span class="sc">::</span><span class="fu">map</span>(<span class="sc">~</span> <span class="er">&lt;</span>FUNCTION<span class="sc">&gt;</span>(.x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div style="font-size: 1.10em;">
+<p>For the example above, <code>my_list</code> is ‘piped’ to <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code>, where the formula maps the <code><a href="https://rdrr.io/r/base/chartr.html">tolower()</a></code> function (using the <code>.x</code> placeholder).</p>
+</div>
+<div style="font-size: 1.00em;">
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># written as normal expression</span></span>
+<span> <span class="va">my_list</span> <span class="op">|&gt;</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div style="font-size: 1.10em;">
+<p>Jenny Bryan offers a great description on <a href="https://jennybc.github.io/purrr-tutorial/ls03_map-function-syntax.html#anonymous_function,_formula">her <code>purrr</code> tutorial</a>,</p>
+<blockquote class="blockquote">
+<p>“<em>[formula syntax] should start with the <code>~</code> symbol and then look like a typical top-level expression, as you might write in a script. Use <code>.x</code> to refer to the input, i.e.&nbsp;an individual element of the primary vector or list.</em>”</p>
+</blockquote>
+<p>I can double-check to see that the output from two variations are identical using <code><a href="https://waldo.r-lib.org/reference/compare.html">waldo::compare()</a></code>.</p>
+</div>
+<div style="font-size: 1.00em;">
+<div class="cell">
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">waldo</span><span class="fu">::</span><span class="fu"><a href="https://waldo.r-lib.org/reference/compare.html">compare</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="va">my_list</span> <span class="op">|&gt;</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>  y <span class="op">=</span> <span class="va">my_list</span> <span class="op">|&gt;</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>✔ No differences</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -840,7 +998,7 @@ purrr::map_df(.x = swdata, .f = tolower)
 
 :::
 -->
-</section></section></section><section id="worked-examples" class="level1"><h1>Worked Examples</h1>
+</section></section><section id="worked-examples" class="level1"><h1>Worked Examples</h1>
 <section id="copying-a-directory-of-files" class="level2"><h2 class="anchored" data-anchor-id="copying-a-directory-of-files">Copying a directory of files</h2>
 <blockquote class="blockquote">
 <p><em>You have a folder full of files you’d like to rename or copy to a new directory</em></p>
@@ -871,21 +1029,21 @@ REACP: <code>purrr</code> syntax variations
 <p><strong>Standard</strong></p>
 </div>
 <div style="font-size: 1.10em;">
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># define .x and .f</span></span>
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># define .x and .f</span></span>
 <span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span>.x <span class="op">=</span> <span class="va">my_list</span>, .f <span class="op">=</span> <span class="va">tolower</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div style="font-size: 1.25em;">
 <p><strong>Anonymous function</strong></p>
 </div>
 <div style="font-size: 1.10em;">
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># anonymous shorthand notation</span></span>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># anonymous shorthand notation</span></span>
 <span><span class="va">my_list</span> <span class="op">|&gt;</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div style="font-size: 1.25em;">
-<p><strong>Formula</strong></p>
+<p><strong>Formula (deprecated)</strong></p>
 </div>
 <div style="font-size: 1.10em;">
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># written as normal expression</span></span>
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># written as normal expression</span></span>
 <span><span class="va">my_list</span> <span class="op">|&gt;</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
