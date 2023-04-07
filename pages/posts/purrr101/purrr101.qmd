@@ -21,6 +21,7 @@ execute:
   echo: true
   warning: false
   eval: true
+  collapse: true
 ---
 
 ```{r}
@@ -28,88 +29,9 @@ execute:
 #| eval: true
 #| echo: false
 #| include: false
+source("../_common.R")
 library(kableExtra)
-co_box <- function(color, header, contents = "Your text") {
-  class <- switch(color,
-    b = "note",
-    g = "tip",
-    r = "important",
-    o = "caution",
-    stop("Invalid `type`", call. = FALSE)
-  )
-  switch(color,
-    b = cat(paste0(
-      "\n",
-      ":::: {.callout-", class, " collapse='false'}", "\n\n",
-      "## ", header, "\n\n",
-      "::: {style='font-size: 0.90em; color: #696969;'}\n\n",
-      contents, "\n\n",
-      "::: \n\n",
-      "::::", "\n"
-    )),
-    g = cat(paste0(
-      "\n",
-      ":::: {.callout-", class, " collapse='true'}", "\n\n",
-      "## ", header, "\n\n",
-      "::: {style='font-size: 0.90em; color: #696969;'}\n\n",
-      contents, "\n\n",
-      "::: \n\n",
-      "::::", "\n"
-    )),
-    o = cat(paste0(
-      "\n",
-      ":::: {.callout-", class, " collapse='false'}", "\n\n",
-      "## ", header, "\n\n",
-      "::: {style='font-size: 0.90em; color: #696969;'}\n\n",
-      contents, "\n\n",
-      "::: \n\n",
-      "::::", "\n"
-    )),
-    r = cat(paste0(
-      "\n",
-      ":::: {.callout-", class, " collapse='false'}", "\n\n",
-      "## ", header, "\n\n",
-      "::: {style='font-size: 0.90em; color: #696969;'}\n\n",
-      contents, "\n\n",
-      "::: \n\n",
-      "::::", "\n"
-    )),
-    stop("Invalid `type`", call. = FALSE)
-  )
-}
-# make_mixed_list ----
-make_mixed_list <- function() {
-  list(
-    'booleans' = rep(
-      x = sample(c(TRUE, FALSE), size = 2, replace = FALSE),
-      times = 2
-    ),
-    'integers' = as.integer(sample(1:10, size = 5, replace = FALSE)),
-    'doubles' = round(rnorm(n = 5, mean = 3, sd = 0.2), digits = 3),
-    'strings' = sample(x = stringr::words, size = 5, replace = FALSE),
-    'dates' = c(lubridate::as_date(lubridate::today() - 10), 
-                lubridate::as_date(lubridate::today() - 50),
-                lubridate::as_date(lubridate::today() - 100)
-      )
-  )
-}
 mixed_list <- make_mixed_list()
-# make_my_list -----
-make_my_list <- function() {
-  require(stringr)
-  require(snakecase)
-  words <- sample(snakecase::to_random_case(stringr::words),
-              size = 5, replace = FALSE)
-  sentences <- sample(snakecase::to_random_case(stringr::sentences), 
-              size = 3, replace = FALSE)
-  letters <- sample(snakecase::to_random_case(LETTERS),
-              size = 10, replace = FALSE)
-  list(
-    'words' = words,
-    'sentences' = sentences,
-    'letters' = letters
-  )
-}
 my_list <- make_my_list()
 ```
 
@@ -148,28 +70,30 @@ library(lubridate)
 library(stringr)
 library(snakecase)
 library(sloop)
+library(waldo)
 ```
 :::
 
-This post is going to cover the recent updates to the [`purrr` package](https://purrr.tidyverse.org/) ("*a complete and consistent set of tools for working with functions and vectors*"). The release of [version 1.0.0](https://www.tidyverse.org/blog/2022/12/purrr-1-0-0/) (and dev version  [v1.0.1](https://github.com/tidyverse/purrr/blob/main/NEWS.md#purrr-101)) had some breaking changes, which I've always found to be a great time for a refresher!
+This post is going to cover the recent updates to the [`purrr` package](https://purrr.tidyverse.org/). The release of [version 1.0.0](https://www.tidyverse.org/blog/2022/12/purrr-1-0-0/) (and dev version  [v1.0.1](https://github.com/tidyverse/purrr/blob/main/NEWS.md#purrr-101)) had some breaking changes, which I will cover below. But first, I'll dive into some attributes of R's functions and objects that make `purrr` particularly useful, and I'll work through iteration problems I've encountered (and solved with `purrr`).
 
-# REFRESHER: Functions and objects 
+# **Refresher**: functions and objects 
 
 If you're like me, you've never been a big fan of `for` loops. They're an important concept to grasp, but if you've ever had to debug what's happening in multiple nested `for` loops, you've probably found yourself asking if there's a better way to iterate.
 
 In a functional programming language like R, it's nice when we can have functions perform a lot of the work we'd have to write into a `for` loop. 
 
-## Generic functions
+## Generic functions & S3 objects
 
-R's syntax avoids explicit iteration by allowing certain *generic* functions to be used across different types (or objects). For example, the base `plot()` function is an S3 generic function: 
+R's syntax avoids explicit iteration by allowing certain *generic* functions to be used across different types (or objects). For example, the base `plot()` and `summary()` functions are S3 generic function: 
 
 ::: {style="font-size: 0.90em;"}
 ```{r isS3stdGeneric}
 sloop::ftype(plot)
+sloop::ftype(summary)
 ```
 :::
 
-Which means `plot()` can be applied to a `ts` (Time-Series) object or a standard `data.frame`:
+Which means `plot()` can be applied to S3 objects, like time-series (`ts`) and rectangular datasets (`data.frame`):
 
 ::: {style="font-size: 0.90em;"}
 ```{r LakeHuron}
@@ -177,11 +101,20 @@ Which means `plot()` can be applied to a `ts` (Time-Series) object or a standard
 #| echo: true
 #| eval: true
 #| collapse: true
+sloop::otype(datasets::LakeHuron)
 class(datasets::LakeHuron)
+sloop::otype(datasets::chickwts)
 class(datasets::chickwts)
 ```
 
 ```{r chickwts}
+#| label: summary_demo
+#| collapse: true
+summary(datasets::LakeHuron)
+summary(datasets::chickwts)
+```
+
+```{r}
 #| layout-ncol: 2
 #| fig-cap: 
 #|   - "Time-series plot"
@@ -191,15 +124,7 @@ plot(datasets::chickwts)
 ```
 :::
 
-`summary()` is also generic--we can apply this function to individual data objects, model outputs, etc.
-
-::: {style="font-size: 0.90em;"}
-```{r isS3stdGeneric-summary}
-sloop::ftype(summary)
-```
-:::
-
-`plot()` and `summary()` are parametric polymorphic (generic) functions, which means we see slightly different behaviors based on the object we pass into it. 
+`summary()` is a particularly versatile function, because it can be used on `data.frame`s, a single column in a `data.frame`, model outputs, and more. 
 
 ::: {style="font-size: 0.90em; color: #696969;"}
 *Click **Code** below to view an example using `summary()`*
@@ -227,6 +152,11 @@ coef(summary(lm_mod))
 ```
 :::
 
+
+## FP + OOP 
+
+`plot()` and `summary()` are parametric polymorphic (generic) functions, which means we see slightly different behaviors based on the object we pass into it. 
+
 As you can see, generic functions are flexible and efficient because we're not having to define a new function for each object--the output from the function depends (in part) on the structure of the object.
 
 > *Functional programming is complementary to object-oriented programming, which has been the dominant programming paradigm for the last several decades.* - Advanced R, 2nd edition
@@ -237,19 +167,26 @@ The relationship between functions and objects is what makes `purrr` (and other 
 
 In programming, iteration refers to defining an input and applying an operation over every part of it. Some examples of problems that iteration can solve include: 
 
-  1. You have a folder full of files you'd like to rename or copy to a new directory   
+  1. You have a list of objects and you'd like to apply a function (or a series of functions) over the elements in the list
+  
+  2. You have a folder full of files you'd like to rename or copy to a new directory   
 
-  2. You'd like to download a collection of files from separate URLS  
+  3. You'd like to download a collection of files from separate URLS  
 
-  3. You have several years of data, and each year is contained in separate file. You'd like to read these data into R, combine them into a single dataset
+  4. You have several years of data, and each year is contained in separate file. You'd like to read these data into R, combine them into a single dataset
 
-  4. You have a non-rectangular (i.e., list) of datasets you'd like to split into individual `data.frame`s, then export these into separate file paths. 
+  5. You have a non-rectangular (i.e., list) of datasets you'd like to split into individual `data.frame`s, then export these into separate file paths. 
 
-These are all problems I've personally encountered that required a variety of iteration tools to tackle. But I'll start with a simple example because the principles remain the same (regardless of the size/scope of the problem):
+These are all problems I've personally encountered that required a variety of iteration tools to tackle. I'll start with the first example because the principles remain the same (regardless of the size/scope of the problem):
 
-  5. I have a list of character strings and I'd like to convert the case of the text
 
-It just so happens I have such a list (`my_list`), with items in various cases. 
+# **The `for` loop**
+
+`for` loops are ubiquitous in programming, and (for the most part) they describe the types of problems they're solving: 
+
+> "*for each `item` in `object`, do `operation`*"
+
+I have a list (`my_list`), with items in various cases:
 
 ::: {style="font-size: 0.90em;"}
 ```{r my_list}
@@ -269,19 +206,13 @@ tolower(my_list) |> str()
 ```
 :::
 
-How can I apply the `tolower()` function to each item in `my_list` (and return the original object type)?
-
-# The `for` loop
-
-`for` loops are ubiquitous in programming, and (for the most part) they describe the types of problems they're solving: 
-
-> "*for each `item` in `object`, do `operation`*"
-
-I'll use `my_list` and `tolower()` to demonstrate how I was taught to write `for` loops:
+How can I apply the `tolower()` function to each item in `my_list`, and return the original object type? I'll use `my_list` and `tolower()` to demonstrate how I was taught to write `for` loops:
 
 -   **First**: define the sequence, '*for `[item]` in `[items in object]`*'
 
-      -   In this case, `x` is the abstracted `[item]` taking on the values returned by `seq_along(my_list)` (the `[items in object]`)
+      -   In this case, `x` is the abstracted `[item]` taking on the values returned by `seq_along(my_list)` (the `[items in object]`) 
+      
+    ::: {style="font-size: 0.90em;"}
     ```{r}
     #| collapse: true
     seq_along(my_list)
@@ -290,21 +221,30 @@ I'll use `my_list` and `tolower()` to demonstrate how I was taught to write `for
     # use this to get 'items in object'
     my_list[[seq_along(my_list)[1]]]
     ```
+    :::
     
 -   **Second**: write the operations the for loop will perform per iteration (i.e. the first iteration is `x` = `tolower(my_list[[1]])`; the second iteration is `x` = `tolower(my_list[[2]])`; etc.)
 
     - Test this with a few values if you like
+    
+    ::: {style="font-size: 0.90em;"}
     ```{r}
     tolower(my_list[[2]])
     ```
+    :::
 
 -   **Third**: define an (optional) object to capture the results of the loop (`lc_list`), and make sure it's the correct size
 
-    - Creating empty lists  
+    - Two methods for creating empty lists  
+    
+    ::: {style="font-size: 0.90em;"}
     ```{r}
+    #| label: empty_list
+    #| collapse: true
     vector(mode = "list", length = 3)
     list(NULL, NULL, NULL)
     ```
+    :::
 
 Finally, we put it all together in a `for` loop
 
@@ -334,20 +274,131 @@ This was a simple example, but it demonstrates the basic components in a `for` l
     - `lc_list <- vector(mode = "list", length = 3)` and  
     - `lc_list[[x]]`
   
-# Base R
+# **Base R**
 
-The family of functions `apply` functions from base R (`apply()`, `tapply()`, `sapply()`, `lapply()`) take advantage of R's functional programming and remove a lot of the 'book keeping' code we have to write in `for` loops. 
+base R has the `_apply` family of functions (`apply()`, `lapply()`, `sapply()`, `vapply()`, etc.) that remove a lot of the 'book keeping' code we had to write in the `for` loop.
 
-The function I want for the example above is `lapply()` (pronounced 'l-apply', and the `l` stands for list). There are only two required arguments: `X` and `FUN`, with `X` being the object we want to iterate over, and `FUN` being the function we want iterated:
 
+## `lapply()`
+
+
+Sticking with the `my_list` and `tolower()` example, the `apply` function I want is `lapply()` (pronounced 'l-apply'), and the `l` stands for list.
+
+`lapply()` has only two required arguments: 
+
+  - `X` the object we want to iterate over 
+
+  - `FUN` being the function we want iterated 
+
+::: {style="font-size: 0.90em;"}
 ```{r}
-#| label: lapply
+#| label: lapply_intro
 lapply(X = my_list, FUN = tolower)
 ```
+:::
 
-However, the `apply` functions have minor differences in how they are used. 
 
-# `purrr`
+## `sapply()`
+
+`sapply()` attempts to simplify the result depending on the `X` argument. If `X` is a list containing vectors where every element has the same length (and it's greater than 1), then `sapply()` returns a matrix:
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| label: sapply_list
+str(my_list[1])
+sapply(X = my_list[1], FUN = tolower)
+```
+:::
+
+If a vector is passed to `X` where every element is length 1, then a vector is returned: 
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| label: sapply_vector
+str(my_list[[1]])
+sapply(X = my_list[[1]], FUN = tolower) 
+```
+:::
+
+Finally, if `X` is a list where elements have a length greater than 1, then a list is returned (making it identical to `lapply()`
+
+::: {style="font-size: 0.90em;"}
+```{r}
+waldo::compare(
+  x = sapply(X = my_list, FUN = tolower), 
+  y = lapply(X = my_list, FUN = tolower)
+)
+```
+:::
+
+This is because `sapply` is a wrapper around `lapply`, but has `simplify` and `USE.NAMES` set to  `FALSE` (see what happens below when I change them to `TRUE`)
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| label: sapply_waldo
+waldo::compare(
+  
+  x = lapply(X = my_list[[1]], FUN = tolower), 
+  
+  y = sapply(X = my_list[[1]], FUN = tolower, 
+              simplify = TRUE, USE.NAMES = TRUE)
+  
+  )
+```
+:::
+
+## Anonmymous functions 
+
+The `FUN` argument can also take anonymous (undefined) functions. For example, if I wanted to access the second elements in `my_list`, I could pass an anonymous function the `FUN` (with the index):
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| label: lapply_anon_fun
+lapply(X = my_list, FUN = function(x) x[[2]])
+```
+:::
+
+## `vapply()`
+
+Finally `vapply()` is unique in that it always simplifies the returned output. If we repeat the example above, we see the returned value is character vector:
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| label: vapply_anon_fun
+vapply(X = my_list, 
+  FUN = function(x) x[[2]], 
+  FUN.VALUE = character(1))
+```
+:::
+
+
+The `apply` functions get us much further than writing `for` loops because we can 1) iterate over vectors and lists, 2) control the output objects, and 3) **write less code.** Unlike generic functions, `apply` functions are designed to work with specific object types, and return values depending on these objects.
+
+
+One downside of apply functions is they don't play well with `data.frame`s or `tibble`s. However, we can control their return values (and manually supply these to `tibble::tibble()` or `data.frame()`
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| label: tibble_from_list
+#| code-fold: true
+#| eval: false
+tibble::tibble(
+  words = vapply(X = my_list[[1]][1:3], 
+                FUN = `[`, 
+                FUN.VALUE = character(1)),
+  sentences = vapply(X = my_list[[2]][1:3], 
+                    FUN = `[`, 
+                    FUN.VALUE = character(1)),
+  letters = vapply(X = my_list[[3]][1:3], 
+                  FUN = `[`, 
+                  FUN.VALUE = character(1)))
+```
+:::
+
+
+Another downside of the `apply` functions is they're not very uniform. Each function has slight variations in their arguments and rules for return values. This is where `purrr` comes in...
+
+# **`purrr`**
 
 If you're new to `purrr`, a great way to start using it's functions is with a recipe covered in [Charlotte Wickham's tutorial](https://posit.co/resources/videos/happy-r-users-purrr-tutorial/)
 
@@ -361,22 +412,24 @@ I'll work through these three steps below using `my_list` and `tolower()`
 
 ## 1. Do it for one element
 
-The goal with this first step is to get a minimal working example with a single element from the object I want to use (and the function I want to iterate).
+The goal with the first step is to get a minimal working example with a single element from the object I want to iterate over (with the function I want to iterate with).
+
+For this example, I need to subset `my_list` for a single element at position `[[1]]`, `[[2]]`, or `[[3]]` (or using one of the vector names). 
+
+I'll then pass this element to `tolower()` and make sure it's the desired behavior:
 
 ::: {style="font-size: 0.90em;"}
 ```r
 # subset an element from the list
-_____ <- my_list[[?]]
+? <- my_list[[?]]
 # apply a function to extracted element
-tolower(_____)
+tolower(?)
 ```
 :::
 
-- `_____ <- my_list[[?]]` = subsetted element (`?`) from a list (`my_list`)
+- `? <- my_list[[?]]` = subset element from the list (`my_list`)
 
-- `tolower(_____)` = apply operation (i.e., function) to apply across extracted element.
-
-In this case, I'll subset `my_list` for a single element (`words`, `sentences`, or `letters`) so I can use it with `tolower()`. I'll start with the `words` vector in `my_list`
+- `tolower(?)` = apply operation (i.e., function) to extracted element.
 
 ::: {style="font-size: 0.90em;"}
 ```{r}
@@ -405,7 +458,7 @@ A standard `purrr` recipe defines `.x` (the object) and `.f` (the function), fol
 
 In `purrr::map()`, the `.x` argument is the object (list or atomic vector) I want to iterate over, and `.f` is the function (i.e., operation) I want applied to every element of `.x` 
 
-For example, if I want to convert the case of every element in my_list to lowercase with `tolower`, I would use the following standard `purrr::map()` format:
+If I want to convert the case of every element in `my_list` to lowercase with `tolower()` I would use the following standard `purrr::map()` format:
 
 ::: {style="font-size: 0.90em;"}
 ```{r}
@@ -415,28 +468,108 @@ purrr::map(.x = my_list, .f = tolower)
 ```
 :::
 
-And there you have it--iteration in a single line of code! `purrr::map()` is identical to `lapply()` in this example, but it's important to note that `purrr::map()` always returns a list (regardless of the object supplied to `.x`).
+And there you have it! `map()` is the core function and workhorse of the `purrr` package. It's important to note that `purrr::map()` always returns a list, regardless of the object supplied to `.x`. 
 
-# Updates in version 1.0.0
+# **Version 1.0.0 updates**
 
-Now I'll cover some of the updates in purrr 1.0.0 (using the examples above).
-
-## Anonymous functions
-
-As of [R 4.1.0](https://cran.r-project.org/doc/manuals/r-devel/NEWS.html), new anonymous functions have been added. 
-
-> "*R now provides a shorthand notation for creating functions, e.g. `\(x) x + 1` is parsed as `function(x) x + 1`.*" 
-
-**Anonymous function syntax:**
+Now I'll cover some of the updates in `purrr` 1.0.0. I'll be using `mixed_list`, a list with five different types of vectors. 
 
 ::: {style="font-size: 0.90em;"}
-```r
-# written as an anonymous function
-\(x) tolower(x)
+```{r mixed_list}
+#| label: mixed_list
+mixed_list
 ```
 :::
 
-Below is a comparison of R's anonymous (unnamed) function and the updated shorthand syntax:
+## `map()` updates 
+
+As noted above, by default `purrr::map()` returns a list. If I'd like to return a vector, I can use one of the `map_` variations (there's one for each vector type). 
+
+-   By mapping the `is.<type>()` functions the elements in `mixed_list`, I can test which elements in `mixed_list` return `TRUE`:
+
+    -   `map_lgl()`: returns a logical vector 
+
+    ::: {style="font-size: 0.90em;"}
+    ```{r}
+    #| warning: false
+    #| collapse: true
+    mixed_list |> purrr::map_lgl(\(x) is.logical(x))
+    ```
+    :::
+
+    -   `map_int()`: returns an integer vector 
+
+    ::: {style="font-size: 0.90em;"}
+    ```{r}
+    #| warning: false
+    #| collapse: true
+    mixed_list |> purrr::map_int(\(x) is.integer(x))
+    ```
+    :::
+
+    -   `map_dbl()`: returns a double vector 
+
+    ::: {style="font-size: 0.90em;"}
+    ```{r}
+    #| warning: false
+    #| collapse: true
+    mixed_list |> purrr::map_dbl(\(x) is.double(x))
+    ```
+    :::
+
+    -   `map_chr()`: returns a character vector 
+
+    ::: {style="font-size: 0.90em;"}
+    ```{r}
+    #| warning: true
+    #| message: true
+    #| collapse: true
+    mixed_list |> purrr::map_chr(\(x) is.character(x))
+    ```
+    :::
+    
+When we test for characters in `mixed_list`, we see the following warning:
+
+::: {style="font-size: 0.90em;"}
+> `Warning: Automatic coercion from logical to character was deprecated in purrr`
+> `1.0.0. Please use an explicit call to as.character() within map_chr() instead`
+:::
+
+As we can see from the output above, the logical return values from `is.character()` are coerced to characters (this behavior is now deprecated).
+
+### `map_vec()`
+
+<br>
+
+However, the previous `purrr::map_raw()` function has been replaced with `purrr::map_vec()`, which "*simplifies to the common type of the output.*" I'll demonstrate below with the characters in `mixed_list`:
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| warning: true
+#| message: true
+#| eval: true
+mixed_list |> purrr::map_vec(\(x) is.character(x))
+```
+:::
+
+Notice the difference in output?  The results are the same as above, but output is not commented (`##`). The same is true when I test the dates in `mixed_list` using `lubridate::is.Date()`:
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| warning: true
+#| message: true
+#| eval: true
+mixed_list |> purrr::map_vec(\(x) lubridate::is.Date(x))
+```
+:::
+
+## Anonymous functions
+
+R introduced the shorthand anonymous function syntax in version [4.1.0](https://cran.r-project.org/doc/manuals/r-devel/NEWS.html):
+
+> "*`\(x) x + 1` is parsed as `function(x) x + 1`.*" 
+
+Below is a comparison of an anonymous (unnamed) function and the updated shorthand syntax:
 
 -   Standard anonymous function  
 
@@ -479,32 +612,44 @@ waldo::compare(
 :::
 
 :::: {.callout-important icon=false}
-## Formula syntax 
+## The formula (`~ .x + 1`)
 
-Prior to `purrr` v1.0.0, I could also use the formula syntax:
+<br>
 
-**Formula syntax:**
+::: {style="font-size: 1.10em;"}
+Prior to `purrr` v1.0.0, I could also use the formula syntax, but now it's "*only recommended if you require backward compatibility with older versions of R.*" I'll cover the formula syntax briefly because you're likely to encounter it. 
+:::
 
-The formula syntax can take some getting used to, but Jenny Bryan offers some great advice on [her tutorial](https://jennybc.github.io/purrr-tutorial/ls03_map-function-syntax.html#anonymous_function,_formula), 
+::: {style="font-size: 1.10em;"}
+The formula syntax is typically used with pipes, so the contents of `purrr::map()` become the right-hand side of the formula, with the function we want to iterate (`<FUNCTION>`) and a placeholder (`.x`) in the appropriate argument.
+:::
 
-> "*[formula syntax] should start with the `~` symbol and then look like a typical top-level expression, as you might write in a script. Use `.x` to refer to the input, i.e. an individual element of the primary vector or list.*"
-
-::: {style="font-size: 1.0em;"}
+::: {style="font-size: 1.20em;"}
 ```r
-# written as normal expression
- ~ tolower(.x)
+<OBJECT> |> purrr::map(~ <FUNCTION>(.x))
 ```
 :::
 
-- `~ function()` read as '*map this function*'
+::: {style="font-size: 1.10em;"}
+For the example above, `my_list` is 'piped' to `purrr::map()`, where the formula maps the `tolower()` function (using the `.x` placeholder).
+:::
 
-- `.x` = `purrr`'s placeholder for one element of our object ("*must use `.x` to refer to the first argument. Only recommended if you require backward compatibility with older versions of R.*")
+::: {style="font-size: 1.00em;"}
+```r
+# written as normal expression
+ my_list |> purrr::map(~ tolower(.x))
+```
+:::
 
-::::
+::: {style="font-size: 1.10em;"}
+Jenny Bryan offers a great description on [her `purrr` tutorial](https://jennybc.github.io/purrr-tutorial/ls03_map-function-syntax.html#anonymous_function,_formula), 
+
+> "*[formula syntax] should start with the `~` symbol and then look like a typical top-level expression, as you might write in a script. Use `.x` to refer to the input, i.e. an individual element of the primary vector or list.*"
 
 I can double-check to see that the output from two variations are identical using `waldo::compare()`.
+:::
 
-::: {style="font-size: 0.90em;"}
+::: {style="font-size: 1.00em;"}
 ```{r}
 #| label: my_list_purrr_anonymous
 #| results: hold
@@ -514,92 +659,9 @@ waldo::compare(
 ```
 :::
 
-## `map()` updates 
+::::
 
-`map()` is the core function and workhorse of the `purrr` package. However, as noted above, by default `map()` returns a list. Fortunately there are `map_` variations for each vector type. 
 
-I'll demonstrate them below using the `mixed_list` object, which has five vectors. 
-
-::: {style="font-size: 0.90em;"}
-```{r mixed_list}
-#| label: mixed_list
-mixed_list
-```
-:::
-
--   `map_lgl()`: returns a logical vector 
-
-    ::: {style="font-size: 0.90em;"}
-    ```{r}
-    #| warning: false
-    #| collapse: true
-    mixed_list |> purrr::map_lgl(\(x) is.logical(x))
-    ```
-    :::
-
--   `map_int()`: returns an integer vector 
-
-    ::: {style="font-size: 0.90em;"}
-    ```{r}
-    #| warning: false
-    #| collapse: true
-    mixed_list |> purrr::map_int(\(x) is.integer(x))
-    ```
-    :::
-
--   `map_dbl()`: returns a double vector 
-
-    ::: {style="font-size: 0.90em;"}
-    ```{r}
-    #| warning: false
-    #| collapse: true
-    mixed_list |> purrr::map_dbl(\(x) is.double(x))
-    ```
-    :::
-
--   `map_chr()`: returns a character vector 
-
-    ::: {style="font-size: 0.90em;"}
-    ```{r}
-    #| warning: false
-    #| message: false
-    #| collapse: true
-    mixed_list |> purrr::map_chr(\(x) is.character(x))
-    ```
-    :::
-    
-When we test for characters in `mixed_list`, we see the following warning:
-
-::: {style="font-size: 0.90em;"}
-> `Warning: Automatic coercion from logical to character was deprecated in purrr`
-> `1.0.0. Please use an explicit call to as.character() within map_chr() instead`
-:::
-
-As we can see from the output above, the logical return values from `is.character()` are coerced to characters (this behavior is now deprecated).
-
-### `map_vec()`
-
-However, the previous `map_raw()` function has been replaced with `map_vec()`, which I demonstrate below with the dates in `mixed_list` (testing for `is.character`):
-
-::: {style="font-size: 0.90em;"}
-```{r}
-#| warning: true
-#| message: true
-#| eval: true
-mixed_list |> purrr::map_vec(\(x) is.character(x))
-```
-:::
-
-Notice the difference in output? This is because `map_vec()` "*simplifies to the common type of the output*", which comes in handy for objects like dates: 
-
-::: {style="font-size: 0.90em;"}
-```{r}
-#| warning: true
-#| message: true
-#| eval: true
-mixed_list |> purrr::map_vec(\(x) lubridate::is.Date(x))
-```
-:::
 
 <!--
 # map for `data.frame` and `tibble`s
@@ -661,7 +723,7 @@ my_list |> purrr::map(\(x) tolower(x))
 :::
 
 ::: {style="font-size: 1.25em;"}
-**Formula**
+**Formula (deprecated)**
 :::
 
 ::: {style="font-size: 1.10em;"}
