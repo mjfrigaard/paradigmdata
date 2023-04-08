@@ -422,22 +422,22 @@ ALERT!
 <div class="cell">
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">my_list</span></span>
 <span><span class="co">## $words</span></span>
-<span><span class="co">## [1] "rING"      "REGArD"    "neceSSAry" "yesterDay" "IncOme"   </span></span>
+<span><span class="co">## [1] "SepaRAtE" "PRInt"    "fIT"      "manY"     "MaTCH"   </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $sentences</span></span>
-<span><span class="co">## [1] "OnE STeP mOre AnD tHe bOaRD wiLl colLAPSE."</span></span>
-<span><span class="co">## [2] "tHE BILL WAs paid eveRy tHird wEeK."       </span></span>
-<span><span class="co">## [3] "CodE iS UseD WHEn sECRetS Are SeNT."       </span></span>
+<span><span class="co">## [1] "tO reAch thE END He NeEds mUch cOuragE."       </span></span>
+<span><span class="co">## [2] "the sOft cusHIoN brOKE The MaN's faLL."        </span></span>
+<span><span class="co">## [3] "THE cLOuD moVed iN a STAtEly waY aNd WAs gonE."</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $letters</span></span>
-<span><span class="co">##  [1] "V" "a" "m" "d" "l" "R" "I" "h" "J" "C"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##  [1] "g" "N" "D" "K" "z" "B" "X" "J" "E" "R"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <p>If I try to use the <code><a href="https://rdrr.io/r/base/chartr.html">tolower()</a></code> on <code>my_list</code>, it returns a vector.</p>
 <div style="font-size: 0.90em;">
 <div class="cell">
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">my_list</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">##  chr [1:3] "c(\"ring\", \"regard\", \"necessary\", \"yesterday\", \"income\")" ...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##  chr [1:3] "c(\"separate\", \"print\", \"fit\", \"many\", \"match\")" ...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <p>How can I apply the <code><a href="https://rdrr.io/r/base/chartr.html">tolower()</a></code> function to each item in <code>my_list</code>, and return the original object type? I’ll use <code>my_list</code> and <code><a href="https://rdrr.io/r/base/chartr.html">tolower()</a></code> to demonstrate how I was taught to write <code>for</code> loops:</p>
@@ -456,7 +456,7 @@ ALERT!
 <span><span class="co">## [1] 1</span></span>
 <span><span class="co"># use this to get 'items in object'</span></span>
 <span><span class="va">my_list</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span><span class="op">(</span><span class="va">my_list</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="co">## [1] "rING"      "REGArD"    "neceSSAry" "yesterDay" "IncOme"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">## [1] "SepaRAtE" "PRInt"    "fIT"      "manY"     "MaTCH"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </li>
@@ -469,9 +469,9 @@ ALERT!
 <div class="cell">
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">my_list</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "one step more and the board will collapse."
-[2] "the bill was paid every third week."       
-[3] "code is used when secrets are sent."       </code></pre>
+<pre><code>[1] "to reach the end he needs much courage."       
+[2] "the soft cushion broke the man's fall."        
+[3] "the cloud moved in a stately way and was gone."</code></pre>
 </div>
 </div>
 </div>
@@ -520,15 +520,15 @@ ALERT!
 <span><span class="va">lc_list</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$words
-[1] "ring"      "regard"    "necessary" "yesterday" "income"   
+[1] "separate" "print"    "fit"      "many"     "match"   
 
 $sentences
-[1] "one step more and the board will collapse."
-[2] "the bill was paid every third week."       
-[3] "code is used when secrets are sent."       
+[1] "to reach the end he needs much courage."       
+[2] "the soft cushion broke the man's fall."        
+[3] "the cloud moved in a stately way and was gone."
 
 $letters
- [1] "v" "a" "m" "d" "l" "r" "i" "h" "j" "c"</code></pre>
+ [1] "g" "n" "d" "k" "z" "b" "x" "j" "e" "r"</code></pre>
 </div>
 </div>
 </div>
@@ -570,15 +570,15 @@ $letters
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">my_list</span>, FUN <span class="op">=</span> <span class="va">tolower</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$words
-[1] "ring"      "regard"    "necessary" "yesterday" "income"   
+[1] "separate" "print"    "fit"      "many"     "match"   
 
 $sentences
-[1] "one step more and the board will collapse."
-[2] "the bill was paid every third week."       
-[3] "code is used when secrets are sent."       
+[1] "to reach the end he needs much courage."       
+[2] "the soft cushion broke the man's fall."        
+[3] "the cloud moved in a stately way and was gone."
 
 $letters
- [1] "v" "a" "m" "d" "l" "r" "i" "h" "j" "c"</code></pre>
+ [1] "g" "n" "d" "k" "z" "b" "x" "j" "e" "r"</code></pre>
 </div>
 </div>
 </div>
@@ -589,16 +589,16 @@ $letters
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">my_list</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>List of 1
- $ words: chr [1:5] "rING" "REGArD" "neceSSAry" "yesterDay" ...</code></pre>
+ $ words: chr [1:5] "SepaRAtE" "PRInt" "fIT" "manY" ...</code></pre>
 </div>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">my_list</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, FUN <span class="op">=</span> <span class="va">tolower</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>     words      
-[1,] "ring"     
-[2,] "regard"   
-[3,] "necessary"
-[4,] "yesterday"
-[5,] "income"   </code></pre>
+<pre><code>     words     
+[1,] "separate"
+[2,] "print"   
+[3,] "fit"     
+[4,] "many"    
+[5,] "match"   </code></pre>
 </div>
 </div>
 </div>
@@ -607,12 +607,12 @@ $letters
 <div class="cell">
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">my_list</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> chr [1:5] "rING" "REGArD" "neceSSAry" "yesterDay" "IncOme"</code></pre>
+<pre><code> chr [1:5] "SepaRAtE" "PRInt" "fIT" "manY" "MaTCH"</code></pre>
 </div>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">my_list</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, FUN <span class="op">=</span> <span class="va">tolower</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       rING      REGArD   neceSSAry   yesterDay      IncOme 
-     "ring"    "regard" "necessary" "yesterday"    "income" </code></pre>
+<pre><code>  SepaRAtE      PRInt        fIT       manY      MaTCH 
+"separate"    "print"      "fit"     "many"    "match" </code></pre>
 </div>
 </div>
 </div>
@@ -641,7 +641,7 @@ $letters
 <span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>`old` is a list
-`new` is a character vector ('ring', 'regard', 'necessary', 'yesterday', 'income')</code></pre>
+`new` is a character vector ('separate', 'print', 'fit', 'many', 'match')</code></pre>
 </div>
 </div>
 </div>
@@ -652,13 +652,13 @@ $letters
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">my_list</span>, FUN <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$words
-[1] "REGArD"
+[1] "PRInt"
 
 $sentences
-[1] "tHE BILL WAs paid eveRy tHird wEeK."
+[1] "the sOft cusHIoN brOKE The MaN's faLL."
 
 $letters
-[1] "a"</code></pre>
+[1] "N"</code></pre>
 </div>
 </div>
 </div>
@@ -670,10 +670,12 @@ $letters
 <span>  FUN <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>, </span>
 <span>  FUN.VALUE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">character</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                                words                             sentences 
-                             "REGArD" "tHE BILL WAs paid eveRy tHird wEeK." 
-                              letters 
-                                  "a" </code></pre>
+<pre><code>                                   words 
+                                 "PRInt" 
+                               sentences 
+"the sOft cusHIoN brOKE The MaN's faLL." 
+                                 letters 
+                                     "N" </code></pre>
 </div>
 </div>
 </div>
@@ -722,7 +724,7 @@ $letters
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">my_words</span> <span class="op">&lt;-</span> <span class="va">my_list</span><span class="op">[[</span><span class="st">'words'</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">my_words</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "ring"      "regard"    "necessary" "yesterday" "income"   </code></pre>
+<pre><code>[1] "separate" "print"    "fit"      "many"     "match"   </code></pre>
 </div>
 </div>
 </div>
@@ -744,15 +746,15 @@ $letters
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span>.x <span class="op">=</span> <span class="va">my_list</span>, .f <span class="op">=</span> <span class="va">tolower</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$words
-[1] "ring"      "regard"    "necessary" "yesterday" "income"   
+[1] "separate" "print"    "fit"      "many"     "match"   
 
 $sentences
-[1] "one step more and the board will collapse."
-[2] "the bill was paid every third week."       
-[3] "code is used when secrets are sent."       
+[1] "to reach the end he needs much courage."       
+[2] "the soft cushion broke the man's fall."        
+[3] "the cloud moved in a stately way and was gone."
 
 $letters
- [1] "v" "a" "m" "d" "l" "r" "i" "h" "j" "c"</code></pre>
+ [1] "g" "n" "d" "k" "z" "b" "x" "j" "e" "r"</code></pre>
 </div>
 </div>
 </div>
@@ -767,16 +769,16 @@ $letters
 [1]  TRUE FALSE  TRUE FALSE
 
 $integers
-[1]  1  3  7  8 10
+[1] 2 9 6 7 5
 
 $doubles
-[1] 2.954 3.070 2.885 3.028 2.648
+[1] 3.197 3.125 3.274 2.763 2.579
 
 $strings
-[1] "choice" "same"   "equal"  "sound"  "most"  
+[1] "bloke"   "fall"    "another" "effect"  "jesus"  
 
 $dates
-[1] "2023-03-28" "2023-02-16" "2022-12-28"</code></pre>
+[1] "2023-03-29" "2023-02-17" "2022-12-29"</code></pre>
 </div>
 </div>
 </div>
@@ -909,15 +911,15 @@ $dates
 <div class="sourceCode" id="cb62"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">my_list</span> <span class="op">|&gt;</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$words
-[1] "ring"      "regard"    "necessary" "yesterday" "income"   
+[1] "separate" "print"    "fit"      "many"     "match"   
 
 $sentences
-[1] "one step more and the board will collapse."
-[2] "the bill was paid every third week."       
-[3] "code is used when secrets are sent."       
+[1] "to reach the end he needs much courage."       
+[2] "the soft cushion broke the man's fall."        
+[3] "the cloud moved in a stately way and was gone."
 
 $letters
- [1] "v" "a" "m" "d" "l" "r" "i" "h" "j" "c"</code></pre>
+ [1] "g" "n" "d" "k" "z" "b" "x" "j" "e" "r"</code></pre>
 </div>
 </div>
 </div>
@@ -1695,86 +1697,235 @@ $ signed_in   &lt;fct&gt; yes, yes, yes, yes, yes, yes, no, yes, yes, yes, no, y
 <p><em>You have a non-rectangular (i.e., list) of datasets you’d like to split into individual <code>data.frame</code>s, then export these into separate file paths</em></p>
 </blockquote>
 <p>Now I have a processed dataset, and I want to export this into a <code>dds-nyt/processed/</code> folder.</p>
-<p>Creating a vector of processed data file paths is a little more involved because I wanted to add the date prefix, and because I want to add this path as a variable in the <code>nyt_data_proc</code> dataset.</p>
+<p>Creating a vector of processed data file paths is a little more involved because I wanted to add a date prefix to the exported files, and because I want to add this path as a variable <em>in the <code>nyt_data_proc</code> dataset</em>.</p>
 <p>I do this below in <code>proc_file_pth</code>:</p>
 <div style="font-size: 0.90em;">
 <div class="cell">
 <div class="sourceCode" id="cb119"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># create file names </span></span>
-<span><span class="va">nyt_data_proc_pths</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>.data <span class="op">=</span> <span class="va">nyt_data_proc</span>,</span>
+<span><span class="va">nyt_data_proc</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>.data <span class="op">=</span> <span class="va">nyt_data_proc</span>,</span>
 <span>        file_nm <span class="op">=</span> <span class="fu">tools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/tools/fileutils.html">file_path_sans_ext</a></span><span class="op">(</span><span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/basename.html">basename</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>        proc_file_pth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"dds-nyt/processed/"</span>, </span>
 <span>                        <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.Date</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>, <span class="st">"-"</span>, </span>
 <span>                        <span class="va">file_nm</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">nyt_data_proc_pths</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op">(</span><span class="va">proc_file_pth</span><span class="op">)</span></span>
+<span><span class="va">nyt_data_proc</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op">(</span><span class="va">proc_file_pth</span><span class="op">)</span></span>
 <span><span class="co">## # A tibble: 31 × 2</span></span>
 <span><span class="co">##    proc_file_pth                           n</span></span>
 <span><span class="co">##    &lt;chr&gt;                               &lt;int&gt;</span></span>
-<span><span class="co">##  1 dds-nyt/processed/2023-04-07-nyt1  458441</span></span>
-<span><span class="co">##  2 dds-nyt/processed/2023-04-07-nyt10 452766</span></span>
-<span><span class="co">##  3 dds-nyt/processed/2023-04-07-nyt11 478066</span></span>
-<span><span class="co">##  4 dds-nyt/processed/2023-04-07-nyt12 396308</span></span>
-<span><span class="co">##  5 dds-nyt/processed/2023-04-07-nyt13 786044</span></span>
-<span><span class="co">##  6 dds-nyt/processed/2023-04-07-nyt14 440338</span></span>
-<span><span class="co">##  7 dds-nyt/processed/2023-04-07-nyt15 437567</span></span>
-<span><span class="co">##  8 dds-nyt/processed/2023-04-07-nyt16 448917</span></span>
-<span><span class="co">##  9 dds-nyt/processed/2023-04-07-nyt17 445228</span></span>
-<span><span class="co">## 10 dds-nyt/processed/2023-04-07-nyt18 451763</span></span>
+<span><span class="co">##  1 dds-nyt/processed/2023-04-08-nyt1  458441</span></span>
+<span><span class="co">##  2 dds-nyt/processed/2023-04-08-nyt10 452766</span></span>
+<span><span class="co">##  3 dds-nyt/processed/2023-04-08-nyt11 478066</span></span>
+<span><span class="co">##  4 dds-nyt/processed/2023-04-08-nyt12 396308</span></span>
+<span><span class="co">##  5 dds-nyt/processed/2023-04-08-nyt13 786044</span></span>
+<span><span class="co">##  6 dds-nyt/processed/2023-04-08-nyt14 440338</span></span>
+<span><span class="co">##  7 dds-nyt/processed/2023-04-08-nyt15 437567</span></span>
+<span><span class="co">##  8 dds-nyt/processed/2023-04-08-nyt16 448917</span></span>
+<span><span class="co">##  9 dds-nyt/processed/2023-04-08-nyt17 445228</span></span>
+<span><span class="co">## 10 dds-nyt/processed/2023-04-08-nyt18 451763</span></span>
 <span><span class="co">## # ℹ 21 more rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<p>Note that I didn’t include the file extension, but that’s because I might want to change this when I’m exporting.</p>
-<p>Now that I have my data (<code>nyt_data_proc_pths</code>) and processed file paths (<code>proc_file_pth</code>), I need create the processed data folder, then group <code>nyt_data_proc_pths</code> on the new <code>proc_file_pth</code> variable, and then pass the output to the <code><a href="https://dplyr.tidyverse.org/reference/group_map.html">group_walk()</a></code> function from <code>dplyr</code>:</p>
+<p>Note that I don’t include the file extension in <code>proc_file_pth</code>, because I might want to use different file types when I’m exporting.</p>
+<p>I’ll cover two methods for exporting datasets from a list. I’ll demo these on a sample from <code>nyt_data_proc</code>:</p>
 <div style="font-size: 0.90em;">
 <div class="cell">
-<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># create file names </span></span>
-<span><span class="co"># create folder </span></span>
-<span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/create.html">dir_create</a></span><span class="op">(</span><span class="st">"dds-nyt/processed/"</span><span class="op">)</span></span>
-<span><span class="co"># </span></span>
-<span><span class="va">nyt_data_proc_pths</span> <span class="op">|&gt;</span>  </span>
+<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">samp_nyt_proc</span> <span class="op">&lt;-</span> <span class="va">nyt_data_proc</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice_sample</a></span><span class="op">(</span>prop <span class="op">=</span> <span class="fl">0.001</span>, replace <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">samp_nyt_proc</span><span class="op">)</span></span>
+<span><span class="co">## Rows: 14,905</span></span>
+<span><span class="co">## Columns: 11</span></span>
+<span><span class="co">## $ id            &lt;chr&gt; "dds-nyt/raw/nyt20.csv", "dds-nyt/raw/nyt15.csv", "dds-n…</span></span>
+<span><span class="co">## $ age           &lt;dbl&gt; 16, 66, 0, 0, 31, 22, 0, 22, 0, 53, 35, 0, 78, 44, 41, 5…</span></span>
+<span><span class="co">## $ gender        &lt;dbl&gt; 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,…</span></span>
+<span><span class="co">## $ impressions   &lt;dbl&gt; 2, 8, 6, 4, 5, 3, 8, 3, 3, 6, 6, 3, 7, 7, 6, 5, 4, 1, 2,…</span></span>
+<span><span class="co">## $ clicks        &lt;dbl&gt; 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…</span></span>
+<span><span class="co">## $ age_group     &lt;ord&gt; &lt;18, 65+, &lt;18, &lt;18, 25-34, 18-24, &lt;18, 18-24, &lt;18, 45-54…</span></span>
+<span><span class="co">## $ ctr_rate      &lt;dbl&gt; 0.000, 0.250, 0.167, 0.000, 0.000, 0.000, 0.000, 0.000, …</span></span>
+<span><span class="co">## $ female        &lt;fct&gt; no, no, yes, yes, no, no, yes, no, yes, no, yes, yes, ye…</span></span>
+<span><span class="co">## $ signed_in     &lt;fct&gt; yes, yes, no, no, yes, yes, no, yes, no, yes, yes, no, y…</span></span>
+<span><span class="co">## $ file_nm       &lt;chr&gt; "nyt20", "nyt15", "nyt24", "nyt11", "nyt12", "nyt17", "n…</span></span>
+<span><span class="co">## $ proc_file_pth &lt;chr&gt; "dds-nyt/processed/2023-04-08-nyt20", "dds-nyt/processed…</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>In this first method, I’ll use the base::split function to split <code>samp_nyt_proc</code> by the <code>proc_file_pth</code> variable into a list of data frames. I’ll also use <code><a href="https://rdrr.io/r/utils/head.html">utils::head()</a></code>, <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::walk()</a></code>, and <code><a href="https://pillar.r-lib.org/reference/glimpse.html">dplyr::glimpse()</a></code> to view the output.</p>
+<div style="font-size: 0.90em;">
+<div class="cell">
+<div class="sourceCode" id="cb121"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">samp_nyt_proc</span>, f <span class="op">=</span> <span class="va">samp_nyt_proc</span><span class="op">$</span><span class="va">proc_file_pth</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">walk</a></span><span class="op">(</span>.f <span class="op">=</span> <span class="va">glimpse</span><span class="op">)</span></span>
+<span><span class="co">## Rows: 472</span></span>
+<span><span class="co">## Columns: 11</span></span>
+<span><span class="co">## $ id            &lt;chr&gt; "dds-nyt/raw/nyt1.csv", "dds-nyt/raw/nyt1.csv", "dds-nyt…</span></span>
+<span><span class="co">## $ age           &lt;dbl&gt; 52, 29, 37, 54, 49, 0, 0, 62, 61, 0, 40, 0, 24, 56, 0, 2…</span></span>
+<span><span class="co">## $ gender        &lt;dbl&gt; 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1,…</span></span>
+<span><span class="co">## $ impressions   &lt;dbl&gt; 5, 2, 5, 4, 7, 7, 4, 6, 3, 4, 6, 7, 7, 6, 5, 7, 4, 4, 6,…</span></span>
+<span><span class="co">## $ clicks        &lt;dbl&gt; 0, 0, 0, 0, 0, 2, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,…</span></span>
+<span><span class="co">## $ age_group     &lt;ord&gt; 45-54, 25-34, 35-44, 45-54, 45-54, &lt;18, &lt;18, 55-64, 55-6…</span></span>
+<span><span class="co">## $ ctr_rate      &lt;dbl&gt; 0.000, 0.000, 0.000, 0.000, 0.000, 0.286, 0.250, 0.000, …</span></span>
+<span><span class="co">## $ female        &lt;fct&gt; yes, yes, no, yes, yes, yes, yes, yes, yes, yes, yes, ye…</span></span>
+<span><span class="co">## $ signed_in     &lt;fct&gt; yes, yes, yes, yes, yes, no, no, yes, yes, no, yes, no, …</span></span>
+<span><span class="co">## $ file_nm       &lt;chr&gt; "nyt1", "nyt1", "nyt1", "nyt1", "nyt1", "nyt1", "nyt1", …</span></span>
+<span><span class="co">## $ proc_file_pth &lt;chr&gt; "dds-nyt/processed/2023-04-08-nyt1", "dds-nyt/processed/…</span></span>
+<span><span class="co">## Rows: 419</span></span>
+<span><span class="co">## Columns: 11</span></span>
+<span><span class="co">## $ id            &lt;chr&gt; "dds-nyt/raw/nyt10.csv", "dds-nyt/raw/nyt10.csv", "dds-n…</span></span>
+<span><span class="co">## $ age           &lt;dbl&gt; 12, 29, 0, 39, 14, 0, 0, 0, 30, 0, 0, 51, 68, 51, 59, 0,…</span></span>
+<span><span class="co">## $ gender        &lt;dbl&gt; 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1,…</span></span>
+<span><span class="co">## $ impressions   &lt;dbl&gt; 4, 4, 5, 7, 8, 5, 2, 0, 6, 3, 2, 7, 9, 3, 6, 5, 9, 8, 4,…</span></span>
+<span><span class="co">## $ clicks        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,…</span></span>
+<span><span class="co">## $ age_group     &lt;ord&gt; &lt;18, 25-34, &lt;18, 35-44, &lt;18, &lt;18, &lt;18, &lt;18, 25-34, &lt;18, …</span></span>
+<span><span class="co">## $ ctr_rate      &lt;dbl&gt; 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, NaN, 0.…</span></span>
+<span><span class="co">## $ female        &lt;fct&gt; no, yes, yes, yes, no, yes, yes, yes, no, yes, yes, no, …</span></span>
+<span><span class="co">## $ signed_in     &lt;fct&gt; yes, yes, no, yes, yes, no, no, no, yes, no, no, yes, ye…</span></span>
+<span><span class="co">## $ file_nm       &lt;chr&gt; "nyt10", "nyt10", "nyt10", "nyt10", "nyt10", "nyt10", "n…</span></span>
+<span><span class="co">## $ proc_file_pth &lt;chr&gt; "dds-nyt/processed/2023-04-08-nyt10", "dds-nyt/processed…</span></span>
+<span><span class="co">## Rows: 433</span></span>
+<span><span class="co">## Columns: 11</span></span>
+<span><span class="co">## $ id            &lt;chr&gt; "dds-nyt/raw/nyt11.csv", "dds-nyt/raw/nyt11.csv", "dds-n…</span></span>
+<span><span class="co">## $ age           &lt;dbl&gt; 0, 42, 59, 0, 36, 81, 51, 42, 50, 20, 0, 0, 38, 41, 27, …</span></span>
+<span><span class="co">## $ gender        &lt;dbl&gt; 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0,…</span></span>
+<span><span class="co">## $ impressions   &lt;dbl&gt; 4, 8, 2, 2, 4, 3, 3, 6, 6, 4, 5, 2, 5, 2, 7, 3, 4, 2, 3,…</span></span>
+<span><span class="co">## $ clicks        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…</span></span>
+<span><span class="co">## $ age_group     &lt;ord&gt; &lt;18, 35-44, 55-64, &lt;18, 35-44, 65+, 45-54, 35-44, 45-54,…</span></span>
+<span><span class="co">## $ ctr_rate      &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…</span></span>
+<span><span class="co">## $ female        &lt;fct&gt; yes, no, no, yes, yes, yes, no, yes, yes, no, yes, yes, …</span></span>
+<span><span class="co">## $ signed_in     &lt;fct&gt; no, yes, yes, no, yes, yes, yes, yes, yes, yes, no, no, …</span></span>
+<span><span class="co">## $ file_nm       &lt;chr&gt; "nyt11", "nyt11", "nyt11", "nyt11", "nyt11", "nyt11", "n…</span></span>
+<span><span class="co">## $ proc_file_pth &lt;chr&gt; "dds-nyt/processed/2023-04-08-nyt11", "dds-nyt/processed…</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>I can see this is returning a list of data frames as expected, so now I need to pass this list into <code><a href="https://purrr.tidyverse.org/reference/map2.html">purrr::walk2()</a></code> so I can iterate <code><a href="https://vroom.r-lib.org/reference/vroom_write.html">vroom::vroom_write()</a></code> over the processed data paths in <code>proc_file_pth</code>.</p>
+<ol type="1">
+<li>First I create the processed data folder (<code>dds-nyt/processed/</code>)<br>
+</li>
+<li>Second, I create the <code>.x</code> argument, which is the split list of <code>samp_nyt_proc</code> by <code>proc_file_pth</code><br>
+</li>
+<li>Third, I get the unique processed data paths in the <code>proc_file_pth</code> column and store it as a vector for the <code>.y</code>
+</li>
+</ol>
+<div style="font-size: 0.90em;">
+<div class="cell">
+<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/create.html">dir_create</a></span><span class="op">(</span><span class="st">"dds-nyt/processed/"</span><span class="op">)</span></span>
+<span><span class="co"># split samp_nyt_proc (.x)</span></span>
+<span><span class="va">by_proc_pths</span> <span class="op">&lt;-</span> <span class="va">samp_nyt_proc</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">samp_nyt_proc</span><span class="op">$</span><span class="va">proc_file_pth</span><span class="op">)</span></span>
+<span><span class="co"># get unique processed paths in samp_nyt_proc (.y) with .csv extension</span></span>
+<span><span class="va">proc_pths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">samp_nyt_proc</span><span class="op">$</span><span class="va">proc_file_pth</span><span class="op">)</span>, <span class="st">".csv"</span><span class="op">)</span></span>
+<span><span class="co"># iterate with .f</span></span>
+<span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html">walk2</a></span><span class="op">(</span>.x <span class="op">=</span> <span class="va">by_proc_pths</span>, .y <span class="op">=</span> <span class="va">proc_pths</span>, .f <span class="op">=</span> <span class="fu">vroom</span><span class="fu">::</span><span class="va"><a href="https://vroom.r-lib.org/reference/vroom_write.html">vroom_write</a></span>, delim <span class="op">=</span> <span class="st">","</span><span class="op">)</span></span>
+<span><span class="co"># or as an anonymous function </span></span>
+<span><span class="va">samp_nyt_proc</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">samp_nyt_proc</span><span class="op">$</span><span class="va">proc_file_pth</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html">walk2</a></span><span class="op">(</span>.y <span class="op">=</span> <span class="va">proc_pths</span>, </span>
+<span>    \<span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span>
+<span>    <span class="fu">vroom</span><span class="fu">::</span><span class="fu"><a href="https://vroom.r-lib.org/reference/vroom_write.html">vroom_write</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, </span>
+<span>      file <span class="op">=</span> <span class="va">y</span>,  delim <span class="op">=</span> <span class="st">","</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>I’ll want to perform a sanity check on this output with the first exported item in <code>dds-nyt/processed</code> and check it against the <code>nyt1_proc</code> data to evaluate the differences.</p>
+<div style="font-size: 0.90em;">
+<div class="cell">
+<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">nyt1_proc_check_01</span> <span class="op">&lt;-</span> <span class="fu">vroom</span><span class="fu">::</span><span class="fu"><a href="https://vroom.r-lib.org/reference/vroom.html">vroom</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"dds-nyt/processed"</span>, </span>
+<span>                    pattern <span class="op">=</span> <span class="st">".csv$"</span>, </span>
+<span>        full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="co"># grab the first file</span></span>
+<span>   delim <span class="op">=</span> <span class="st">","</span>, show_col_types <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">nyt1_proc_check_01</span><span class="op">)</span></span>
+<span><span class="co">## Rows: 777</span></span>
+<span><span class="co">## Columns: 11</span></span>
+<span><span class="co">## $ id            &lt;chr&gt; "dds-nyt/raw/nyt20.csv", "dds-nyt/raw/nyt20.csv", "dds-n…</span></span>
+<span><span class="co">## $ age           &lt;dbl&gt; 16, 35, 35, 15, 0, 56, 21, 0, 37, 0, 38, 0, 0, 0, 44, 18…</span></span>
+<span><span class="co">## $ gender        &lt;dbl&gt; 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1,…</span></span>
+<span><span class="co">## $ impressions   &lt;dbl&gt; 2, 6, 7, 2, 2, 4, 3, 8, 3, 1, 5, 9, 8, 6, 4, 4, 8, 2, 4,…</span></span>
+<span><span class="co">## $ clicks        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…</span></span>
+<span><span class="co">## $ age_group     &lt;chr&gt; "&lt;18", "35-44", "35-44", "&lt;18", "&lt;18", "55-64", "18-24",…</span></span>
+<span><span class="co">## $ ctr_rate      &lt;dbl&gt; 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.125, …</span></span>
+<span><span class="co">## $ female        &lt;chr&gt; "no", "yes", "yes", "yes", "yes", "yes", "yes", "yes", "…</span></span>
+<span><span class="co">## $ signed_in     &lt;chr&gt; "yes", "yes", "yes", "yes", "no", "yes", "yes", "no", "y…</span></span>
+<span><span class="co">## $ file_nm       &lt;chr&gt; "nyt20", "nyt20", "nyt20", "nyt20", "nyt20", "nyt20", "n…</span></span>
+<span><span class="co">## $ proc_file_pth &lt;chr&gt; "dds-nyt/processed/2023-04-08-nyt20", "dds-nyt/processed…</span></span>
+<span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">nyt1_proc</span><span class="op">)</span></span>
+<span><span class="co">## Rows: 458,441</span></span>
+<span><span class="co">## Columns: 8</span></span>
+<span><span class="co">## $ age         &lt;dbl&gt; 36, 73, 30, 49, 47, 47, 0, 46, 16, 52, 0, 21, 0, 57, 31, 0…</span></span>
+<span><span class="co">## $ gender      &lt;dbl&gt; 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0…</span></span>
+<span><span class="co">## $ impressions &lt;dbl&gt; 3, 3, 3, 3, 11, 11, 7, 5, 3, 4, 8, 3, 4, 6, 5, 6, 3, 5, 4,…</span></span>
+<span><span class="co">## $ clicks      &lt;dbl&gt; 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></span>
+<span><span class="co">## $ age_group   &lt;ord&gt; 35-44, 65+, 25-34, 45-54, 45-54, 45-54, &lt;18, 45-54, &lt;18, 4…</span></span>
+<span><span class="co">## $ ctr_rate    &lt;dbl&gt; 0.000, 0.000, 0.000, 0.000, 0.000, 0.091, 0.143, 0.000, 0.…</span></span>
+<span><span class="co">## $ female      &lt;fct&gt; yes, no, yes, no, no, yes, yes, yes, yes, yes, yes, yes, y…</span></span>
+<span><span class="co">## $ signed_in   &lt;fct&gt; yes, yes, yes, yes, yes, yes, no, yes, yes, yes, no, yes, …</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>These are what I’d expect, given the two data frames will have <em>slightly</em> different columns and column format.</p>
+<p>Another option involves the <code><a href="https://dplyr.tidyverse.org/reference/group_map.html">group_walk()</a></code> function from <code>dplyr</code> (<strong>WARNING:</strong> this is experimental).</p>
+<div style="font-size: 0.90em;">
+<div class="cell">
+<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">nyt_data_proc</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">proc_file_pth</span><span class="op">)</span> <span class="op">|&gt;</span>   </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_map.html">group_walk</a></span><span class="op">(</span> <span class="op">~</span><span class="fu">vroom</span><span class="fu">::</span><span class="fu"><a href="https://vroom.r-lib.org/reference/vroom_write.html">vroom_write</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">.x</span>, </span>
 <span>                          file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">.y</span><span class="op">$</span><span class="va">proc_file_pth</span>, <span class="st">".csv"</span><span class="op">)</span>,</span>
-<span>                          delim <span class="op">=</span> <span class="st">","</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co"># check</span></span>
-<span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/dir_tree.html">dir_tree</a></span><span class="op">(</span><span class="st">"dds-nyt/processed/"</span><span class="op">)</span></span>
-<span><span class="co">## dds-nyt/processed/</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt1.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt10.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt11.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt12.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt13.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt14.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt15.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt16.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt17.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt18.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt19.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt2.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt20.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt21.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt22.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt23.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt24.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt25.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt26.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt27.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt28.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt29.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt3.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt30.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt31.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt4.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt5.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt6.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt7.csv</span></span>
-<span><span class="co">## ├── 2023-04-07-nyt8.csv</span></span>
-<span><span class="co">## └── 2023-04-07-nyt9.csv</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>                          delim <span class="op">=</span> <span class="st">","</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<p>I’ll import the first file in the new processed data folder and check it against the <code>nyt1_proc</code> data to evaluate the differences.</p>
+<p>Re-written as an anonymous function, this would look like:</p>
 <div style="font-size: 0.90em;">
 <div class="cell">
-<div class="sourceCode" id="cb121"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">nyt1_proc_check</span> <span class="op">&lt;-</span> <span class="fu">vroom</span><span class="fu">::</span><span class="fu"><a href="https://vroom.r-lib.org/reference/vroom.html">vroom</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># remove the processed folder so we're not confusing ourselves</span></span>
+<span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">walk</a></span><span class="op">(</span>.x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"dds-nyt/processed"</span>, </span>
+<span>                     full.names <span class="op">=</span> <span class="cn">TRUE</span>, </span>
+<span>                     pattern <span class="op">=</span> <span class="st">".csv$"</span><span class="op">)</span>,</span>
+<span>    .f <span class="op">=</span> <span class="fu">fs</span><span class="fu">::</span><span class="va"><a href="https://fs.r-lib.org/reference/delete.html">file_delete</a></span><span class="op">)</span></span>
+<span><span class="co"># now re-create</span></span>
+<span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/create.html">dir_create</a></span><span class="op">(</span><span class="st">"dds-nyt/processed/"</span><span class="op">)</span></span>
+<span><span class="va">nyt_data_proc</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">proc_file_pth</span><span class="op">)</span> <span class="op">|&gt;</span>   </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_map.html">group_walk</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span> </span>
+<span>    <span class="fu">vroom</span><span class="fu">::</span><span class="fu"><a href="https://vroom.r-lib.org/reference/vroom_write.html">vroom_write</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="va">x</span>, </span>
+<span>    file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">proc_file_pth</span>, <span class="st">".csv"</span><span class="op">)</span>,</span>
+<span>    delim <span class="op">=</span> <span class="st">", "</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="co"># check</span></span>
+<span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/dir_tree.html">dir_tree</a></span><span class="op">(</span><span class="st">"dds-nyt/processed/"</span>, pattern <span class="op">=</span> <span class="st">"csv$"</span><span class="op">)</span></span>
+<span><span class="co">## dds-nyt/processed/</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt1.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt10.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt11.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt12.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt13.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt14.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt15.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt16.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt17.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt18.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt19.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt2.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt20.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt21.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt22.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt23.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt24.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt25.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt26.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt27.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt28.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt29.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt3.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt30.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt31.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt4.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt5.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt6.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt7.csv</span></span>
+<span><span class="co">## ├── 2023-04-08-nyt8.csv</span></span>
+<span><span class="co">## └── 2023-04-08-nyt9.csv</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>Once again, I’ll import the first file in the new processed data folder and check it against the columns <code>nyt1_proc_check_01</code> data to evaluate the differences.</p>
+<div style="font-size: 0.90em;">
+<div class="cell">
+<div class="sourceCode" id="cb126"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">nyt1_proc_check_02</span> <span class="op">&lt;-</span> <span class="fu">vroom</span><span class="fu">::</span><span class="fu"><a href="https://vroom.r-lib.org/reference/vroom.html">vroom</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"dds-nyt/processed"</span>, </span>
 <span>                    pattern <span class="op">=</span> <span class="st">".csv$"</span>, </span>
 <span>        full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="co"># grab the first file</span></span>
@@ -1784,39 +1935,12 @@ $ signed_in   &lt;fct&gt; yes, yes, yes, yes, yes, yes, no, yes, yes, yes, no, y
 </div>
 <div style="font-size: 0.90em;">
 <div class="cell">
-<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">waldo</span><span class="fu">::</span><span class="fu"><a href="https://waldo.r-lib.org/reference/compare.html">compare</a></span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="va">nyt1_proc</span>,</span>
-<span>  y <span class="op">=</span> <span class="va">nyt1_proc_check</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">waldo</span><span class="fu">::</span><span class="fu"><a href="https://waldo.r-lib.org/reference/compare.html">compare</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">nyt1_proc_check_01</span><span class="op">)</span>,</span>
+<span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">nyt1_proc_check_02</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>`old` is length 8
-`new` is length 10
-
-    names(old)    | names(new)        
-[1] "age"         - "id"          [1] 
-[2] "gender"      - "age"         [2] 
-[3] "impressions" - "gender"      [3] 
-[4] "clicks"      - "impressions" [4] 
-[5] "age_group"   - "clicks"      [5] 
-[6] "ctr_rate"    - "age_group"   [6] 
-[7] "female"      - "ctr_rate"    [7] 
-[8] "signed_in"   - "female"      [8] 
-                  - "signed_in"   [9] 
-                  - "file_nm"     [10]
-
-`old$age_group` is an S3 object of class &lt;ordered/factor&gt;, an integer vector
-`new$age_group` is a character vector ('35-44', '65+', '25-34', '45-54', '45-54', ...)
-
-`old$female` is an S3 object of class &lt;factor&gt;, an integer vector
-`new$female` is a character vector ('yes', 'no', 'yes', 'no', 'no', ...)
-
-`old$signed_in` is an S3 object of class &lt;factor&gt;, an integer vector
-`new$signed_in` is a character vector ('yes', 'yes', 'yes', 'yes', 'yes', ...)
-
-`old$id` is absent
-`new$id` is a character vector ('dds-nyt/raw/nyt1.csv', 'dds-nyt/raw/nyt1.csv', 'dds-nyt/raw/nyt1.csv', 'dds-nyt/raw/nyt1.csv', 'dds-nyt/raw/nyt1.csv', ...)
-
-`old$file_nm` is absent
-`new$file_nm` is a character vector ('nyt1', 'nyt1', 'nyt1', 'nyt1', 'nyt1', ...)</code></pre>
+<pre><code>`old[8:11]`: "female" "signed_in" "file_nm" "proc_file_pth"
+`new[8:10]`: "female" "signed_in" "file_nm"                </code></pre>
 </div>
 </div>
 </div>
@@ -1837,21 +1961,21 @@ REACP: <code>purrr</code> syntax variations
 <p><strong>Standard</strong></p>
 </div>
 <div style="font-size: 1.10em;">
-<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># define .x and .f</span></span>
+<div class="sourceCode" id="cb129"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># define .x and .f</span></span>
 <span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span>.x <span class="op">=</span> <span class="va">my_list</span>, .f <span class="op">=</span> <span class="va">tolower</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div style="font-size: 1.25em;">
 <p><strong>Anonymous function</strong></p>
 </div>
 <div style="font-size: 1.10em;">
-<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># anonymous shorthand notation</span></span>
+<div class="sourceCode" id="cb130"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># anonymous shorthand notation</span></span>
 <span><span class="va">my_list</span> <span class="op">|&gt;</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div style="font-size: 1.25em;">
 <p><strong>Formula (deprecated)</strong></p>
 </div>
 <div style="font-size: 1.10em;">
-<div class="sourceCode" id="cb126"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># written as normal expression</span></span>
+<div class="sourceCode" id="cb131"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># written as normal expression</span></span>
 <span><span class="va">my_list</span> <span class="op">|&gt;</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
