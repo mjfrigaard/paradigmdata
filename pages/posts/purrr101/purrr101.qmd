@@ -1147,7 +1147,7 @@ nyt_data_proc |>
 
 Now I have a processed dataset, and I want to export this into a `dds-nyt/processed/` folder. 
 
-Creating a vector of processed data file paths is a little more involved because I wanted to add the date prefix, and because I want to add this path as a variable in the `nyt_data_proc` dataset. 
+Creating a vector of processed data file paths is a little more involved because I wanted to add a date prefix to the exported files, and because I want to add this path as a variable *in the `nyt_data_proc` dataset*. 
 
 I do this below in `proc_file_pth`:
 
@@ -1157,43 +1157,139 @@ I do this below in `proc_file_pth`:
 #| eval: true
 #| collapse: true
 # create file names 
-nyt_data_proc_pths <- dplyr::mutate(.data = nyt_data_proc,
+nyt_data_proc <- dplyr::mutate(.data = nyt_data_proc,
         file_nm = tools::file_path_sans_ext(base::basename(id)),
         proc_file_pth = paste0("dds-nyt/processed/", 
                         as.character(Sys.Date()), "-", 
                         file_nm))
-nyt_data_proc_pths |> dplyr::count(proc_file_pth)
+nyt_data_proc |> dplyr::count(proc_file_pth)
 ```
 :::
 
-Note that I didn't include the file extension, but that's because I might want to change this when I'm exporting. 
+Note that I don't include the file extension in `proc_file_pth`, because I might want to use different file types when I'm exporting. 
 
-Now that I have my data (`nyt_data_proc_pths`) and processed file paths (`proc_file_pth`), I need create the processed data folder, then group `nyt_data_proc_pths` on the new `proc_file_pth` variable, and then pass the output to the `group_walk()` function from `dplyr`:
+I'll cover two methods for exporting datasets from a list. I'll demo these on a sample from `nyt_data_proc`: 
+
+::: {style="font-size: 0.90em;"}
+```{r samp_nyt_proc}
+#| label: samp_nyt_proc
+#| eval: true
+#| collapse: true
+samp_nyt_proc <- nyt_data_proc |> 
+  dplyr::slice_sample(prop = 0.001, replace = FALSE)
+glimpse(samp_nyt_proc)
+```
+:::
+
+In this first method, I'll use the base::split function to split `samp_nyt_proc` by the `proc_file_pth` variable into a list of data frames. I'll also use `utils::head()`, `purrr::walk()`, and `dplyr::glimpse()` to view the output. 
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| label: split_samp_nyt_proc
+#| eval: true
+#| collapse: true
+split(x = samp_nyt_proc, f = samp_nyt_proc$proc_file_pth) |>
+  utils::head(3) |> 
+  purrr::walk(.f = glimpse)
+```
+:::
+
+I can see this is returning a list of data frames as expected, so now I need to pass this list into `purrr::walk2()` so I can iterate `vroom::vroom_write()` over the processed data paths in `proc_file_pth`.
+
+1. First I create the processed data folder (`dds-nyt/processed/`)   
+2. Second, I create the `.x` argument, which is the split list of `samp_nyt_proc` by `proc_file_pth`   
+3. Third, I get the unique processed data paths in the `proc_file_pth` column and store it as a vector for the `.y`  
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| label: split_samp_nyt_proc_walk2
+#| eval: true
+#| collapse: true
+fs::dir_create("dds-nyt/processed/")
+# split samp_nyt_proc (.x)
+by_proc_pths <- samp_nyt_proc |> 
+  split(samp_nyt_proc$proc_file_pth)
+# get unique processed paths in samp_nyt_proc (.y) with .csv extension
+proc_pths <- paste0(unique(samp_nyt_proc$proc_file_pth), ".csv")
+# iterate with .f
+walk2(.x = by_proc_pths, .y = proc_pths, .f = vroom::vroom_write, delim = ",")
+# or as an anonymous function 
+samp_nyt_proc |> 
+  split(samp_nyt_proc$proc_file_pth) |> 
+  walk2(.y = proc_pths, 
+    \(x, y)
+    vroom::vroom_write(x = x, 
+      file = y,  delim = ","))
+```
+:::
+
+I'll want to perform a sanity check on this output with the first exported item in `dds-nyt/processed` and check it against the `nyt1_proc` data to evaluate the differences.  
+
+::: {style="font-size: 0.90em;"}
+```{r}
+#| label: nyt1_proc_check_01
+#| eval: true
+#| collapse: true
+nyt1_proc_check_01 <- vroom::vroom(
+  list.files(path = "dds-nyt/processed", 
+                    pattern = ".csv$", 
+        full.names = TRUE)[[1]], # grab the first file
+   delim = ",", show_col_types = FALSE
+  )
+glimpse(nyt1_proc_check_01)
+glimpse(nyt1_proc)
+```
+:::
+
+These are what I'd expect, given the two data frames will have *slightly* different columns and column format. 
+
+Another option involves the `group_walk()` function from `dplyr` (**WARNING:** this is experimental). 
 
 ::: {style="font-size: 0.90em;"}
 ```{r}
 #| label: group_walk
-#| eval: true
+#| eval: false
 #| collapse: true
-# create file names 
-# create folder 
-fs::dir_create("dds-nyt/processed/")
-# 
-nyt_data_proc_pths |>  
+nyt_data_proc |> 
   dplyr::group_by(proc_file_pth) |>   
   dplyr::group_walk( ~vroom::vroom_write(x = .x, 
                           file = paste0(.y$proc_file_pth, ".csv"),
                           delim = ","))
-# check
-fs::dir_tree("dds-nyt/processed/")
 ```
 :::
 
-I'll import the first file in the new processed data folder and check it against the `nyt1_proc` data to evaluate the differences.  
+Re-written as an anonymous function, this would look like: 
 
 ::: {style="font-size: 0.90em;"}
 ```{r}
-nyt1_proc_check <- vroom::vroom(
+#| label: group_walk_anon
+#| eval: true
+#| collapse: true
+# remove the processed folder so we're not confusing ourselves
+walk(.x = list.files(path = "dds-nyt/processed", 
+                     full.names = TRUE, 
+                     pattern = ".csv$"),
+    .f = fs::file_delete)
+# now re-create
+fs::dir_create("dds-nyt/processed/")
+nyt_data_proc |> 
+  dplyr::group_by(proc_file_pth) |>   
+  dplyr::group_walk(\(x, y) 
+    vroom::vroom_write(
+    x = x, 
+    file = paste0(y$proc_file_pth, ".csv"),
+    delim = ", ")
+    )
+# check
+fs::dir_tree("dds-nyt/processed/", pattern = "csv$")
+```
+:::
+
+Once again, I'll import the first file in the new processed data folder and check it against the columns `nyt1_proc_check_01` data to evaluate the differences.  
+
+::: {style="font-size: 0.90em;"}
+```{r}
+nyt1_proc_check_02 <- vroom::vroom(
   list.files(path = "dds-nyt/processed", 
                     pattern = ".csv$", 
         full.names = TRUE)[[1]], # grab the first file
@@ -1205,8 +1301,8 @@ nyt1_proc_check <- vroom::vroom(
 ::: {style="font-size: 0.90em;"}
 ```{r}
 waldo::compare(
-  x = nyt1_proc,
-  y = nyt1_proc_check)
+  x = names(nyt1_proc_check_01),
+  y = names(nyt1_proc_check_02))
 ```
 :::
 
